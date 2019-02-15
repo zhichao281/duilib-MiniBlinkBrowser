@@ -45,7 +45,7 @@ void InitResource()
 		}
 	case UILIB_ZIPRESOURCE:
 		{
-			strResourcePath += _T("Res\\");
+			strResourcePath += _T("Skin\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
 
 			HRSRC hResource = ::FindResource(CPaintManagerUI::GetResourceDll(), _T("IDR_ZIPRES"), _T("ZIPRES"));
@@ -66,7 +66,7 @@ void InitResource()
 		break;
 	}
 }
-
+#include "resource.h"
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
 	HRESULT Hr = ::CoInitialize(NULL);
@@ -88,6 +88,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	if( pMainWnd == NULL ) return 0;
 	pMainWnd->Create(NULL, _T("miniblink使用例子"), UI_WNDSTYLE_FRAME, 0L, 0, 0, 800, 572);
 	pMainWnd->CenterWindow();
+
+	HICON hIcon = ::LoadIcon(hInstance, MAKEINTRESOURCE(IDR_MAINFRAME));
+	::SendMessage(pMainWnd->GetHWND(), STM_SETICON, IMAGE_ICON, (LPARAM)(UINT)hIcon);
 
 	// 启动消息循环
 	CPaintManagerUI::MessageLoop();

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "MainWnd.h"
+#include "resource.h"
 #include <algorithm>
 #include <ShellAPI.h>
 
@@ -58,6 +59,8 @@ void CMainWnd::OnFinalMessage( HWND hWnd)
 
 void CMainWnd::InitWindow()
 {
+
+	SetIcon(IDR_MAINFRAME);
 	m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("closebtn")));
 	m_pMaxBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("maxbtn")));
 	m_pRestoreBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("restorebtn")));
