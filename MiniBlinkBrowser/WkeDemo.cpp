@@ -20,7 +20,7 @@ void InitResource()
 	{
 	case UILIB_FILE:
 		{
-			strResourcePath += _T("Skin\\WkeBrowser\\");
+			strResourcePath += _T("Skin\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
 			// 加载资源管理器
 			CResourceManager::GetInstance()->LoadResource(_T("res.xml"), NULL);
@@ -28,7 +28,7 @@ void InitResource()
 		}
 	case UILIB_RESOURCE:
 		{
-			strResourcePath += _T("Skin\\WkeBrowser\\");
+			strResourcePath += _T("Skin\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
 			// 加载资源管理器
 			CResourceManager::GetInstance()->LoadResource(_T("IDR_RES"), _T("xml"));
@@ -45,7 +45,7 @@ void InitResource()
 		}
 	case UILIB_ZIPRESOURCE:
 		{
-			strResourcePath += _T("Projects\\WkeBrowser\\");
+			strResourcePath += _T("Res\\");
 			CPaintManagerUI::SetResourcePath(strResourcePath.GetData());
 
 			HRSRC hResource = ::FindResource(CPaintManagerUI::GetResourceDll(), _T("IDR_ZIPRES"), _T("ZIPRES"));
@@ -76,6 +76,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	CPaintManagerUI::SetInstance(hInstance);
 	// 初始化资源
 	InitResource();
+
 	// 加载控件
 #ifndef _DEBUG
 	CPaintManagerUI::LoadPlugin(_T("TroyControls.dll"));
@@ -85,8 +86,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	// 创建主窗口
 	CMainWnd* pMainWnd = new CMainWnd();
 	if( pMainWnd == NULL ) return 0;
-	pMainWnd->Create(NULL, _T("Wke使用例子（By Troy）"), UI_WNDSTYLE_FRAME, 0L, 0, 0, 800, 572);
+	pMainWnd->Create(NULL, _T("miniblink使用例子"), UI_WNDSTYLE_FRAME, 0L, 0, 0, 800, 572);
 	pMainWnd->CenterWindow();
+
 	// 启动消息循环
 	CPaintManagerUI::MessageLoop();
 	// 释放资源

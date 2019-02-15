@@ -1,0 +1,868 @@
+﻿2019.2.4
+    * 修复上个版本导致devtools显示不了高亮节点的问题
+    * 修复打印pdf文档时黑屏的问题
+    * 修复layui demo快速点击导致网络层崩溃的问题
+
+2019.1.31
+    * 修复在js回调里调用wkeWake导致触发内存回收从而崩溃的问题
+    * pdf预览支持pdf目录显示
+    * 修复右键菜单抢焦点问题
+
+2019.1.28
+    * 支持pdf预览
+    * 修复使用css opacity时卡慢的问题
+    * 修复设置cookie、storage路径由于有中文导致不生效的问题
+    * 修复vip版使用网络api提示跨线程调用的问题
+    * 修复关闭时调用runjs提示跨线程调用的问题
+    * 修复wkeNetHoldJobToAsynCommit在同步xhr情况下不返回false的问题
+    * 修复调用window.find崩溃的问题
+
+2019.1.20
+    * 修复layui有box-shadow的时候，再弹出弹出层会有空白区域的问题。mask layer实现不完整导致
+    * 修复http://passport.liepin.com/v1/logout?backurl=https://passport.liepin.com/e/account打开和浏览器不一样的问题
+    * 增加wkeGetContentAsMarkup
+    * 修复离屏模式下宿主窗口收不到WM_DROPFILES的问题。wkeSetDragDropEnable可以禁用mb内核调用::RegisterDragDrop
+    * 增加mbOnBlinkThreadInit回调
+
+2019.1.18
+    * 修复上个版本播放大视频内存占用过高的问题
+
+2019.1.17
+    * 增加截图功能，vip版demo，fast-mb可以体验
+
+2019.1.16
+    * 增加wkeRunMessageLoop接口
+    * 修复download回调过多的问题
+    * 增加wkeUtilBase64Encode、wkeUtilBase64Decode、wkeUtilEncodeURLEscape接口
+    * "application/json"列为文本协议
+    * 右键菜单新增全选、撤销等功能
+    * vip版增加打印、下载管理
+    * vip版增加local storage页面单独分离功能
+
+2018.12.28
+    * 调整网页里字体显示模糊的情况
+    * 改动滚动条样式
+    * 修复FileReader.readAsDataURL会崩溃的问题
+    * 修复amcharts鼠标不响应问题
+
+2018.12.20
+   * 修复CString::stringW里的崩溃
+   * 修复设置cookie时有双引号导致设置失败的问题
+
+2018.12.14
+    * 修复loadingfinishcallback返回的参数找不到url的问题
+    * wkeNetHoldJobToAsynCommit增加返回值，可以判断是否调用成功
+    * 修复adobe pdf reader插件在窗口拉伸的时候没有跟随拉伸的问题
+    * 切换回openssl，因为mini-electron需要用到。以后再适配wolfssl
+
+2018.12.5
+    * vip版本增加node能力
+    * 修复usertest.sztaizhou.com前进后退失效的问题
+
+2018.11.27
+    * 修复上个版本window.webkitURL.createObjectURL(file);会崩溃的问题
+    * 修复像素小于1pt的线无法绘制的问题
+    * 修复fastmb全屏无效的问题
+    * 修复fastmb出现flowplayer的控件界面问题
+    * 修复BachEdito在delphi下右键-粘贴会卡死的问题
+
+2018.11.23
+    * 修复两处堆栈被破坏导致的崩溃
+
+2018.11.18
+    * 修复jd网站因为js乱码导致无法播放视频的问题
+    * 修复hook url时http code一直为0，而不是200的问题
+    * 更新fastMalloc算法
+    * 去掉CEF相关
+
+2018.11.15
+    * 修复https://ffxiv-eureka.com/local-tracker绘制不正常的问题
+    * 修复淘宝登崩溃
+    * 修复node addon中获取uv_default_loop()不对的问题
+    * 修复退出崩溃问题
+    * 修复可能的fastMalloc崩溃问题
+
+2018.11.8
+    * 修复一处内存泄露
+    * 修复electron模式在iframe崩溃的问题
+
+2018.11.7
+    * 修复多线程环境下下拉框无法消失的问题
+
+2018.11.6
+    * 修复有iframe时electron容易崩溃的问题
+    * 重构了cookie相关设置，修复了部分情况下设置不成功的问题
+    * 修复wolfssl打不开某些网站的问题
+
+2018.10.31
+    * 修复Storage某些情况获取不到的问题
+
+2018.10.31
+    * 修复wolfssl打不开某些网站的问题
+
+2018.10.27
+    * 增加mbGetHostHWND，mbNetStartUrlRequest等接口
+
+2018.10.26
+    * 修复拼多多后台显示网页不完整的问题
+    * 修复input框disable HWND的问题
+
+2018.10.24
+    * 修复ms的monaco editor光标问题
+    * 切换openssl到wolfssl，减少体积
+    * 切断nodejs对openssl的依赖
+
+2018.10.22
+    * 修复mb.dll在xp下由于CAtlStringMgr导致的崩溃问题
+
+2018.10.21
+    * 修复了点击<a/>标签可能产生的闪白屏问题
+
+2018.10.19
+    * 增加销毁webview时的验证
+    * 增加wkeUtilSerializeToMHTML，可以导出MHTML文件
+    * 修复fastmb的内存泄露
+
+2018.10.18
+    * 修复拼多多客服上传图片一直卡住的问题
+    * 修复鼠标滚轮没有ctrl消息的问题
+
+2018.10.11
+    * 修复select过滤器的问题
+    * 修复cookie设置问题
+
+2018.10.10
+    * 修复一处cookie设置导致的崩溃
+    * 修复electron模式渲染进程无法打开新窗口的问题
+    * 修复electron模式会弹窗提示跨线程调用的问题
+    * 新增fs.statSyncNoException等新版electron的node接口
+
+2018.10.9
+    * 修复devtools滚动条问题
+    * 修复播放不了腾讯视频问题
+    * 修复wkeNetGetExpectedContentLength在获取file协议时可能为0的问题
+    * 修复上个版本electron模式启动不了的问题
+    * fast-mb增加加载ActiveX功能
+
+2018.9.29
+    * 优化websocket性能，修复在某些情况下连接超时的问题
+
+2018.9.27
+    * 修复pdfjs显示中文有乱码的问题
+    * wkeNavigationCallback实现wkeGetTempCallbackInfo功能
+    * 修复一处cookie设置导致的崩溃
+
+2018.9.25
+    * 修复electron模式弹跨线程警告的问题
+    * 修复flex的两处绘制不正确的问题
+    * 修复上个版本url protocol handle会导致弹窗口的问题
+
+2018.9.21
+    * 修复焦点问题
+    * 修复一处网络导致的资源断言崩溃
+    * 增加url protocol handle功能
+
+2018.9.20
+    * 修复simsun字体无法正常显示宋体的问题
+    * 页面网络出错，在字符串提示里增加错误号
+    * 优化网络性能
+    * 修复某些情况下不点击页面，无法触发promise的问题
+
+2018.9.15
+    * 修复HTTP DELETE 请求没有带body数据的问题
+
+2018.9.14
+    * 修复上个版本在退出一些video页面会出现崩溃的问题
+    * 增加harfbuzz库，现在可以显示icon字体了。验证可进https://getmdl.io/components/index.html#buttons-section
+
+2018.9.13
+    * 修复某富文本编辑器右键菜单会崩溃的问题
+    * 新增一组网络api
+    * 新增多媒体api，但需要外部实现回调才能播放mp4
+
+2018.9.3
+    * 修复http://kanjiake.253.hailaizi.com/d.php?g=Wap&m=Vote&a=detail&token=Eioa5C5oj3S32qhH&id=1&zid=20 提示CURLE_BAD_CONTENT_ENCODING的问题
+    * 更新demo_src为全新例子
+
+2018.9.2
+    * 修复layer window最小化还原时显示不完整的问题
+    * 增加style="-webkit-app-region: drag"功能。给div设置后可以直接拖拽窗口
+    * 修复js文件只有0xff 0xfe时候会崩溃的问题
+
+2018.8.31
+    * 修复前进后退的一些小问题
+    * 修复tip的字体问题
+    * 修复fast-mb不能在xp上运行的问题
+    * 修复electron模式下不支持nodejs util.promisify的问题
+
+2018.8.23
+    * 修复fast-mb的一系列问题
+
+2018.8.22
+    * 修复右键菜单不消失的问题
+    * 新增内置高性能接口mb.dll，以及测试用例fast-mb.exe
+
+2018.8.17
+    * 修复右键菜单乱码问题
+    * 整理全局变量相关内部架构
+
+2018.8.14
+    * 增加多线程渲染时拖拽功能
+
+2018.8.12
+    * 修复http://src.leju.com/imp/imp/deal/b8/ba/f/9eaefaee5a46778ffe2dd8ff91b_p47_mk47.jpg无法访问的问题
+
+2018.8.10
+    * 修复上个版本cookie设置不成功导致的一系列问题。如passport.zhaopin.com/org/login验证码显示不了
+    * 修复在英文系统下乱码的问题
+    * 修复localstorage的崩溃
+    * jsGC实现
+    * 修复wke接口不能清理异常堆栈的问题
+
+2018.8.7
+    * 实现document.head.append
+
+2018.8.6
+    * 修复Wijmo5 in Vue里flexgird最大化后下拉框位置不对的问题
+    * 修复electron模式没有左右拉伸箭头cursor的问题
+
+2018.8.5
+    * 修复electron模式的拖动问题
+
+2018.8.4
+    * 增加bool wkeIsProcessingUserGesture(wkeWebView webWindow)接口
+    * 修复jsReleaseRef会立即修改的问题
+
+2018.8.3
+    * 增加接口多线程调用检测
+
+2018.8.2
+    * 修复Fetch API时hook导致崩溃的问题
+    * 换了种渲染调度方式，以及脏矩形收集方式
+
+2018.7.31
+    * 修复拖拽时候无动画、无光标的问题
+    * 修复https://summernote.org/无法粘贴从chrome赋值的数据的问题
+    * 增加jsGetKeys
+
+2018.7.28
+    * 修复代理里的跳转会导致url错误的问题
+
+2018.7.26
+    * 修复关闭webview过程中可能收到回调的问题
+
+2018.7.25
+    * 修复padding可能导致选中区域不对的问题
+    * 增加兼容body.style = xxx这种写法
+
+2018.7.23
+    * 修复wkeNetGetFavicon的崩溃
+    * 退出时反注册窗口类
+
+2018.7.21
+    * 修复devtools查看storage是空的问题
+    * 增加获取ico的接口int wkeNetGetFavicon(wkeWebView webView, wkeOnNetGetFavicon callback, void* param);
+    * 网络架构调整
+
+2018.7.19
+    * 修复另一处localstorage相关问题，会导致shome.ouchn.cn提示已登录问题
+    * 修复鼠标事件里触发oncreateview里调用wkeWake导致崩溃的问题
+    * 修复上个版本改动js绑定导致绑定失败的问题
+
+2018.7.17
+    * 修复拉勾网出现参数错误的提示问题
+    * 修复websocket链接ssl网页如果证书错误将无法访问的问题
+    * 修复storage导致的shome.ouchn.cn提示已登录问题
+
+
+2018.7.16
+    * 增加异常记录相关接口：jsExceptionInfo* jsGetLastErrorIfException(jsExecState es);当wkeRunJs抛出异常时，可以捕获
+    * 增加抛异常接口：jsValue jsThrowException(jsExecState es, const utf8* exception);
+    * 扩大绑定js的函数名最大长度，现可支持1024字节
+
+2018.7.13
+    * https设置成不检查证书
+
+2018.7.11
+    * 修复https://passport.liepin.com/提示验证码错误的问题
+    * 增加断言，防止oncreateview回调返回老webview导致网易首页滚动条消失的问题
+    * 修复前进后退问题
+    * 增加storage事件的DOM更新通知
+    * 修复electron模式的一系列问题
+
+2018.7.7
+    * 增加jsGetArrayBuffer接口
+    * 增加wkeGetFrameUrl接口
+    * 修复type="file" accept="image/*的问题
+
+2018.7.6
+    * 修复来疯直播在devtools下输入jQuery("#DDS_videoPlayer")会崩溃的问题
+    * 增加const utf8* wkeGetUserAgent(wkeWebView webView);接口
+    * 增加wkeSetDebugConfig(webview, "antiAlias", "1")，设置抗锯齿渲染
+
+2018.7.5
+    * 修复复制图片按钮出现场景过多的问题
+    * 修复粘贴图片功能无效的问题
+    * 增加js bind的引用计数
+    * 修复若干处csp检查导致的跨域限制
+    * 增加void wkeSetResourceGc(wkeWebView webView, long intervalSec);接口，单独设置资源回收间隔
+    * 增加bool jsIsValidExecState(jsExecState es);接口
+    * 增加void wkeLoadHtmlWithBaseUrl(wkeWebView webView, const utf8* html, const utf8* baseUrl);接口
+    * 修复CS_DBLCLKS下的双击问题
+    * 修改demo_src的编译错误，以及加入光标的处理
+
+2018.7.1
+    * 增加wkeInsertCSSByFrame接口，可以插入css
+    * 增加jsDeleteObjectProp接口，可以删除js对象的key对应的value
+    * 增加jsIsJsValueValid接口。可以判断一个jsValue是否是有效js值
+    * 修复jsDouble精度不够的问题
+    * 修复jsGetLength返回值不对的问题
+
+2018.6.28
+    * 修复url hook的一处崩溃
+    * 增加复制图片的能力
+    * 修复js bind的jsGetWebview的一处崩溃
+    * wkexe体验改善，获取焦点后能滚动页面
+    * 增加版本号
+
+2018.6.27
+    * 修复180606版本引入的内存不回收问题
+    * 帧率设置可针对单个页面生效
+    * 修复display:flex在flex-basis: 0%;情况下绘制不正确的问题
+    * 修复tip颜色
+
+2018.6.25
+    * 调整帧率接口wkeSetDebugConfigd的drawMinInterval字段可以针对单个webview生效
+
+2018.6.21
+    * 修复对7z的下载请求，回调没响应的问题
+
+2018.6.20
+    * 修复electron模式的各种问题，可以跑起vscode的加载文件夹等功能
+    * 增加H5标准的window.CSS.escape实现
+    * 修改tip颜色
+    * 丰富demo的各种示例
+
+2018.6.16
+    * 修复QQ外部登录页面加载不了的问题。
+    * 增加electron模式的nodejs URL模块
+    * 增加wkeSetDebugConfig的minimumFontSize、minimumLogicalFontSize、defaultFontSize、defaultFixedFontSize四个字段
+
+2018.6.12
+    * 修复electron加载不了Typora的问题
+    * 修复http://vip.58ganji.com/house/publish/ershou/?chooseWeb%5B%5D=2上传崩溃和上传不成功问题
+
+2018.6.9
+    * 修复低多面体动画的白屏问题
+
+2018.6.6
+    * 修复http://news.china.com/discovery/13001650/20180603/32477998.html?newsbaidu崩溃
+    * 修复electron模式加载最新vscode失败问题
+    * 增加wkeShowDevtools(wkeWebView webView, const wchar_t* path, wkeOnShowDevtoolsCallback callback, void* param)接口，方便控制devtools窗口
+    * 提升了渲染性能
+
+2018.6.2
+    * 修复淘宝网、知乎的崩溃
+    * 增加electron的tray模块
+    * devtools的zoom保持和宿主窗口一样
+    * 修复没有ondrag消息的问题
+
+2018.5.30
+    * 增加jsExecState wkeGetGlobalExecByFrame(wkeWebView webView, wkeWebFrameHandle frameId)接口，可以获取指定frame的es，以及对应window
+
+2018.5.29
+    * 规避delphi程序退出时发送焦点消息导致崩溃的问题
+    * 修复MHT崩溃和显示图片异常的问题
+    * 增加void wkeSetDragDropEnable(wkeWebView webView, bool b)接口，可以关闭拖拽到其他进程功能
+    * 修复electron模式在渲染进程使用var process这种形式的定义变量会冲掉全局process的问题
+
+2018.5.27
+    * 修复MTH打不开的问题
+
+2018.5.25
+    * 修复pdf.js打开文件的一处崩溃。原因是WebBlobRegistryImpl可能在web worker里被析构
+    * 修复pdf.js访问后无法打开新网页的问题
+    * 增加MHTML能力
+    * 修复pdf.js在显示某个pdf简历之时的显示问题
+    * 增加wkeSetDebugConfig的wakeMinInterval、drawMinInterval字段。两个都是控制帧率的。
+    * wakeMinInterval默认值为10，drawMinInterval默认值为3。两者越大帧率越低。用法：wkeSetDebugConfig(nullptr, "drawMinInterval", "5");
+
+2018.5.22
+    * 修复来疯直播播放不了的问题，及右键位置不对的问题
+    * 修复wkeNetSetHTTPHeaderField在url begin hook里失效的问题
+
+2018.5.21
+    * 增加wkeAddPluginDirectory、wkeNetGetPostBodyByJob、wkeNetGetRequestMethodByJob等几个接口
+    * 修复鼠标消息的movementX数值不对的问题
+    * 修复使用vue-route的网页iviewui.com无法点击a标签问题
+
+2018.5.20
+    * 修复pdf.js的崩溃问题
+
+2018.5.19
+    * 修复图片上传的崩溃
+    * 修复关闭csp检查开关的情况下，无法通过iframe.doucmentWindow访问子iframe的问题
+    * 修复wke模式退出可能的崩溃，以及在delphi开启浮点异常情况下可能的崩溃
+
+2018.5.15
+    * 修复回收机制导致的崩溃
+    * 改善了部分性能问题
+
+2018.5.14
+    * 修复百度地图搜索“湖南省”会崩溃的问题
+
+2018.5.13
+    * 加强了回收机制，防止https://www.html5tricks.com/demo/html5-canvas-particle-effect/index.html内存超标导致崩溃
+
+2018.5.12
+    * 提升了帧率
+
+2018.5.10
+    * 修复http://demo.lanrenzhijia.com/2015/upload0907/图片上传崩溃的问题
+    * 增加url begin hook可以hold住job包，延迟设置hook数据的功能
+    * 修复xp下无法运行electron的问题
+
+2018.5.7
+    * 修复淘宝npaliedit控件崩溃的问题
+
+2018.5.5
+    * 强制开启wmode=opaque，修复某些flash站点开启window模式不能显示的问题
+    * 修复devtools某些情况下会崩溃的问题
+
+2018.5.2
+    * 修复来疯直播和腾讯视频播放位置以及右键菜单位置不对的问题
+    * 修复local storage存储中文字符串会乱码的问题
+
+2018.4.30
+    * 增强wkeGetCaretRect，当焦点元素不可编辑时，返回的高为0
+
+2018.4.28
+    * 增加禁用鼠标消息的接口
+
+2018.4.26
+    * 修复local storage保存到本地不生效的问题
+    * 修复某些网站无法显示验证码的问题
+    * 修复wkeIsLoadingCompleted等接口在reload后不准的问题
+    * 修复flash右键菜单位置不对的问题
+
+2018.4.24
+    * 修复百度地图可能出现黑屏的问题
+    * 修复gojs库无法拖拽的问题
+
+2018.4.22
+    * 修复开启devtools时，点击vue-route的demo的about按钮，无法跳转的问题
+
+2018.4.20
+    * 修复某些上传问题
+
+2018.4.19
+    * 修复某在线聊天的对话框里图片上传不了的问题
+    * 修复同步ajax请求下url end回调没被调用的问题
+
+2018.4.16
+    * 修复一处不停刷新百度会崩溃问题。原因是messageport对象被提前回收了
+    * 修复url 重定向导致load begin回调漏掉的问题
+    * 修复baidu.v.ifeng.com/kan/aB0jU?fr=v.baidu.com/的flash右键菜单位置不对的bug
+    * 修复v8_5_7版本无法使用devtools的问题
+    * 修复中文路径无法使用devtools的问题
+
+2018.4.13
+    * 修复百度网盘无法上传的问题
+    * 修复js绑定bool值返回的问题
+    * 增加void wkeSetDeviceParameter(wkeWebView webView, const char* device, const char* paramStr, int paramInt, float paramFloat)接口，方便模拟各种设备
+    * 修复https://toutiao.eastday.com/?qid=qid02761网站因为没有mime导致无法加载的问题
+
+2018.4.12
+    * 修复前进后退问题
+    * 修复某些网站验证码无法显示问题
+    * 修复百度识图无法上传问题
+
+2018.4.2
+    * 修改安全策略，允许wkeRunJS里的js代码浏览新url
+
+2018.4.1
+    * 增加wkeOnWillMediaLoad接口，方便模拟video等元素
+    * 增加jsValue jsArrayBuffer(jsExecState es, char * buffer, size_t size);接口
+    * 修复pushState事件，以及device.cx-j.cn/v1/list.html?nav=eHliODUxQHNpbmEuY29t&pav=ODIxMTE5&mode=1会意外后退的问题
+
+2018.3.30
+    * 修复mp.quduopai.cn上传不了的问题
+
+2018.3.28
+    * 修复hook url接口的内存泄漏问题
+
+2018.3.27
+    * 修复http://demo.dtcms.net/admin/index.aspx显示不全问题
+    * 修复jsToString对int型js值返回空的问题
+    * 修复devtools编辑html时候崩溃的问题
+
+2018.3.23
+    * 修复非透明窗口嵌入透明窗口会黑屏的问题。原因是强制根据GetWindowLongPtr返回值走非透明窗口逻辑了
+    * 实现-webkit-app-region: drag;逻辑
+
+2018.3.21
+    * 修复jsToTempString不能转换Object的问题
+    * 修复非分层窗口嵌入分层窗口会出现黑屏的问题
+
+2018.3.18
+    * 修复拖拽文字的小bug
+
+2018.3.17
+    * 修复苹果开发者网站因为Content-type字段的问题无法访问的bug
+    * 修复jsCall只能调用window对象上的function的bug
+    * 修复cookie.dat可能被清空的bug
+
+2018.3.13
+    * 修复来疯直播无法播放的bug
+    * 修复www.wosowoso.com/flash/flash/7908.htm动画有残影的问题
+    * 修复下拉框抢焦点问题
+    * 修复wkeGetZoomFactor不准的问题
+
+2018.3.8
+    * 修复拖拽可能的崩溃
+
+2018.3.6
+    * 修复cookie路径可能出现乱码的bug
+    * 修复electron模式无法启动的bug
+
+2018.3.5
+    * 修复上个版本修改导致的input输入卡死的bug
+    * 修复cookie路径设置不生效的bug
+
+2018.3.1
+    * 修复vscode在xp下中文路径运行不了的bug
+
+2018.2.27
+    * 修复cef模式下拖拽崩溃的bug
+    * 增加electron.exe以及vscode测试例子
+
+2018.2.24
+    * 增加拖拽功能，目前只支持拖拽文字
+
+2018.2.23
+    * 修复wkeLoadURL加载本地文件时无法触发文件系统回调的bug
+
+2018.2.18
+    * 增加右键菜单功能
+    * 修复devtools不能使用控制台执行命令的bug
+
+2018.2.15
+    * 增加devtools功能。开启方式是：wkeSetDebugConfig(m_wkeView, "showDevTools", "E:/mycode/miniblink49/trunk/third_party/WebKit/Source/devtools/front_end/inspector.html(utf8编码)");
+
+2018.2.9
+    * 增加wkeSetDragEnable接口，可以关闭拖拽
+
+2018.2.7
+    * 优化内存占用问题，多次跳转页面也能回收内存
+    * 增加wkeOnMouseOverUrlChanged接口
+
+2018.2.5
+    * 增加wkeSetNpapiPluginsEnabled、wkeSetHeadlessEnabled、wkeSetTouchEnabled接口
+
+2018.2.4
+    * 增加window.XMLSerializer能力，修复了网易163邮箱弹参数错误的提示
+
+2018.2.2
+    * 增加inptu的File.path成员变量，方便获取真实路径
+    * 修复jsGetAt等接口没有实现的bug
+
+2018.2.1
+    * 修复动网论坛头像卡显示不出来的bug
+    * 修复https://m.lehuipay.com/login二维码显示不了的bug
+    * 修复shihuizhu.net上传不了图片的bug
+    * 修复24号版本因为优化渲染模式导致分层窗口绘制不正常的bug
+    * 修复<input id="localfile-lexicon" style="width:100%;" type="file"/>这种写法产生乱码的bug
+    * 修复汤不热点击用户头像崩溃的bug
+    * 修复http://www.ygdy8.net/html/gndy/dyzz/20180129/56193.html点击ftp链接，在安装迅雷机器上崩溃的bug
+    * 修复上传按钮的小bug
+
+2018.1.28
+    * 修复http://sandbox.runjs.cn/show/pcohsrh0出现的多余线条
+
+2018.1.26
+    * 修复http://www.layui.com/demo/tab.html使用woff字体导致乱码的bug，且增加woff2字体的支持
+    * 修复上个版本渲染模式的修改导致的黑屏的bug
+    * 修复下拉框黑屏的bug
+
+2018.1.25
+    * 改动下拉框的hover态字体颜色
+
+2018.1.24
+    * 修复钉钉验证码颜色不对的bug
+    * 修复github issue的title取不到的bug
+    * 修改wke接口渲染模式，极大增加了帧率
+
+2018.1.22
+    * 修复wkePostUrl的崩溃
+
+2018.1.21
+    * 修复火币网登录不了的bug
+    * 修复中文路径点击herf=#会刷新的bug
+    * 修复拼多多登录过程中的wss协议一直没返回的bug
+
+2018.1.19
+    * 修复斗鱼视频播放不了的bug
+    * 修复某些网站出现异常色块的bug
+    * 修复斗鱼视频出现的崩溃
+
+2018.1.18
+    * 增加wkexe的内存回收按钮，方便测试
+    * 加强内存回收逻辑，可及时回收长页面的高内存占用
+
+2018.1.17
+    * 增加文件上传功能
+    * 修复https://itunesconnect.apple.com上传文件导致崩溃的bug，以及上传文件后文件被占用的bug
+    * 修复火币网k线显示不了的bug
+
+2018.1.14
+    * 修改头文件，把动态加载放入头文件中，以后exe引入dll只需include头文件即可，无需lib
+    * 增加wkeSetCookie，cookie格式必须是:Set-cookie: PRODUCTINFO=webxpress; domain=.fidelity.com; path=/; secure
+    * 修复下拉框在切换到别的界面时不消失，以及容易失去响应的bug
+
+2018.1.12
+    * 修复zzz提到的test2_jq页面显示不正常的bug，原因是没实现setBackfaceVisibility的3d逻辑
+
+
+2018.1.10
+    * 增加wkeRunJsByFrame接口，可以在wkeOnDocumentReady2回调里注入js执行
+    * 修复按ctrl+shift+right后百度新闻卡死的问题
+
+2018.1.9
+    * 增加ico格式解析，以及自定义光标的功能
+    * 增加NotAllowed等一系列样式
+    * 修复百度新闻偶尔出现的不正常色块的问题
+    * 增加wkexe响应resize事件的能力
+
+2018.1.8
+    * 修复https://8894f.com/打不开的问题。原因是此网站使用的是http1.1，但响应头却是1.0。curl识别后发送了1.0协议，此网站却不支持
+
+2018.1.6
+    * 增加wkeNetOnResponse和wkeNetGetMIMEType接口，可以捕获mime
+    * 修复多选select框无效的问题
+
+2018.1.4
+    * 修复上个版本出现的各种渲染问题
+    * 增加了cef模式的cookie增删改api
+    * 增加wkeSetLocalStorageFullPath接口，设置LocalStorage的全路径
+    * 增加application/zip的下载识别
+
+2018.1.1
+    * 修复dns.toaone.com点击感叹号出现的花屏和残留线
+    * 修复QQ拖动滑块验证码页面性能卡慢问题
+
+2017.12.31
+    * 修复禁用跨域检查后，fetch里设置referrer导致的断言错误
+    * 优化QQ拖动方式验证码网页的拖动性能和效果
+    * 修复https://cibmcha.swiftpass.cn/点击右上角的帮助显示空白网页的bug
+    * 修复wkeGetUrl获取网址在网页有跳转情况下不对的bug
+
+2017.12.29
+    * 修复内存字符串在exe有中文路径适加载不了的bug
+    * 修复两处不必要的性能开销，提升了绘制流畅度
+
+2017.12.28
+    * 增加MessageChannel能力，从而修复了https://m.baidu.com/sf/vsearch?pd=image_content&word=xx卡死的bug
+    * 修复了https代理模式下xhr的status值不对的bug
+    * 修复了百度图片点下载没回调wke的下载回调的bug
+
+2017.12.25
+    * 修复了https://wap.zol.com.cn/list/1011.html?from=baiduWapSub崩溃的bug
+
+2017.12.24
+    * 加强了fetch的功能，可以在header里设置referer
+    * 修复页面被关闭再打开后，下拉框无法弹出的bug
+    * 修复加载内存字符串，里面使用的本地文件路径无法加载的问题
+    * 改进了wkexe的界面
+
+2017.12.22
+    * 使用新的渲染算法，优化了loading.io加载页面的渲染性能
+
+2017.12.17
+    * 修复了https代理的一些bug
+    * 加长了超时时间
+
+2017.12.16
+    * 修复了www.huobi.pro/zh-cn/xrp_usdt/exchange/打不开的问题。原因是v8版本比较老，而且let等关键字必须在严格模式使用。
+    * 修复了www.huobi.pro使用导致的崩溃和取不到FileReader大小的bug
+    * 修复wkePerformCookieCommand清理不了cookie的bug
+
+2017.12.15
+    * 调整了帧率
+    * 修复了time_t和cookie的bug导致shome.ouchn.cn登录不了的问题
+
+2017.12.12
+    * 修复bilibili网站崩溃和播放不了的bug
+    * 修复模糊滤镜做缓动动画无效的bug
+    * 增加三个cookie相关的wke接口
+
+2017.12.6
+    * 修复vlc插件崩溃和显示不正常的bug
+    * 修复容易全选的bug
+
+2017.12.5
+    * 修复bilibili的flash播放不了的bug。原因是video.min.js用了window.performance
+
+2017.12.4
+    * 修复了http://so.news.cn/#search/0/%E6%90%9C%E7%B4%A2/1不停刷新的bug
+
+2017.12.2
+    * 修复了更新curl后导致pan.toaone.com和www.xinhuanet.com 打不开的bug（kyozy反馈）
+
+2017.11.30
+    * 更新curl，修复了部分系统打不开百度和hao123的bug（kyozy反馈）
+
+2017.11.28
+    * 修复了某些系统https打不开的bug
+    * 修复了bing切换到国际版就切换不回来的bug
+
+2017.11.25
+    * 修复了m.baidu.com崩溃的bug。
+
+2017.11.24
+    * 修复了http://zui.sexy滚动条绘制问题
+    * 修改了选中文本背景色
+    * 修改了滚动条样式
+    * 增加了post blob的支持后，修复了知乎网不能点赞的bug
+    * 修改了tip的样式，以及显示隐藏的体验
+    * 修复wkeLoadHTML后调用wkeGoBack导致崩溃的bug
+
+2017.11.20
+    * 修复了local storage用不了的bug
+
+2017.11.18
+    * 修复了css路径加载bug、中文路径bug（宝宝抱抱反馈）
+    * 修复了amd机器上sse3指令不识别的bug（kyozy反馈）
+    * 修复一些小断言错误
+    * 修复窗口过小时候的崩溃
+
+2017.11.15
+    * 修复了使用hook情况下，上次加入的网络优化代码导致的资源加载不成功的bug
+
+2017.11.13
+    * 修复了js绑定回调中调用wkeResize导致js环境缓存被清空的bug
+    * 大幅修改了底层线程机制，增加优先级排序，加载任务会优先执行
+    * 任务加载时会优先检查是否本地不存在文件，是的话优先拒绝，提速加载速度
+
+2017.11.8
+    * 修复了bilibili会卡的bug（Games反馈）
+    * 修复了http://chrome.360.cn/testbrowser.html会崩溃的bug（9844201<rtkiss@126.com提供）
+    * 修复了jsFunction绑定的回调里创建窗口导致js缓存对象被清空的bug（我是雪梨(61297202) 反馈）
+
+2017.11.7
+    * 修复了http://cul.qq.com/a/20160306/044906.htm会乱码的bug
+    * 修复了剪切板复制可能不成功的bug（狂野的风提供）
+    * 修复了剪切板复制时没清空上次内容的bug
+
+2017.11.2
+    * 修复了http://lpl.qq.com/es/live.shtml页面打开播放不了flash的bug
+
+2017.10.27
+    * 修复了wkeGetViewDC不支持透明窗口的bug
+    * 改进了resize时刻的效率问题
+    * 增加wkeSetCookieJarFullPath、wkeOnDocumentReady2两个api
+
+2017.10.26
+    * 修复了不支持透明窗口的bug
+
+2017.10.20
+    * 继续修复wke bind js相关的几个bug（海绵宝宝反馈）
+    * 增加禁止页面跳转到新窗口的wke api
+
+2017.10.19
+    * 修复wke bind js相关的几个bug（海绵宝宝反馈）。
+
+2017.10.19
+    * 增加透明窗口支持
+
+2017.10.18
+    * 增加wkeSeCspCheckEnable、wkeSetViewNetInterface接口，一个用来关闭跨域检查，一个用来设置绑定网卡
+    * 修复不支持双击事件的bug
+
+2017.10.16
+    * 修复用微博登录不了知乎的bug。原因是重定向请求没清空之前的响应头
+
+2017.10.16
+    * 修复一处下拉框退出时候的崩溃
+    * 增加fetch api，可以正常使用知乎网
+
+2017.10.12
+    * 修复mmlai8@qq.com提到的http://m.ji7.com/ 图标显示不出来的bug。原因是chromium老版本的bug。见https://chromium.googlesource.com/chromium/src/+/1768087360dd2c481b33fe6b61258a078e9467c1%5E%21/#F9
+    * 修复前进后退不对的bug
+
+2017.10.10
+    * 修复Sanwer提到的打开hao123下属页面会卡的bug。原因是页面长度太长，TileGird管理算法效率太低
+
+2017.10.06
+    * 增加了web worker的支持，方便打开知乎专栏页面
+    * 修复wke退出时可能的崩溃
+
+2017.10.04
+    * 修复了打开优酷提示无权的客户端的bug
+    * 修复了打开www.teambition.com/projects的新手引导非常慢的问题
+    * 修复某些字符串空指针导致的crash
+
+2017.9.26
+    * 修复了打开土豆会崩溃的bug
+
+2017.9.25
+    * 实现了wkeSetFileSystem接口
+
+2017.9.22
+    * 修复blob可能的崩溃
+
+2017.9.24
+    * 修复flash无窗口模式绘制位置不正常的bug
+    * 修复一处wke模式读取中文路径可能崩溃的bug
+    * 修复input框焦点矩形高亮不显示的bug
+
+2017.9.18
+    * 增加对中文路径的支持
+    * 修复flash windowless模式不支持的bug
+    * 修复一处退出时候可能的断言错误
+
+2017.9.13
+    * 增加wke的alert回调
+    * 增加blob支持
+
+2017.9.5
+    * 修复大量wke接口方面的bug
+    * 新增wkeJsBindFunction等接口，和老接口区别是不再使用fast call调用协议
+
+2017.8.28
+    * 修复js回调native函数里如果弹出模态对话框导致消息重入而崩溃的bug
+
+2017.8.25
+    * 修复下拉框的焦点导致别的窗口无法输入的bug。
+    * 修复一处无关紧要的断言问题
+
+2017.8.22
+    * 增加下拉框的滚轮、键盘操作，修复下拉框滚动不流程的bug
+
+2017.8.21
+    * 修复下拉框的各种bug
+
+2017.8.16
+    * 修复了弹出下拉框导致卡死的bug
+    * 修复了flash崩溃的bug
+    * 修复了www.teambition.com里页面hover上去效果不对的bug
+
+2017.8.15
+    * 修复了zzz提出的3d效果边缘被剪切的bug
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

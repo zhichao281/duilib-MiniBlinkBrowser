@@ -19,6 +19,9 @@
     <Filter Include="3rd\miniblink-190212">
       <UniqueIdentifier>{f34fd0cb-c666-4813-b649-845996088933}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\xmls">
+      <UniqueIdentifier>{384ca846-e770-4a8d-a883-8a8fe15e60ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rd\miniblink-190212\wke.h">
