@@ -56,8 +56,11 @@ public:
 	virtual void OnWkeURLChanged(CWkeWebkitUI* webView, LPCTSTR url);
 	virtual void OnWkeAlertBox(CWkeWebkitUI* webView, LPCTSTR msg);
 	virtual bool OnWkeNavigation(CWkeWebkitUI* webView, wkeNavigationType navigationType, LPCTSTR url);
-	virtual wkeWebView OnWkeCreateView(CWkeWebkitUI* webView, const wkeNewViewInfo* info);
-	virtual void OnWkeDocumentReady(CWkeWebkitUI* webView, const wkeDocumentReadyInfo* info);
+
+	virtual wkeWebView OnWkeCreateView(CWkeWebkitUI* webView, wkeNavigationType navigationType, const wkeString url, const wkeWindowFeatures* windowFeatures);
+	virtual void OnWkeDocumentReady(CWkeWebkitUI* webView);
+
+	
 	virtual void OnWkeLoadingFinish(CWkeWebkitUI* webView, const LPCTSTR url, wkeLoadingResult result, LPCTSTR failedReason);
 	virtual LPCTSTR OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpContent, void *pListenObj);
 

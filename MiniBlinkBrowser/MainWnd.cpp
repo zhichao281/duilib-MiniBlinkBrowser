@@ -31,7 +31,7 @@ private:
     CWkeWebkitUI* m_pWebBrowser;
 };  
 
-CDuiString sHomePage = _T("http://www.winradar.com");
+CDuiString sHomePage = _T("http://www.baidu.com");
 //////////////////////////////////////////////////////////////////////////
 ///
 
@@ -383,12 +383,12 @@ bool CMainWnd::OnWkeNavigation(CWkeWebkitUI* webView, wkeNavigationType navigati
 	return true;
 }
 
-wkeWebView CMainWnd::OnWkeCreateView(CWkeWebkitUI* webView, const wkeNewViewInfo* info)
+wkeWebView CMainWnd::OnWkeCreateView(CWkeWebkitUI* webView, wkeNavigationType navigationType, const wkeString url, const wkeWindowFeatures* windowFeatures)
 {
-	if(info == NULL) return NULL;
 
-	if(info->navigationType == WKE_NAVIGATION_TYPE_LINKCLICK || info->navigationType == WKE_NAVIGATION_TYPE_OTHER) {
-		int nIndex = CreateNewTab(m_pBrowserTabBody->GetCurSel() + 1, wkeGetStringW(info->url));
+	if(navigationType == WKE_NAVIGATION_TYPE_LINKCLICK || navigationType == WKE_NAVIGATION_TYPE_OTHER) 
+	{
+		int nIndex = CreateNewTab(m_pBrowserTabBody->GetCurSel() + 1, wkeGetStringW(url));
 		m_pBrowserTabBar->SelectTab(nIndex);
 		CWkeWebkitUI* pWeb = (CWkeWebkitUI*)m_pBrowserTabBody->GetItemAt(nIndex);
 		if(pWeb != NULL) {
@@ -399,7 +399,7 @@ wkeWebView CMainWnd::OnWkeCreateView(CWkeWebkitUI* webView, const wkeNewViewInfo
 	return NULL;
 }
 
-void CMainWnd::OnWkeDocumentReady(CWkeWebkitUI* webView, const wkeDocumentReadyInfo* info)
+void CMainWnd::OnWkeDocumentReady(CWkeWebkitUI* webView)
 {
 
 }

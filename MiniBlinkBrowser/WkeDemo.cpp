@@ -1,9 +1,10 @@
 #include "StdAfx.h"
 #include <exdisp.h>
 #include <comdef.h>
-#include "resource.h"
 #include <ShellAPI.h>
 #include "MainWnd.h"
+#include "resource.h"
+
 
 void InitResource()
 {
@@ -66,7 +67,7 @@ void InitResource()
 		break;
 	}
 }
-#include "resource.h"
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
 	HRESULT Hr = ::CoInitialize(NULL);
