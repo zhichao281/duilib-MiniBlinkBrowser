@@ -151,6 +151,9 @@ void CWkeWebkitUI::InitializeWebkit()
 
 	//绑定全局函数
 	jsBindFunction("jsToNative", JsToNative, 2);
+
+	wkeJsBindFunction("eMsg", &onMsg, nullptr, 5);
+	wkeJsBindFunction("eShellExec", &onShellExec, nullptr, 3);
 }
 
 void CWkeWebkitUI::UninitializeWebkit()
@@ -442,6 +445,7 @@ bool  WKE_CALL_TYPE CWkeWebkitUI::onLoadUrlBegin(wkeWebView webView, void* param
 	else if (strcmp(url, "http://www.baidu.com/") == 0) {
 		wkeNetHookRequest(job);
 	}
+
 	return false;
 }
 
@@ -460,6 +464,62 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeLoadingFinish(wkeWebView webView, void* pa
 	if (pWkeUI->m_pWkeCallback) {
 		pWkeUI->m_pWkeCallback->OnWkeLoadingFinish(pWkeUI, wkeGetStringT(url), result, wkeGetStringT(failedReason));
 	}
+}
+
+
+
+jsValue WKE_CALL_TYPE  CWkeWebkitUI::onMsg(jsExecState es, void* param)
+{
+	int argCount = jsArgCount(es);
+	if (argCount < 1)
+		return jsUndefined();
+
+	jsType type = jsArgType(es, 0);
+	if (JSTYPE_STRING != type)
+		return jsUndefined();
+
+	jsValue arg0 = jsArg(es, 0);
+	std::string msgOutput = "eMsg:";
+	std::string msg = jsToTempString(es, arg0);
+	msgOutput = msgOutput + msg;
+	msgOutput += "\n";
+	OutputDebugStringA(msgOutput.c_str());
+
+	if ("close" == msg) 
+	{
+		//blinkClose();
+	}
+	else if ("max" == msg) {
+		//blinkMaximize();
+	}
+	else if ("min" == msg) {
+		//blinkMinimize();
+	}
+
+	return jsUndefined();
+}
+
+jsValue WKE_CALL_TYPE CWkeWebkitUI::onShellExec(jsExecState es, void* param)
+{
+	if (0 == jsArgCount(es))
+		return jsUndefined();
+	jsValue arg0 = jsArg(es, 0);
+	if (!jsIsString(arg0))
+		return jsUndefined();
+
+	std::string path;
+	path = jsToTempString(es, arg0);
+	if ("runEchars" == path) {
+		//createECharsTest();
+	}
+	else if ("wkeBrowser" == path) {
+		//wkeBrowserMain(nullptr, nullptr, nullptr, TRUE);
+	}
+
+	path += "\n";
+	OutputDebugStringA(path.c_str());
+
+	return jsUndefined();
 }
 
 jsValue JS_CALL CWkeWebkitUI::JsToNative(jsExecState es)

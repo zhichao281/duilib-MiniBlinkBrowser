@@ -169,6 +169,9 @@ private:
 	//内置一个js与本地的函数映射
 	static jsValue JS_CALL JsToNative(jsExecState es);
 
+	static jsValue WKE_CALL_TYPE onMsg(jsExecState es, void* param);
+
+	static jsValue WKE_CALL_TYPE onShellExec(jsExecState es, void* param);
 
 private:
 	REND_DATA m_RendData;
