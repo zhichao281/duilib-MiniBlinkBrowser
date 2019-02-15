@@ -185,6 +185,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\bin\Skin\main.xml" />
+    <Xml Include="..\bin\Skin\msg.xml" />
+    <Xml Include="..\bin\Skin\res.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

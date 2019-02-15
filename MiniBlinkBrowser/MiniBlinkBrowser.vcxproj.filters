@@ -82,4 +82,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\bin\Skin\main.xml">
+      <Filter>资源文件\xmls</Filter>
+    </Xml>
+    <Xml Include="..\bin\Skin\msg.xml">
+      <Filter>资源文件\xmls</Filter>
+    </Xml>
+    <Xml Include="..\bin\Skin\res.xml">
+      <Filter>资源文件\xmls</Filter>
+    </Xml>
+  </ItemGroup>
 </Project>

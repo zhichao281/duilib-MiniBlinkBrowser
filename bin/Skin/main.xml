@@ -16,7 +16,7 @@
 
       <VerticalLayout inset="6,0,6,0">
         <HorizontalLayout name="title_bar" height="24" >
-          <Label name="title" width="300" font="1" text="Troy浏览器（Wke版） v1.0 alpha" textcolor="#FFEFEFEF"/>
+          <Label name="title" width="300" font="1" text="浏览器（miniblink版） v1.0 alpha" textcolor="#FFEFEFEF"/>
         </HorizontalLayout>
         <HorizontalLayout name="browser_tools" inset="0,6,0,6" childpadding="5">
           <HorizontalLayout width="190">
@@ -61,7 +61,7 @@
 
     <HorizontalLayout float="0,0,1,0" inset="0,-1,0,0" height="20">
       <Control />
-      <Button name="qq_btn" style="btn_style" text="By Troy(QQ：656067418)" autocalcwidth="true" tooltip="添加Troy为QQ好友" />
+     
       <Control />
       <Button name="menubtn" visible="false" width="28" height="20" tooltip="菜单" normalimage="sysbtn_menu_normal" hotimage="sysbtn_menu_hot" pushedimage="sysbtn_menu_pushed"/>
       <Button name="skinbtn" width="28" height="20" tooltip="皮肤" normalimage="sysbtn_skin_normal" hotimage="sysbtn_skin_hot" pushedimage="sysbtn_skin_pushed"/>

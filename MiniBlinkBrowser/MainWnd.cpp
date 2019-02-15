@@ -236,7 +236,7 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 			 COMPOSITIONFORM Composition = { 0 };
 			 Composition.dwStyle = CFS_POINT | CFS_FORCE_POSITION;
 			 Composition.ptCurrentPos.x = rect.x;
-			 Composition.ptCurrentPos.y = rect.y + 45;
+			 Composition.ptCurrentPos.y = rect.y + 120;
 			 ImmSetCompositionWindow(hImc, &Composition);
 		 }
 
