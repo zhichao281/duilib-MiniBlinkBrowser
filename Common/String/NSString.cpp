@@ -36,6 +36,14 @@
 #define		__1G			1024 * __1M
 #define		__1T			1024 * __1G
 
+
+
+
+
+
+
+
+
 /*
  *	Function:		StrToWStr
  *	Explanation:	多字节（std::string ）转成宽字（std::wstring）
@@ -45,7 +53,7 @@
 								  CP_UTF8 utf8编码）
  *	Return:			失败返回空字符串
  */
-std::wstring NSNStr::StrToWStr(std::string  strBuf, int nCode /* = CP_ACP */)
+std::wstring NStr::StrToWStr(std::string  strBuf, int nCode /* = CP_ACP */)
 {
 	std::wstring				wstrRet				= L"";
 	wchar_t*				pBuf				= NULL;
@@ -88,7 +96,7 @@ std::wstring NSNStr::StrToWStr(std::string  strBuf, int nCode /* = CP_ACP */)
 								  CP_UTF8 utf8编码）
  *	Return:			失败返回空字符串
  */
-std::string  NSNStr::WStrToStr(std::wstring wstrBuf, int nCode /* = CP_ACP */)
+std::string  NStr::WStrToStr(std::wstring wstrBuf, int nCode /* = CP_ACP */)
 {
 	std::string 				strRet				= "";
 	char*					pBuf				= NULL;
@@ -128,7 +136,7 @@ std::string  NSNStr::WStrToStr(std::wstring wstrBuf, int nCode /* = CP_ACP */)
  *	Input:			strBuf			ANSI字符串
  *	Return:			UTF8字符串
  */
-std::string  NSNStr::GetUtf8(std::string  strBuf)
+std::string  NStr::GetUtf8(std::string  strBuf)
 {
 	std::wstring			wstrBuf					= L"";
 
@@ -137,9 +145,9 @@ std::string  NSNStr::GetUtf8(std::string  strBuf)
 		return "";
 	}
 
-	wstrBuf = NSNStr::StrToWStr(strBuf);
+	wstrBuf = NStr::StrToWStr(strBuf);
 
-	return NSNStr::WStrToStr(wstrBuf, CP_UTF8);
+	return NStr::WStrToStr(wstrBuf, CP_UTF8);
 }
 
 /*
@@ -148,7 +156,7 @@ std::string  NSNStr::GetUtf8(std::string  strBuf)
 *	Input:			strBuf			UTF8字符串
 *	Return:			ANSI字符串
 */
-std::string  NSNStr::GetAnsi(std::string  strBuf)
+std::string  NStr::GetAnsi(std::string  strBuf)
 {
 	std::wstring			wstrBuf = L"";
 
@@ -157,10 +165,120 @@ std::string  NSNStr::GetAnsi(std::string  strBuf)
 		return "";
 	}
 
-	wstrBuf = NSNStr::StrToWStr(strBuf, CP_UTF8);
+	wstrBuf = NStr::StrToWStr(strBuf, CP_UTF8);
 
-	return NSNStr::WStrToStr(wstrBuf);
+	return NStr::WStrToStr(wstrBuf);
 }
+
+
+std::string NStr::Unicode2ANSI(LPCWSTR lpszSrc)
+{
+	std::string sResult;
+	if (lpszSrc != NULL)
+	{
+		int  nANSILen = WideCharToMultiByte(CP_ACP, 0, lpszSrc, -1, NULL, 0, NULL, NULL);
+		char* pANSI = new char[nANSILen + 1];
+		if (pANSI != NULL)
+		{
+			ZeroMemory(pANSI, nANSILen + 1);
+			WideCharToMultiByte(CP_ACP, 0, lpszSrc, -1, pANSI, nANSILen, NULL, NULL);
+			sResult = pANSI;
+			delete[] pANSI;
+		}
+	}
+	return sResult;
+}
+
+std::string NStr::Unicode2UTF8(LPCWSTR lpszSrc)
+{
+	std::string sResult;
+	if (lpszSrc != NULL)
+	{
+		int  nUTF8Len = WideCharToMultiByte(CP_UTF8, 0, lpszSrc, -1, NULL, 0, NULL, NULL);
+		char* pUTF8 = new char[nUTF8Len + 1];
+		if (pUTF8 != NULL)
+		{
+			ZeroMemory(pUTF8, nUTF8Len + 1);
+			WideCharToMultiByte(CP_UTF8, 0, lpszSrc, -1, pUTF8, nUTF8Len, NULL, NULL);
+			sResult = pUTF8;
+			delete[] pUTF8;
+		}
+	}
+	return sResult;
+}
+
+std::wstring NStr::ANSI2Unicode(LPCSTR lpszSrc)
+{
+	std::wstring sResult;
+	if (lpszSrc != NULL)
+	{
+		int nUnicodeLen = MultiByteToWideChar(CP_ACP, 0, lpszSrc, -1, NULL, 0);
+		LPWSTR pUnicode = new WCHAR[nUnicodeLen + 1];
+		if (pUnicode != NULL)
+		{
+			ZeroMemory((void*)pUnicode, (nUnicodeLen + 1) * sizeof(WCHAR));
+			MultiByteToWideChar(CP_ACP, 0, lpszSrc, -1, pUnicode, nUnicodeLen);
+			sResult = pUnicode;
+			delete[] pUnicode;
+		}
+	}
+	return sResult;
+}
+
+_tstring NStr::ANSI2T(LPCSTR lpSrc)
+{
+#ifdef _UNICODE
+	return ANSI2Unicode(lpSrc);
+#else
+	return lpSrc;
+#endif
+}
+std::string NStr::T2ANSI(LPCTSTR lpSrc)
+{
+#ifdef _UNICODE
+	return Unicode2ANSI(lpSrc);
+#else
+	return lpSrc;
+#endif
+}
+
+std::string NStr::T2UTF8(LPCTSTR lpSrc)
+{
+#ifdef _UNICODE
+	return Unicode2UTF8(lpSrc);
+#else
+	return lpSrc;
+#endif
+}
+
+std::string NStr::utf16ToUtf8(LPCWSTR lpszSrc)
+{
+	std::string sResult;
+
+	int  nUTF8Len = WideCharToMultiByte(CP_UTF8, 0, lpszSrc, -1, NULL, 0, NULL, NULL);
+	char* pUTF8 = new char[nUTF8Len + 1];
+	ZeroMemory(pUTF8, nUTF8Len + 1);
+	WideCharToMultiByte(CP_UTF8, 0, lpszSrc, -1, pUTF8, nUTF8Len, NULL, NULL);
+	sResult = pUTF8;
+	delete[] pUTF8;
+
+	return sResult;
+}
+
+std::wstring NStr::utf8ToUtf16(const std::string& utf8String)
+{
+	std::wstring sResult;
+	int nUTF8Len = MultiByteToWideChar(CP_UTF8, 0, utf8String.c_str(), -1, NULL, NULL);
+	wchar_t* pUTF8 = new wchar_t[nUTF8Len + 1];
+
+	ZeroMemory(pUTF8, nUTF8Len + 1);
+	MultiByteToWideChar(CP_UTF8, 0, utf8String.c_str(), -1, pUTF8, nUTF8Len);
+	sResult = pUTF8;
+	delete[] pUTF8;
+
+	return sResult;
+}
+
 
 /*
  *	Function:		StrToInt
@@ -168,7 +286,7 @@ std::string  NSNStr::GetAnsi(std::string  strBuf)
  *	Input:			strBuf		字符串
  *	Return:			int数值
  */
-int NSNStr::StrToInt(std::string  strBuf)
+int NStr::StrToInt(std::string  strBuf)
 {
 	if (strBuf.empty())
 	{
@@ -178,7 +296,7 @@ int NSNStr::StrToInt(std::string  strBuf)
 	return atoi((char *)strBuf.c_str());
 }
 
-int NSNStr::StrToInt(std::wstring strBuf)
+int NStr::StrToInt(std::wstring strBuf)
 {
 	if (strBuf.empty())
 	{
@@ -194,7 +312,7 @@ int NSNStr::StrToInt(std::wstring strBuf)
  *	Input:			nValue		数值
  *	Return:			字符串
  */
-std::string  NSNStr::IntToStr(int nValue)
+std::string  NStr::IntToStr(int nValue)
 {
 	char				szBuf[1024]					= { 0 };
 
@@ -203,7 +321,7 @@ std::string  NSNStr::IntToStr(int nValue)
 	return szBuf;
 }
 
-std::wstring NSNStr::IntToWStr(int nValue)
+std::wstring NStr::IntToWStr(int nValue)
 {
 	wchar_t				szBuf[1024]					= { 0 };
 
@@ -218,7 +336,7 @@ std::wstring NSNStr::IntToWStr(int nValue)
  *	Input:			strBuf		字符串
  *	Return:			float数值
  */
-float NSNStr::StrToFloat(std::string  strBuf)
+float NStr::StrToFloat(std::string  strBuf)
 {
 	if (strBuf.empty())
 	{
@@ -229,7 +347,7 @@ float NSNStr::StrToFloat(std::string  strBuf)
 	return (float)atof((char *)strBuf.c_str());
 }
 
-float NSNStr::StrToFloat(std::wstring strBuf)
+float NStr::StrToFloat(std::wstring strBuf)
 {
 	if (strBuf.empty())
 	{
@@ -245,7 +363,7 @@ float NSNStr::StrToFloat(std::wstring strBuf)
  *	Input:			fValue		浮点数
  *	Return:			字符串
  */
-std::string  NSNStr::FloatToStr(float fValue)
+std::string  NStr::FloatToStr(float fValue)
 {
 	char				szBuf[1024]					= { 0 };
 
@@ -254,11 +372,11 @@ std::string  NSNStr::FloatToStr(float fValue)
 	return szBuf;
 }
 
-std::wstring NSNStr::FloatToWStr(float fValue)
+std::wstring NStr::FloatToWStr(float fValue)
 {
-	std::string 			strValue					= NSNStr::FloatToStr(fValue);
+	std::string 			strValue					= NStr::FloatToStr(fValue);
 
-	return NSNStr::StrToWStr(strValue);
+	return NStr::StrToWStr(strValue);
 }
 
 /*
@@ -267,16 +385,16 @@ std::wstring NSNStr::FloatToWStr(float fValue)
  *	Input:			strBuf		字符串
  *	Return:			double
  */
-double NSNStr::StrToDouble(std::string  strBuf)
+double NStr::StrToDouble(std::string  strBuf)
 {
 	return strtod((char *)strBuf.c_str(), NULL);
 }
 
-double NSNStr::StrToDouble(std::wstring strBuf)
+double NStr::StrToDouble(std::wstring strBuf)
 {
-	std::string 			strValue					= NSNStr::WStrToStr(strBuf);
+	std::string 			strValue					= NStr::WStrToStr(strBuf);
 
-	return NSNStr::StrToDouble(strValue);
+	return NStr::StrToDouble(strValue);
 }
 
 /*
@@ -285,7 +403,7 @@ double NSNStr::StrToDouble(std::wstring strBuf)
  *	Input:			dbValue		double值
  *	Return:			字符串
  */
-std::string  NSNStr::DoubleToStr(double dbValue)
+std::string  NStr::DoubleToStr(double dbValue)
 {
 	char				szBuf[1024]					= { 0 };
 
@@ -294,14 +412,14 @@ std::string  NSNStr::DoubleToStr(double dbValue)
 	return szBuf;
 }
 
-std::wstring NSNStr::DoubleToWStr(double dbValue)
+std::wstring NStr::DoubleToWStr(double dbValue)
 {
-	std::string 			strValue					= NSNStr::DoubleToStr(dbValue);
+	std::string 			strValue					= NStr::DoubleToStr(dbValue);
 
-	return NSNStr::StrToWStr(strValue);
+	return NStr::StrToWStr(strValue);
 }
 
-std::string  NSNStr::DoubleToStr(double dbValue, int nDigit)
+std::string  NStr::DoubleToStr(double dbValue, int nDigit)
 {
 	char				szBuf[1024]					= { 0 };
 	char				szFormat[1024]				= { 0 };
@@ -312,11 +430,11 @@ std::string  NSNStr::DoubleToStr(double dbValue, int nDigit)
 	return szBuf;
 }
 
-std::wstring NSNStr::DoubleToWStr(double dbValue, int nDigit)
+std::wstring NStr::DoubleToWStr(double dbValue, int nDigit)
 {
-	std::string 			strValue					= NSNStr::DoubleToStr(dbValue, nDigit);
+	std::string 			strValue					= NStr::DoubleToStr(dbValue, nDigit);
 
-	return NSNStr::StrToWStr(strValue);
+	return NStr::StrToWStr(strValue);
 }
 
 /*
@@ -325,12 +443,12 @@ std::wstring NSNStr::DoubleToWStr(double dbValue, int nDigit)
  *	Input:			strBuf		字符串
  *	Return:			long
  */
-long NSNStr::StringToLong(std::string  strBuf)
+long NStr::StringToLong(std::string  strBuf)
 {
 	return atol((char *)strBuf.c_str());
 }
 
-long NSNStr::StringToLong(std::wstring strBuf)
+long NStr::StringToLong(std::wstring strBuf)
 {
 	
 	return _wtol((wchar_t *)strBuf.c_str());
@@ -342,7 +460,7 @@ long NSNStr::StringToLong(std::wstring strBuf)
  *	Input:			lValue		long数值
  *	Return:			字符串
  */
-std::string  NSNStr::LongToStr(long lValue)
+std::string  NStr::LongToStr(long lValue)
 {
 	char					szBuf[1024]				= { 0 };
 
@@ -351,7 +469,7 @@ std::string  NSNStr::LongToStr(long lValue)
 	return szBuf;
 }
 
-std::wstring NSNStr::LongToWStr(long lValue)
+std::wstring NStr::LongToWStr(long lValue)
 {
 	wchar_t					szBuf[1024]				= { 0 };
 
@@ -366,12 +484,12 @@ std::wstring NSNStr::LongToWStr(long lValue)
  *	Input:			strBuf		字符串
  *	Return:			__int64数值
  */
-__int64 NSNStr::StrToInt64(std::string  strBuf)
+__int64 NStr::StrToInt64(std::string  strBuf)
 {
 	return atoll((char *)strBuf.c_str());
 }
 
-__int64 NSNStr::StrToInt64(std::wstring strBuf)
+__int64 NStr::StrToInt64(std::wstring strBuf)
 {
 	return _wtoll((wchar_t *)strBuf.c_str());
 }
@@ -382,7 +500,7 @@ __int64 NSNStr::StrToInt64(std::wstring strBuf)
  *	Input:			nValue		数值
  *	Return:			字符串
  */
-std::string  NSNStr::Int64ToStr(__int64 nValue)
+std::string  NStr::Int64ToStr(__int64 nValue)
 {
 	char				szValue[1024]				= { 0 };
 
@@ -391,7 +509,7 @@ std::string  NSNStr::Int64ToStr(__int64 nValue)
 	return szValue;
 }
 
-std::wstring NSNStr::Int64ToWStr(__int64 nValue)
+std::wstring NStr::Int64ToWStr(__int64 nValue)
 {
 	wchar_t				szValue[1024]				= { 0 };
 
@@ -409,7 +527,7 @@ std::wstring NSNStr::Int64ToWStr(__int64 nValue)
  *  Output:			vecList		分割后的字符串
  *	Return:			vecList大小
  */
-int NSNStr::SpliteStrByChar(std::string  strBuf,  std::vector<std::string > &vecList,
+int NStr::SpliteStrByChar(std::string  strBuf,  std::vector<std::string > &vecList,
 								char c /* = '|' */, bool bSkipEmpty /* = false */)
 {
 	size_t				sBufSize			= strBuf.size();
@@ -458,7 +576,7 @@ int NSNStr::SpliteStrByChar(std::string  strBuf,  std::vector<std::string > &vec
 	return vecList.size();
 }
 
-int NSNStr::SpliteStrByChar(std::wstring strBuf,  std::vector<std::wstring> &vecList,
+int NStr::SpliteStrByChar(std::wstring strBuf,  std::vector<std::wstring> &vecList,
 								char c /* = '|' */, bool bSkipEmpty /* = false */)
 {
 	size_t				sBufSize			= strBuf.size();
@@ -516,7 +634,7 @@ int NSNStr::SpliteStrByChar(std::wstring strBuf,  std::vector<std::wstring> &vec
  *  Output:			输出
  *	Return:			TRUE 成功 FALSE 失败
  */
-int NSNStr::SpliteStrByChars(std::string  strBuf,  std::vector<std::string > &vecList,
+int NStr::SpliteStrByChars(std::string  strBuf,  std::vector<std::string > &vecList,
 								std::string  strChars /* = "|" */, bool bSkipEmpty /* = false */)
 {
 	size_t				sBufSize				= strBuf.size();
@@ -566,7 +684,7 @@ int NSNStr::SpliteStrByChars(std::string  strBuf,  std::vector<std::string > &ve
 	return vecList.size();
 }
 
-int NSNStr::SpliteStrByChars(std::wstring strBuf,  std::vector<std::wstring> &vecList,
+int NStr::SpliteStrByChars(std::wstring strBuf,  std::vector<std::wstring> &vecList,
 								std::wstring strChars /* = L"|" */, bool bSkipEmpty /* = false */)
 {
 	size_t				sBufSize			= strBuf.size();
@@ -625,7 +743,7 @@ int NSNStr::SpliteStrByChars(std::wstring strBuf,  std::vector<std::wstring> &ve
  *  Output:			vecList		列表
  *	Return:			vecList大小
  */
-int NSNStr::SpliteStrByStr(std::string  strBuf,  std::vector<std::string > &vecList,
+int NStr::SpliteStrByStr(std::string  strBuf,  std::vector<std::string > &vecList,
 								std::string  strSplite /* = "|" */, bool bSkipEmpty /* = false */)
 {
 	size_t				sBufSize				= strBuf.size();
@@ -674,7 +792,7 @@ int NSNStr::SpliteStrByStr(std::string  strBuf,  std::vector<std::string > &vecL
 	return vecList.size();
 }
 
-int NSNStr::SpliteStrByStr(std::wstring strBuf,  std::vector<std::wstring> &vecList,
+int NStr::SpliteStrByStr(std::wstring strBuf,  std::vector<std::wstring> &vecList,
 								std::wstring strSplite /* = L"|" */, bool bSkipEmpty /* = false */)
 {
 	size_t				sBufSize				= strBuf.size();
@@ -730,7 +848,7 @@ int NSNStr::SpliteStrByStr(std::wstring strBuf,  std::vector<std::wstring> &vecL
  *  Output:			vecList			字符串列表
  *	Return:			字符串个数(vecList.size())
  */
-int NSNStr::MutilStrToArrays(char *pData,  std::vector<std::string > &vecList)
+int NStr::MutilStrToArrays(char *pData,  std::vector<std::string > &vecList)
 {
 	std::string 			strBuf;
 
@@ -749,7 +867,7 @@ int NSNStr::MutilStrToArrays(char *pData,  std::vector<std::string > &vecList)
 	return vecList.size();
 }
 
-int NSNStr::MutilStrToArrays(wchar_t *pData,  std::vector<std::wstring> &vecList)
+int NStr::MutilStrToArrays(wchar_t *pData,  std::vector<std::wstring> &vecList)
 {
 	std::wstring			strBuf;
 
@@ -776,7 +894,7 @@ int NSNStr::MutilStrToArrays(wchar_t *pData,  std::vector<std::wstring> &vecList
  *  Output:			strBuf		删除后的字符串
  *	Return:			删除后字符串的长度
  */
-int NSNStr::DelStrByChars(std::string  &strBuf, std::string  strDel)
+int NStr::DelStrByChars(std::string  &strBuf, std::string  strDel)
 {
 	size_t				sBufSize				= strBuf.size();
 	char*				pStart					= (char *)strBuf.c_str();
@@ -813,7 +931,7 @@ int NSNStr::DelStrByChars(std::string  &strBuf, std::string  strDel)
 	return strBuf.size();
 }
 
-int NSNStr::DelStrByChars(std::wstring &strBuf, std::wstring strDel)
+int NStr::DelStrByChars(std::wstring &strBuf, std::wstring strDel)
 {
 	size_t				sBufSize				= strBuf.size();
 	wchar_t*			pStart					= (wchar_t *)strBuf.c_str();
@@ -857,7 +975,7 @@ int NSNStr::DelStrByChars(std::wstring &strBuf, std::wstring strDel)
  *  Output:			strBuf		删除后的字符串
  *	Return:			删除后字符串长度
  */
-int NSNStr::DelStrByStr(std::string  &strBuf, std::string  strDel)
+int NStr::DelStrByStr(std::string  &strBuf, std::string  strDel)
 {
 	size_t				sBufSize				= strBuf.size();
 	char*				pStart					= (char *)strBuf.c_str();
@@ -893,7 +1011,7 @@ int NSNStr::DelStrByStr(std::string  &strBuf, std::string  strDel)
 	return strBuf.size();
 }
 
-int NSNStr::DelStrByStr(std::wstring &strBuf, std::wstring strDel)
+int NStr::DelStrByStr(std::wstring &strBuf, std::wstring strDel)
 {
 	size_t				sBufSize				= strBuf.size();
 	wchar_t*			pStart					= (wchar_t *)strBuf.c_str();
@@ -938,7 +1056,7 @@ int NSNStr::DelStrByStr(std::wstring &strBuf, std::wstring strDel)
  *  Output:			strBuf		替换后的字符串
  *	Return:			替换次数
  */
-int NSNStr::ReplaceStr(std::string  &strBuf, std::string  strSrc, std::string  strDes)
+int NStr::ReplaceStr(std::string  &strBuf, std::string  strSrc, std::string  strDes)
 {
 	size_t				sBufSize				= strBuf.size();
 	char*				pStart					= (char *)strBuf.c_str();
@@ -977,7 +1095,7 @@ int NSNStr::ReplaceStr(std::string  &strBuf, std::string  strSrc, std::string  s
 	return nCount;
 }
 
-int NSNStr::ReplaceStr(std::wstring &strBuf, std::wstring strSrc, std::wstring strDes)
+int NStr::ReplaceStr(std::wstring &strBuf, std::wstring strSrc, std::wstring strDes)
 {
 	size_t				sBufSize				= strBuf.size();
 	wchar_t*			pStart					= (wchar_t *)strBuf.c_str();
@@ -1024,7 +1142,7 @@ int NSNStr::ReplaceStr(std::wstring &strBuf, std::wstring strSrc, std::wstring s
 					bNoCase		是否区分大小写
  *	Return:			0 相等  >0 大 <0 小
  */
-int NSNStr::StrHeadCmp(std::string  strBuf, std::string  strHead, bool bNoCase /* = true */)
+int NStr::StrHeadCmp(std::string  strBuf, std::string  strHead, bool bNoCase /* = true */)
 {
 	if (strBuf.size() < strHead.size())
 	{
@@ -1039,7 +1157,7 @@ int NSNStr::StrHeadCmp(std::string  strBuf, std::string  strHead, bool bNoCase /
 	return strncmp((char *)strBuf.c_str(), (char *)strHead.c_str(), strHead.size());
 }
 
-int NSNStr::StrHeadCmp(std::wstring strBuf, std::wstring strHead, bool bNoCase /* = true */)
+int NStr::StrHeadCmp(std::wstring strBuf, std::wstring strHead, bool bNoCase /* = true */)
 {
 	if (strBuf.size() < strHead.size())
 	{
@@ -1062,7 +1180,7 @@ int NSNStr::StrHeadCmp(std::wstring strBuf, std::wstring strHead, bool bNoCase /
 					bNoCase		是否区分大小写
  *	Return:			0 相等  >0 大 <0 小
  */
-int NSNStr::StrTailCmp(std::string  strBuf, std::string  strTail, bool bNoCase /* = true */)
+int NStr::StrTailCmp(std::string  strBuf, std::string  strTail, bool bNoCase /* = true */)
 {
 	int					nPos					= 0;
 	char*				pStart					= NULL;
@@ -1084,7 +1202,7 @@ int NSNStr::StrTailCmp(std::string  strBuf, std::string  strTail, bool bNoCase /
 	return strncmp(pStart, (char *)strTail.c_str(), strTail.size());
 }
 
-int NSNStr::StrTailCmp(std::wstring strBuf, std::wstring strTail, bool bNoCase /* = true */)
+int NStr::StrTailCmp(std::wstring strBuf, std::wstring strTail, bool bNoCase /* = true */)
 {
 	int					nPos				= 0;
 	wchar_t*			pStart				= NULL;
@@ -1114,7 +1232,7 @@ int NSNStr::StrTailCmp(std::wstring strBuf, std::wstring strTail, bool bNoCase /
  *	Output:			strBuf		去除后的字符串
  *	Return:			去除后字符串的大小
  */
-int NSNStr::StrTrim(std::string  &strBuf, std::string  strChars /* = " " */)
+int NStr::StrTrim(std::string  &strBuf, std::string  strChars /* = " " */)
 {
 	std::string ::iterator				Iter;		// 正向迭代器
 	std::string ::reverse_iterator		reIter;		// 反向迭代器
@@ -1153,7 +1271,7 @@ int NSNStr::StrTrim(std::string  &strBuf, std::string  strChars /* = " " */)
 	return strBuf.size();
 }
 
-int NSNStr::StrTrim(std::wstring &strBuf, std::wstring strChars /* = L" " */)
+int NStr::StrTrim(std::wstring &strBuf, std::wstring strChars /* = L" " */)
 {
 	std::wstring::iterator				Iter;		// 正向迭代器
 	std::wstring::reverse_iterator		reIter;		// 反向迭代器
@@ -1200,7 +1318,7 @@ int NSNStr::StrTrim(std::wstring &strBuf, std::wstring strChars /* = L" " */)
  *	Output:			strBuf		去除后的字符串
  *	Return:			去除后字符串的大小
  */
-int NSNStr::StrTrimLeft(std::string  &strBuf, std::string  strChars /* = " " */)
+int NStr::StrTrimLeft(std::string  &strBuf, std::string  strChars /* = " " */)
 {
 	std::string ::iterator				Iter;		// 正向迭代器
 
@@ -1225,7 +1343,7 @@ int NSNStr::StrTrimLeft(std::string  &strBuf, std::string  strChars /* = " " */)
 	return strBuf.size();
 }
 
-int NSNStr::StrTrimLeft(std::wstring &strBuf, std::wstring strChars /* = L" " */)
+int NStr::StrTrimLeft(std::wstring &strBuf, std::wstring strChars /* = L" " */)
 {
 	std::wstring::iterator				Iter;		// 正向迭代器
 
@@ -1258,7 +1376,7 @@ int NSNStr::StrTrimLeft(std::wstring &strBuf, std::wstring strChars /* = L" " */
  *	Output:			strBuf		去除后的字符串
  *	Return:			去除后字符串的大小
  */
-int NSNStr::StrTrimRight(std::string  &strBuf, std::string  strChars /* = " " */)
+int NStr::StrTrimRight(std::string  &strBuf, std::string  strChars /* = " " */)
 {
 	std::string ::reverse_iterator		reIter;		// 反向迭代器
 
@@ -1283,7 +1401,7 @@ int NSNStr::StrTrimRight(std::string  &strBuf, std::string  strChars /* = " " */
 	return strBuf.size();
 }
 
-int NSNStr::StrTrimRight(std::wstring &strBuf, std::wstring strChars /* = L" " */)
+int NStr::StrTrimRight(std::wstring &strBuf, std::wstring strChars /* = L" " */)
 {
 	std::wstring::reverse_iterator		reIter;		// 反向迭代器
 
@@ -1315,7 +1433,7 @@ int NSNStr::StrTrimRight(std::wstring &strBuf, std::wstring strChars /* = L" " *
 					strSeed		随机种子
  *	Return:			随机字符串
  */
-std::string  NSNStr::CreateRandomStr(int nSize, std::string  strSeed /* = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" */)
+std::string  NStr::CreateRandomStr(int nSize, std::string  strSeed /* = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" */)
 {
 	std::string 				strReturn;
 	char*					pStr					= (char *)strSeed.c_str();
@@ -1341,7 +1459,7 @@ std::string  NSNStr::CreateRandomStr(int nSize, std::string  strSeed /* = "01234
 	return strReturn;
 }
 
-std::wstring NSNStr::CreateRandomWStr(int nSize, std::wstring strSeed /* = L"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" */)
+std::wstring NStr::CreateRandomWStr(int nSize, std::wstring strSeed /* = L"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" */)
 {
 	std::wstring				strReturn;
 	wchar_t*				pStr				= (wchar_t *)strSeed.c_str();
@@ -1373,7 +1491,7 @@ std::wstring NSNStr::CreateRandomWStr(int nSize, std::wstring strSeed /* = L"012
  *	Input:			pFmt		格式化串
  *	Return:			格式化后的字符串
  */
-std::string  NSNStr::FormatStr(const char* pFmt, ...)
+std::string  NStr::FormatStr(const char* pFmt, ...)
 {
 	std::string 			strBuf				= "";
 	va_list				varList;
@@ -1429,7 +1547,7 @@ std::string  NSNStr::FormatStr(const char* pFmt, ...)
 *	Input:			pFmt		格式化串
 *	Return:			格式化后的字符串
 */
-std::wstring NSNStr::FormatWStr(const wchar_t* pFmt, ...)
+std::wstring NStr::FormatWStr(const wchar_t* pFmt, ...)
 {
 	std::wstring			strBuf				= L"";
 	va_list				varList;
@@ -1485,7 +1603,7 @@ std::wstring NSNStr::FormatWStr(const wchar_t* pFmt, ...)
  *	Input:			strBuf		字符串
  *	Return:			小写字符串
  */
-std::string  NSNStr::StrToLwr(std::string  strBuf)
+std::string  NStr::StrToLwr(std::string  strBuf)
 {
 	if (strBuf.empty())
 	{
@@ -1495,7 +1613,7 @@ std::string  NSNStr::StrToLwr(std::string  strBuf)
 	return _strlwr((char *)strBuf.c_str());
 }
 
-std::wstring NSNStr::StrToLwr(std::wstring strBuf)
+std::wstring NStr::StrToLwr(std::wstring strBuf)
 {
 	if (strBuf.empty())
 	{
@@ -1511,7 +1629,7 @@ std::wstring NSNStr::StrToLwr(std::wstring strBuf)
 *	Input:			strBuf		字符串
 *	Return:			大写字符串
 */
-std::string  NSNStr::StrToUpr(std::string  strBuf)
+std::string  NStr::StrToUpr(std::string  strBuf)
 {
 	if (strBuf.empty())
 	{
@@ -1521,7 +1639,7 @@ std::string  NSNStr::StrToUpr(std::string  strBuf)
 	return _strupr((char *)strBuf.c_str());
 }
 
-std::wstring NSNStr::StrToUpr(std::wstring strBuf)
+std::wstring NStr::StrToUpr(std::wstring strBuf)
 {
 	if (strBuf.empty())
 	{
@@ -1574,7 +1692,7 @@ static byte s_Ansi_Table[256] =
  *	Input:			c		字符
  *	Return:			true 是数字 false 不是数字
  */
-bool NSNStr::IsNumber(char c)
+bool NStr::IsNumber(char c)
 {
 	if (Ansi2Type_Number == s_Ansi_Table[(byte)c])
 	{
@@ -1590,7 +1708,7 @@ bool NSNStr::IsNumber(char c)
 *	Input:			c		字符
 *	Return:			true 是 false 不是
 */
-bool NSNStr::IsAlphUpr(char c)
+bool NStr::IsAlphUpr(char c)
 {
 	if (Ansi2Type_AlphUpr == s_Ansi_Table[(byte)c])
 	{
@@ -1606,7 +1724,7 @@ bool NSNStr::IsAlphUpr(char c)
 *	Input:			c		字符
 *	Return:			true 是 false 不是
 */
-bool NSNStr::IsAplhLwr(char c)
+bool NStr::IsAplhLwr(char c)
 {
 	if (Ansi2Type_AlphLwr == s_Ansi_Table[(byte)c])
 	{
@@ -1622,7 +1740,7 @@ bool NSNStr::IsAplhLwr(char c)
 *	Input:			c		字符
 *	Return:			true 是 false 不是
 */
-bool NSNStr::IsAplh(char c)
+bool NStr::IsAplh(char c)
 {
 	if (Ansi2Type_AlphUpr == s_Ansi_Table[(byte)c]
 		|| Ansi2Type_AlphLwr == s_Ansi_Table[(byte)c])
@@ -1639,7 +1757,7 @@ bool NSNStr::IsAplh(char c)
 *	Input:			c		字符
 *	Return:			true 是 false 不是
 */
-bool NSNStr::IsOperate(char c)
+bool NStr::IsOperate(char c)
 {
 	if (Ansi2Type_Operate == s_Ansi_Table[(byte)c])
 	{
@@ -1655,7 +1773,7 @@ bool NSNStr::IsOperate(char c)
  * @return TRUE 包含 FALSE 不包含
  * by Maga 2016-9-22
  */
-bool NSNStr::HasChinese(std::string  strBuf)
+bool NStr::HasChinese(std::string  strBuf)
 {
 	for (int i = 0; i < strBuf.size(); i++)
 	{
@@ -1690,7 +1808,7 @@ bool NSNStr::HasChinese(std::string  strBuf)
  * @return GUID
  * by Maga 2016-7-22
  */
-std::string  NSNStr::GetGUIDStr()
+std::string  NStr::GetGUIDStr()
 {
 	static char				buf[64]					= { 0 };
 	GUID					guid;
@@ -1738,7 +1856,7 @@ inline int _GetBase64TableIndex(char c)
  *	Input:			strSrc		需要加密的字符串
  *	Return:			加密后的字符串，失败返回""
  */
-std::string  NSNStr::Base64Encode(std::string  strSrc)
+std::string  NStr::Base64Encode(std::string  strSrc)
 {
 	size_t				stSrcSize				= strSrc.size();
 	unsigned char		cIn[3]					= { 0 };
@@ -1796,7 +1914,7 @@ std::string  NSNStr::Base64Encode(std::string  strSrc)
  *	Input:			strSrc		需要解密的字符串
  *	Return:			解密后的字符串
  */
-std::string  NSNStr::Base64Decode(std::string  strSrc)
+std::string  NStr::Base64Decode(std::string  strSrc)
 {
 	size_t				stTempSize				= strSrc.size();
 	std::string 			strDes;
@@ -1865,7 +1983,7 @@ inline unsigned char _ToHex(unsigned char c)
  *	Input:			strBuf		需要加密的字符串
  *	Return:			加密后字符串
  */
-std::string  NSNStr::UrlEncode(std::string  strBuf)
+std::string  NStr::UrlEncode(std::string  strBuf)
 {
 	std::string 			strReturn;
 
@@ -1924,7 +2042,7 @@ inline unsigned char _FromHex(unsigned char c)
 *	Input:			strBuf		需要解密的字符串
 *	Return:			解密后字符串
 */
-std::string  NSNStr::UrlDecode(std::string  strBuf)
+std::string  NStr::UrlDecode(std::string  strBuf)
 {
 	std::string 			strReturn;
 
@@ -1953,6 +2071,15 @@ std::string  NSNStr::UrlDecode(std::string  strBuf)
 	return strReturn;
 }
 
+
+
+
+
+
+
+
+
+
 #ifdef GS_USE_CRYPT
 
 /*
@@ -1961,7 +2088,7 @@ std::string  NSNStr::UrlDecode(std::string  strBuf)
  *	Input:			strBuf		需要加密字符串
  *	Return:			加密后字符串
  */
-std::string  NSNStr::GetSha1(std::string  strBuf)
+std::string  NStr::GetSha1(std::string  strBuf)
 {
 	SHA_CTX				Ctx;
 	unsigned char		szMemory[21]				= { 0 };
@@ -1981,7 +2108,7 @@ std::string  NSNStr::GetSha1(std::string  strBuf)
  *	Input:			strBuf		需要加密字符串
  *	Return:			加密后字符串
  */
-std::string  NSNStr::GetMD5(std::string  strBuf)
+std::string  NStr::GetMD5(std::string  strBuf)
 {
 	MD5_CTX				Ctx;
 	unsigned char		szMemory[17]				= { 0 };
@@ -2002,7 +2129,7 @@ std::string  NSNStr::GetMD5(std::string  strBuf)
 					strBuf		加密数据
  *	Return:			加密后数据
  */
-std::string  NSNStr::Aes128Encode(std::string  strPwd, std::string  strBuf)
+std::string  NStr::Aes128Encode(std::string  strPwd, std::string  strBuf)
 {
 	AES_KEY				AesKey;
 	unsigned char		szOut[AES_BLOCK_SIZE]				= { 0 };
@@ -2042,7 +2169,7 @@ std::string  NSNStr::Aes128Encode(std::string  strPwd, std::string  strBuf)
 					strBuf		解密数据
  *	Return:			解密后数据
  */
-std::string  NSNStr::Aes128Decode(std::string  strPwd, std::string  strBuf)
+std::string  NStr::Aes128Decode(std::string  strPwd, std::string  strBuf)
 {
 	AES_KEY				AesKey;
 	unsigned char		szOut[AES_BLOCK_SIZE]				= { 0 };
@@ -2081,7 +2208,7 @@ std::string  NSNStr::Aes128Decode(std::string  strPwd, std::string  strBuf)
 					strBuf		需要加密的数据
  *	Return:			加密后的数据
  */
-std::string  NSNStr::RsaPubEncode(std::string  strKey, std::string  strBuf)
+std::string  NStr::RsaPubEncode(std::string  strKey, std::string  strBuf)
 {
 	BIO*				pBio;
 	RSA*				pRsa;
@@ -2161,7 +2288,7 @@ std::string  NSNStr::RsaPubEncode(std::string  strKey, std::string  strBuf)
 					strBuf		需要解密数据
  *	Return:			解密数据
  */
-std::string  NSNStr::RsaPubDecode(std::string  strKey, std::string  strBuf)
+std::string  NStr::RsaPubDecode(std::string  strKey, std::string  strBuf)
 {
 	BIO*				pBio;
 	RSA*				pRsa;
@@ -2249,7 +2376,7 @@ std::string  NSNStr::RsaPubDecode(std::string  strKey, std::string  strBuf)
 					strBuf		需要加密的数据
 *	Return:			加密后的数据
 */
-std::string  NSNStr::RsaPriEncode(std::string  strKey, std::string  strBuf)
+std::string  NStr::RsaPriEncode(std::string  strKey, std::string  strBuf)
 {
 	BIO*				pBio;
 	RSA*				pRsa;
@@ -2329,7 +2456,7 @@ std::string  NSNStr::RsaPriEncode(std::string  strKey, std::string  strBuf)
 					strBuf		需要解密数据
 *	Return:			解密数据
 */
-std::string  NSNStr::RsaPriDecode(std::string  strKey, std::string  strBuf)
+std::string  NStr::RsaPriDecode(std::string  strKey, std::string  strBuf)
 {
 	BIO*				pBio;
 	RSA*				pRsa;
@@ -2418,7 +2545,7 @@ std::string  NSNStr::RsaPriDecode(std::string  strKey, std::string  strBuf)
 					strPriKey		私钥
  *	Return:			true 成功 false 失败
  */
-bool NSNStr::GetRsaKey(std::string  &strPubKey, std::string  &strPriKey)
+bool NStr::GetRsaKey(std::string  &strPubKey, std::string  &strPriKey)
 {
 	RSA*				pRsa;
 	int					nLen;
@@ -2464,7 +2591,7 @@ bool NSNStr::GetRsaKey(std::string  &strPubKey, std::string  &strPriKey)
 					bEcb		是否是ECB模式
  *	Return:			加密后数据
  */
-std::string  NSNStr::DesEncode(std::string  strKey, std::string  strBuf, bool bEcb /* = true */)
+std::string  NStr::DesEncode(std::string  strKey, std::string  strBuf, bool bEcb /* = true */)
 {
 	int					nPkLen				= 0;
 	DES_key_schedule	DesKs;
@@ -2516,7 +2643,7 @@ std::string  NSNStr::DesEncode(std::string  strKey, std::string  strBuf, bool bE
 					bEcb		是否是ECB模式
 *	Return:			解密后数据
 */
-std::string  NSNStr::DesDecode(std::string  strKey, std::string  strBuf, bool bEcb /* = true */)
+std::string  NStr::DesDecode(std::string  strKey, std::string  strBuf, bool bEcb /* = true */)
 {
 	int					nPkLen					= 0;
 	DES_key_schedule	DesKs;
@@ -2572,7 +2699,7 @@ std::string  NSNStr::DesDecode(std::string  strKey, std::string  strBuf, bool bE
 					strBuf		加密数据
  *	Return:			加密后数据
  */
-std::string  NSNStr::Des3Encode(std::string  strKey, std::string  strBuf)
+std::string  NStr::Des3Encode(std::string  strKey, std::string  strBuf)
 {
 	int					nPkLen				= 0;
 	DES_key_schedule	DesKs;
@@ -2620,7 +2747,7 @@ std::string  NSNStr::Des3Encode(std::string  strKey, std::string  strBuf)
 					strBuf		解密数据
 *	Return:			解密后数据
 */
-std::string  NSNStr::Des3Decode(std::string  strKey, std::string  strBuf)
+std::string  NStr::Des3Decode(std::string  strKey, std::string  strBuf)
 {
 	int					nPkLen				= 0;
 	DES_key_schedule	DesKs;
@@ -2667,7 +2794,7 @@ std::string  NSNStr::Des3Decode(std::string  strKey, std::string  strBuf)
 	return strReturn;
 }
 
-BOOL NSNStr::CheckUserPass(const char * szcontent)
+BOOL NStr::CheckUserPass(const char * szcontent)
 {
 	BOOL result = false;
 	BOOL bfindsz = FALSE;	//是否包含字符
@@ -2718,7 +2845,7 @@ BOOL NSNStr::CheckUserPass(const char * szcontent)
  * @return TRUE 包含 FALSE 不包含
  * by Maga 2016-12-2
  */
-BOOL NSNStr::CheckHasChina(std::string  strData)
+BOOL NStr::CheckHasChina(std::string  strData)
 {
 	for (int i = 0; i < strData.size(); i++)
 	{
@@ -2732,53 +2859,53 @@ BOOL NSNStr::CheckHasChina(std::string  strData)
 }
 
 // 文件大小转换为字符串
-std::string 	NSNStr::FileSizeToStr(__int64 ulSize)
+std::string 	NStr::FileSizeToStr(__int64 ulSize)
 {
 	if (ulSize > 1024 * 1024 * 1024)
 	{
 		int nGb = (ulSize / (1024 * 1024 * 1024));
 		int nMb = ((ulSize % (1024 * 1024 * 1024)) / (1000 * 1000 * 100));
-		return NSNStr::FormatStr("%d.%01dG", nGb, nMb >= 9 ? 9 : nMb);
+		return NStr::FormatStr("%d.%01dG", nGb, nMb >= 9 ? 9 : nMb);
 	}
 	else if (ulSize > 1024 * 1024)
 	{
 		int nMb = ulSize / (1024 * 1024);
 		int nKb = (ulSize % (1024 * 1024)) / (1000 * 100);
-		return NSNStr::FormatStr("%d.%01dM", nMb, nKb >= 9 ? 9 : nKb);
+		return NStr::FormatStr("%d.%01dM", nMb, nKb >= 9 ? 9 : nKb);
 	}
 	else
 	{
 		int nKb = ulSize / 1024;
 		int nb = ulSize % 1024 / 100;
-		return NSNStr::FormatStr("%d.%01dKB", nKb, nb >= 9 ? 9 : nb);
+		return NStr::FormatStr("%d.%01dKB", nKb, nb >= 9 ? 9 : nb);
 	}
 }
 
 // 文件大小转换为字符串
-std::wstring	NSNStr::FileSizeToWStr(__int64 ulSize)
+std::wstring	NStr::FileSizeToWStr(__int64 ulSize)
 {
 	if (ulSize > 1024 * 1024 * 1024)
 	{
 		int nGb = (ulSize / (1024 * 1024 * 1024));
 		int nMb = ((ulSize % (1024 * 1024 * 1024)) / (1000 * 1000 * 100));
-		return NSNStr::FormatWStr(L"%d.%01dG", nGb, nMb >= 9 ? 9 : nMb);
+		return NStr::FormatWStr(L"%d.%01dG", nGb, nMb >= 9 ? 9 : nMb);
 	}
 	else if(ulSize > 1024 * 1024)
 	{
 		int nMb = ulSize / (1024 * 1024);
 		int nKb = (ulSize % (1024 * 1024)) / (1000 * 100);
-		return NSNStr::FormatWStr(L"%d.%01dM", nMb, nKb >= 9 ? 9 : nKb);
+		return NStr::FormatWStr(L"%d.%01dM", nMb, nKb >= 9 ? 9 : nKb);
 	}
 	else
 	{
 		int nKb = ulSize / 1024;
 		int nb = ulSize % 1024 / 100;
-		return NSNStr::FormatWStr(L"%d.%01dKB", nKb, nb >= 9 ? 9 : nb);
+		return NStr::FormatWStr(L"%d.%01dKB", nKb, nb >= 9 ? 9 : nb);
 	}
 }
 
 // 数字转字符（用以大写转换1）
-std::string  NSNStr::IntToStrForCapital(int nValue)
+std::string  NStr::IntToStrForCapital(int nValue)
 {
 	if (nValue > 999)
 	{
@@ -2821,7 +2948,7 @@ std::string  NSNStr::IntToStrForCapital(int nValue)
 }
 
 // 数字转字符（用以大写转换1）
-std::wstring NSNStr::IntToWStrForCapital(int nValue)
+std::wstring NStr::IntToWStrForCapital(int nValue)
 {
 	if (nValue > 999)
 	{
@@ -2874,7 +3001,7 @@ std::wstring NSNStr::IntToWStrForCapital(int nValue)
 // Author:	    JJHUANG
 // Date:        2017-6-23
 //************************************
-bool NSNStr::VersionCompare(std::string  strOldVer, std::string  strNewVer, std::string  strSplite /* = "." */)
+bool NStr::VersionCompare(std::string  strOldVer, std::string  strNewVer, std::string  strSplite /* = "." */)
 {
 	if (strOldVer.empty() || strNewVer.empty())
 		return false;
@@ -2882,8 +3009,8 @@ bool NSNStr::VersionCompare(std::string  strOldVer, std::string  strNewVer, std:
 	bool bRet = false;
 	 std::vector<std::string > vectOldVer;
 	 std::vector<std::string > vectNewVer;
-	NSNStr::SpliteStrByChar(strOldVer, vectOldVer, '.', true);
-	NSNStr::SpliteStrByChar(strNewVer, vectNewVer, '.', true);
+	NStr::SpliteStrByChar(strOldVer, vectOldVer, '.', true);
+	NStr::SpliteStrByChar(strNewVer, vectNewVer, '.', true);
 
 	if (vectOldVer.empty() || vectNewVer.empty() || vectOldVer.size() != vectNewVer.size())
 		return false;
@@ -2893,12 +3020,12 @@ bool NSNStr::VersionCompare(std::string  strOldVer, std::string  strNewVer, std:
 	//a.b.c -> a*100*100 + b*100 + c
 	for (int i=0; i<vectOldVer.size(); ++i)
 	{
-		int nVer = NSNStr::StrToInt(vectOldVer[i]);
+		int nVer = NStr::StrToInt(vectOldVer[i]);
 		nOldVer += nVer * pow(100, 2 - i);
 	}
 	for (int i=0; i<vectNewVer.size(); ++i)
 	{
-		int nVer = NSNStr::StrToInt(vectNewVer[i]);
+		int nVer = NStr::StrToInt(vectNewVer[i]);
 		nNewVer += nVer * pow(100, 2 - i);
 	}
 
@@ -4361,7 +4488,7 @@ const char* get_pin(unsigned short char_zh, const char* pszTemp)
 
 输入必须满足只有上述三种字符的情况，正确性由调用端保证。
 */
-std::string  NSNStr::ChineseToPinyin(std::string  strData)
+std::string  NStr::ChineseToPinyin(std::string  strData)
 {
 	std::string  result;
 	unsigned short char_zh;

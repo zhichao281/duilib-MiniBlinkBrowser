@@ -15,9 +15,15 @@
 
 
 
+#ifdef _UNICODE
+#define _tstring std::wstring
+#else
+#define _tstring std::string
+#endif
 
 
-namespace NSNStr
+
+namespace NStr
 {
 	// 多字节（std::string ）转成宽字（std::wstring）
 	std::wstring	StrToWStr(std::string  strBuf, int nCode = CP_ACP);
@@ -31,6 +37,21 @@ namespace NSNStr
 	// 编码转换 UTF8 => ANSI
 	std::string 	GetAnsi(std::string  strBuf);
 
+	_tstring ANSI2T(LPCSTR lpSrc);
+
+	std::string T2ANSI(LPCTSTR lpSrc);
+
+	std::string T2UTF8(LPCTSTR lpSrc);
+
+	std::wstring ANSI2Unicode(LPCSTR lpszSrc);
+
+	std::string Unicode2UTF8(LPCWSTR lpszSrc);
+
+	std::string Unicode2ANSI(LPCWSTR lpszSrc);
+
+	std::wstring utf8ToUtf16(const std::string& utf8String);
+
+	std::string utf16ToUtf8(LPCWSTR lpszSrc);
 	// 字符串转成int
 	int			StrToInt(std::string  strBuf);
 	int			StrToInt(std::wstring strBuf);

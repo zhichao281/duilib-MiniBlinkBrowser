@@ -2,88 +2,11 @@
 #include "WkeWebkit.h"
 #include <Windows.h>
 #pragma comment(lib, "imm32.lib")
+#include "../Common/String/NSString.h"
 
 map<wkeWebView, CWkeWebkitUI*> CWkeWebkitUI::m_mapWke2UI;
 
-std::string Unicode2ANSI(LPCWSTR lpszSrc)
-{
-	std::string sResult;
-	if (lpszSrc != NULL)
-	{
-		int  nANSILen = WideCharToMultiByte(CP_ACP, 0, lpszSrc, -1, NULL, 0, NULL, NULL);
-		char* pANSI = new char[nANSILen + 1];
-		if (pANSI != NULL)
-		{
-			ZeroMemory(pANSI, nANSILen + 1);
-			WideCharToMultiByte(CP_ACP, 0, lpszSrc, -1, pANSI, nANSILen, NULL, NULL);
-			sResult = pANSI;
-			delete[] pANSI;
-		}
-	}
-	return sResult;
-}
 
-std::string Unicode2UTF8(LPCWSTR lpszSrc)
-{
-	std::string sResult;
-	if (lpszSrc != NULL)
-	{
-		int  nUTF8Len = WideCharToMultiByte(CP_UTF8, 0, lpszSrc, -1, NULL, 0, NULL, NULL);
-		char* pUTF8 = new char[nUTF8Len + 1];
-		if (pUTF8 != NULL)
-		{
-			ZeroMemory(pUTF8, nUTF8Len + 1);
-			WideCharToMultiByte(CP_UTF8, 0, lpszSrc, -1, pUTF8, nUTF8Len, NULL, NULL);
-			sResult = pUTF8;
-			delete[] pUTF8;
-		}
-	}
-	return sResult;
-}
-
-std::wstring ANSI2Unicode(LPCSTR lpszSrc)
-{
-	std::wstring sResult;
-	if (lpszSrc != NULL)
-	{
-		int nUnicodeLen = MultiByteToWideChar(CP_ACP, 0, lpszSrc, -1, NULL, 0);
-		LPWSTR pUnicode = new WCHAR[nUnicodeLen + 1];
-		if (pUnicode != NULL)
-		{
-			ZeroMemory((void*)pUnicode, (nUnicodeLen + 1) * sizeof(WCHAR));
-			MultiByteToWideChar(CP_ACP, 0, lpszSrc, -1, pUnicode, nUnicodeLen);
-			sResult = pUnicode;
-			delete[] pUnicode;
-		}
-	}
-	return sResult;
-}
-
-_tstring ANSI2T(LPCSTR lpSrc)
-{
-#ifdef _UNICODE
-	return ANSI2Unicode(lpSrc);
-#else
-	return lpSrc;
-#endif
-}
-std::string T2ANSI(LPCTSTR lpSrc)
-{
-#ifdef _UNICODE
-	return Unicode2ANSI(lpSrc);
-#else
-	return lpSrc;
-#endif
-}
-
-std::string T2UTF8(LPCTSTR lpSrc)
-{
-#ifdef _UNICODE
-	return Unicode2UTF8(lpSrc);
-#else
-	return lpSrc;
-#endif
-}
 
 LPCTSTR wkeGetStringT(wkeString str)
 {
@@ -148,7 +71,7 @@ void CWkeWebkitUI::DoInit()
 	CControlUI::DoInit();
 
 	// 设置名称
-	wkeSetName(m_pWebView, T2ANSI(GetName()).c_str());
+	wkeSetName(m_pWebView, NStr::T2ANSI(GetName()).c_str());
 	// 启动定时器
 	SetTimer(EVENT_TICK_TIEMER_ID, 30);
 
@@ -238,7 +161,7 @@ void CWkeWebkitUI::UninitializeWebkit()
 
 void CWkeWebkitUI::ExecuteJS(LPCTSTR lpJS)
 {
-	wkeRunJS(m_pWebView, T2UTF8(lpJS).c_str());
+	wkeRunJS(m_pWebView, NStr::T2UTF8(lpJS).c_str());
 }
 
 void CWkeWebkitUI::DoEvent(TEventUI& event)
@@ -471,12 +394,26 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeDocumentReady(wkeWebView webView, void* pa
 	}
 }
 
+void readJsFile(const wchar_t* path, std::vector<char>* buffer)
+{
+	HANDLE hFile = CreateFileW(path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (INVALID_HANDLE_VALUE == hFile) {
+		DebugBreak();
+		return;
+	}
 
+	DWORD fileSizeHigh;
+	const DWORD bufferSize = ::GetFileSize(hFile, &fileSizeHigh);
 
+	DWORD numberOfBytesRead = 0;
+	buffer->resize(bufferSize);
+	BOOL b = ::ReadFile(hFile, &buffer->at(0), bufferSize, &numberOfBytesRead, nullptr);
+	::CloseHandle(hFile);
+	b = b;
+}
 
 bool  WKE_CALL_TYPE CWkeWebkitUI::onLoadUrlBegin(wkeWebView webView, void* param, const char* url, void *job)
 {
-
 	const char kPreHead[] = "http://hook.test/";
 	const char* pos = strstr(url, kPreHead);
 	if (pos)
@@ -487,7 +424,7 @@ bool  WKE_CALL_TYPE CWkeWebkitUI::onLoadUrlBegin(wkeWebView webView, void* param
 		std::string urlString(decodeURL);
 		std::string localPath = urlString.substr(sizeof(kPreHead) - 1);
 
-		std::wstring path = getResourcesPath(utf8ToUtf16(localPath));
+		std::wstring path = CPaintManagerUI::GetInstancePath().GetData()+ NStr::utf8ToUtf16(localPath);
 		std::vector<char> buffer;
 
 		readJsFile(path.c_str(), &buffer);
@@ -496,7 +433,8 @@ bool  WKE_CALL_TYPE CWkeWebkitUI::onLoadUrlBegin(wkeWebView webView, void* param
 
 		return true;
 	}
-	else if (strncmp(url, "http://localhost:12222", 22) == 0) {
+	else if (strncmp(url, "http://localhost:12222", 22) == 0)
+	{
 		wkeNetSetMIMEType(job, (char*)"text/html");
 		wkeNetSetData(job, (char*)"\"test1111\"", 10);
 		return true;
@@ -505,8 +443,6 @@ bool  WKE_CALL_TYPE CWkeWebkitUI::onLoadUrlBegin(wkeWebView webView, void* param
 		wkeNetHookRequest(job);
 	}
 	return false;
-
-
 }
 
 

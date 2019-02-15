@@ -1,0 +1,555 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estart</title>
+    <link type="text/css" rel="stylesheet" href="style.css">
+    <link type="text/css" rel="stylesheet" href="animate.css">
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <div id="all">
+        <div id="header" onmousedown="eMsg('move')" ><!--  -->
+            <div class="title" style="-webkit-app-region: drag">Estart</div><!-- 拖拽区域 -->
+            <div class="tab" style="-webkit-app-region: drag">
+                <div class="plan p1" :class="{active: plan=='p1'}" @mousedown="plan='p1'">
+					<div class="triangle" v-show="plan=='p1'"></div>
+				</div>
+				<div class="plan p2" :class="{active: plan=='p2'}" @mousedown="plan='p2'">
+					<div class="triangle" v-show="plan=='p2'"></div>
+				</div>
+				<div class="plan p3" :class="{active: plan=='p3'}" @mousedown="plan='p3'">
+					<div class="triangle" v-show="plan=='p3'"></div>
+				</div>
+				<div class="plan p4" :class="{active: plan=='p4'}" @mousedown="plan='p4'">
+					<div class="triangle" v-show="plan=='p4'"></div>
+				</div>
+            </div>
+            <div class="group-control">
+                <button class="btn-close" @mousedown.stop onclick="eMsg('close')" title="关闭窗口"></button>
+				<button class="btn-max" @mousedown.stop onclick="eMsg('max')" title="最大化"></button>
+				<button class="btn-min" @mousedown.stop onclick="eMsg('min')" title="最小化"></button>
+            </div>
+            <div class="menu" @mousedown.stop onclick="eMsg('menu')"></div>
+        </div>
+        <div id="main" @drop="ondrop()" @dragover="ondragover()">
+			<div class="item" v-for="(item,i) in itemList.p1" @click.left="run(i)" @contextmenu="contextmenu(i)" v-show="plan=='p1'">
+				<img :src="item.icon" :alt="item.name" :title="item.hotkey + ' '+item.path" class="bounceIn">
+				<p>{{item.name}}</p>
+			</div>
+			<div class="item" v-for="(item,i) in itemList.p2" @click.left="run(i)" @contextmenu="contextmenu(i)" v-show="plan=='p2'">
+				<img :src="item.icon" :alt="item.name" :title="item.hotkey + ' '+item.path" class="bounceIn">
+				<p>{{item.name}}</p>
+			</div>
+			<div class="item" v-for="(item,i) in itemList.p3" @click.left="run(i)" @contextmenu="contextmenu(i)" v-show="plan=='p3'">
+				<img :src="item.icon" :alt="item.name" :title="item.hotkey + ' '+item.path" class="bounceIn">
+				<p>{{item.name}}</p>
+			</div>
+			<div class="item" v-for="(item,i) in itemList.p4" @click.left="run(i)" @contextmenu="contextmenu(i)" v-show="plan=='p4'">
+				<img :src="item.icon" :alt="item.name" :title="item.hotkey + ' '+item.path" class="bounceIn">
+				<p>{{item.name}}</p>
+			</div>
+		</div>
+        <div id="footer">
+			<div class="cmd">
+				<input v-model="cmd" @keyup.enter="quickRun()" placeholder=" 输入命令行快速执行" onkeyup="this.size=(this.value.length>20?this.value.length+10:20);"
+				    size="20">
+				<span>{{prompt}}</span>
+			</div>
+		</div>
+    </div>
+    <script>
+    	
+        //获得启动项目列表返回json字符串 转为对象 用作数据赋值
+        var itemList = eItemDummy(); // JSON.parse(eItem());
+        var app = new Vue({
+            el: '#all',
+            data: {
+                itemList: itemList,
+                plan: "p1",
+                cmd: "",
+                prompt: ""
+            },
+            methods: {
+                setPlan: function (plan) {
+                    this.plan = plan;
+                },
+                run: function (i) {
+                    //运行项目后关闭(隐藏)窗口
+                    let p = this.plan;
+                    let item = this.itemList[p][i];
+                    //eMsg("close");
+                    eShellExec(item.path, item.par, item.dir);
+                    //console.log("执行：", item.name, item.path, item.par, item.dir, p, i);
+                },
+                contextmenu: function (index) {
+                    //弹出右键菜单
+                    eMsg("itemMenu", this.plan, index)
+                },
+                splice: function (plan, index) {
+                    //关联项目右键菜单的移除功能
+                    this.itemList[plan].splice(index, 1);
+                    console.log("删除item成员:", plan, index, this.itemList[plan])
+                },
+                quickRun: function () {
+                    //底部快速执行功能 windows系统命令,以及大部分的命令行程序,环境变量path目录中的可执行文件都可以运行
+                    console.log(app.cmd);
+                    let cmd, cmdl
+                    let i = app.cmd.indexOf(" ");
+                    if (i != -1) {
+                        cmd = app.cmd.substring(0, i);
+                        cmdl = app.cmd.substring(i + 1, app.cmd.length);
+                        console.log(cmd, cmdl);
+                        //置程序执行起始位置
+                        if (cmd == "dir" || cmd == "cd") {
+                            eSetDir(cmdl);
+                            this.prompt = cmdl;
+                            this.cmd = "";
+                            return;
+                        }
+                    } else {
+                        cmd = app.cmd;
+                        cmdl = "";
+                    }
+                    eShellExec(cmd, cmdl);
+                },
+                ondragover: () => {
+                    //console.log("ondragover")
+                },
+                ondrop: () => {
+                    //miniblink 目前还不支持ondrop事件 
+                    console.log("drop")
+                }
+            }
+        })
+        //已废弃 改用vue修饰符
+        //阻止控制按钮鼠标按下事件传递 解决与#header的移动窗口功能冲突
+        /*document.querySelectorAll("#header .group-control button").forEach(function (el) {
+        	//console.log(el);
+        	el.onmousedown = (e) => {
+        		e.stopPropagation();
+        	}
+        })*/
+        /************************************************************************************
+         *函数导出说明
+         *eMsg("msg",[,]) 窗口消息 主要负责传递控制消息给窗口
+         *参数1 消息类型:move移动窗口,close关闭(隐藏),max最大化,min最小化,menu主菜单,itemMenu项目右键菜单
+         *参数2 panl项目分组(即p1 p2 p3 p4) 配合itemMenu 使用 
+         *参数3 项目数组索引 配合itemMenu 使用 
+         *
+         *eItem()
+         *获得项目列表 itemlist 即./item.json  返回的是字符串 要用 JSON.parse(eItem()) 转成对象
+         *
+         *eShellExec("命令",[命令行,当前位置,,]) windows API ShellExecute
+         *参数1 命令
+         *参数2 命令行参数
+         *参数3 当前位置 很多命令行程序中 所需的当前位置 比如cmd node nginx code.
+         *************************************************************************************
+         *暂时就这么多 有需要我再加
+         */
+         function eItemDummy() {
+    		return {
+				"p1":[{
+						"name":"echars.",
+						"path":"runEchars",
+						"icon":"icon\/runEchars.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":"Ctrl+0"
+					},{
+						"name":"wkeBrowser.",
+						"path":"wkeBrowser",
+						"icon":"icon\/wkeBrowser.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"Yun.",
+						"path":"http:\/\/yun.ysszzs.com",
+						"icon":"icon\/搜狗高速浏览器.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":"Ctrl+1"
+					},{
+						"name":"意上云端.exe",
+						"path":"C:\\Users\\win7\\Desktop\\意上云端.exe.lnk",
+						"icon":"icon\/意上云端.exe.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":"Ctrl+2"
+					},{
+						"name":"code",
+						"path":"cmd",
+						"icon":"icon\/code.png",
+						"type":"cmd",
+						"par":"\/c code .",
+						"dir":"E:\\Git\\Estart",
+						"hotkey":"Ctrl+3"
+					},{
+						"name":"web_teambition",
+						"path":"https:\/\/www.teambition.com",
+						"icon":"icon\/Teambition.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":"Ctrl+4"
+					},{
+						"name":"ONENOTE",
+						"path":"C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\ONENOTE.EXE",
+						"icon":"icon\/ONENOTE.EXE.png",
+						"type":"EXE",
+						"par":"",
+						"dir":"",
+						"hotkey":"Ctrl+5"
+					},{
+						"name":"Google Chrome",
+						"path":"C:\\Users\\Public\\Desktop\\Google Chrome.lnk",
+						"icon":"icon\/Google Chrome.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"firefox",
+						"path":"C:\\Program Files\\Mozilla Firefox\\firefox.exe",
+						"icon":"icon\/firefox.exe.png",
+						"type":"exe",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"有道云笔记",
+						"path":"C:\\Users\\win7\\Desktop\\有道云笔记.lnk",
+						"icon":"icon\/有道云笔记.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"Shadowsocks",
+						"path":"D:\\软件\\shadowrocks\\Shadowsocks.exe",
+						"icon":"icon\/Shadowsocks.exe.png",
+						"type":"exe",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"dock.exe",
+						"path":"C:\\Users\\win7\\Desktop\\dock.exe.lnk",
+						"icon":"icon\/dock.exe.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"QQ浏览器",
+						"path":"C:\\Users\\win7\\Desktop\\QQ浏览器.lnk",
+						"icon":"icon\/QQ浏览器.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"美洽",
+						"path":"C:\\Users\\win7\\Desktop\\美洽.lnk",
+						"icon":"icon\/美洽.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"Axure RP 8",
+						"path":"C:\\Users\\Public\\Desktop\\Axure RP 8.lnk",
+						"icon":"icon\/Axure RP 8.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"Teambition",
+						"path":"C:\\Users\\Public\\Desktop\\Teambition.lnk",
+						"icon":"icon\/Teambition.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"百度推广客户端",
+						"path":"C:\\Users\\win7\\Desktop\\百度推广客户端.lnk",
+						"icon":"icon\/百度推广客户端.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"calc",
+						"path":"C:\\Windows\\system32\\calc.exe",
+						"icon":"icon\/calc.exe.png",
+						"type":"exe"
+					},{
+						"name":"mstsc",
+						"path":"C:\\Windows\\system32\\mstsc.exe",
+						"icon":"icon\/mstsc.exe.png",
+						"type":"exe",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"et",
+						"path":"D:\\WPS Office\\10.1.0.7400\\office6\\et.exe",
+						"icon":"icon\/et.exe.png",
+						"type":"exe"
+					}],
+				"p2":[{
+						"name":"Program Files",
+						"path":"C:\\Program Files",
+						"icon":"icon\/Program Files.png",
+						"type":""
+					},{
+						"name":"Git",
+						"path":"E:\\Git",
+						"icon":"icon\/Git.Folder.png",
+						"type":"Folder"
+					},{
+						"name":"工作文档",
+						"path":"C:\\Users\\win7\\Desktop\\工作文档.lnk",
+						"icon":"icon\/工作文档.lnk.png",
+						"type":"lnk"
+					},{
+						"name":"客户报价",
+						"path":"C:\\Users\\win7\\Desktop\\客户报价.lnk",
+						"icon":"icon\/客户报价.lnk.png",
+						"type":"lnk"
+					},{
+						"name":"nodejs",
+						"path":"C:\\Program Files\\nodejs",
+						"icon":"icon\/nodejs.Folder.png",
+						"type":"Folder"
+					},{
+						"name":"E工程",
+						"path":"E:\\E工程",
+						"icon":"icon\/E工程.Folder.png",
+						"type":"Folder"
+					},{
+						"name":"Estart",
+						"path":"E:\\Git\\Estart",
+						"icon":"icon\/Estart.Folder.png",
+						"type":"Folder"
+					},{
+						"name":"yun",
+						"path":"E:\\yun.ysszzs",
+						"icon":"icon\/yun.ysszzs.png",
+						"type":"ysszzs"
+					},{
+						"name":"PHPTutorial",
+						"path":"D:\\phpStudy2018\\PHPTutorial",
+						"icon":"icon\/PHPTutorial.Folder.png",
+						"type":"Folder"
+					},{
+						"name":"FileRecv",
+						"path":"C:\\Users\\win7\\Documents\\Tencent Files\\36307936\\FileRecv",
+						"icon":"icon\/FileRecv.Folder.png",
+						"type":"Folder"
+					},{
+						"name":"工作文档",
+						"path":"D:\\工作文档",
+						"icon":"icon\/工作文档.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":""
+					},{
+						"name":"System32",
+						"path":"C:\\Windows\\System32",
+						"icon":"icon\/System32.Folder.png",
+						"type":"Folder"
+					}],
+				"p3":[{
+						"name":"Visual Studio Code",
+						"path":"C:\\Users\\win7\\Desktop\\Visual Studio Code.lnk",
+						"icon":"icon\/Visual Studio Code.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":""
+					},{
+						"name":"sublime_text",
+						"path":"D:\\Sublime Text 3x64\\sublime_text.exe",
+						"icon":"icon\/sublime_text.exe.png",
+						"type":"exe",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"notepad",
+						"path":"notepad.exe",
+						"icon":"icon\/notepad.png",
+						"type":"exe",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"EditPlusPortable",
+						"path":"D:\\EditPlusPortable\\EditPlusPortable.exe",
+						"icon":"icon\/EditPlusPortable.exe.png",
+						"type":"exe",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"e",
+						"path":"E:\\e5.6\\e.exe",
+						"icon":"icon\/e.exe.png",
+						"type":"exe",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"navicat",
+						"path":"C:\\Users\\win7\\Desktop\\navicat.exe.lnk",
+						"icon":"icon\/navicat.exe.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"Photoshop",
+						"path":"C:\\Users\\win7\\Desktop\\Photoshop.lnk",
+						"icon":"icon\/Photoshop.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"phpStudy",
+						"path":"C:\\Users\\win7\\Desktop\\phpStudy.lnk",
+						"icon":"icon\/phpStudy.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"微信web开发者工具",
+						"path":"C:\\Users\\win7\\Desktop\\微信web开发者工具.lnk",
+						"icon":"icon\/微信web开发者工具.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":"",
+						"hotkey":""
+					},{
+						"name":"Charles",
+						"path":"D:\\软件\\charles3.9.3 高级汉化\\Charles.exe",
+						"icon":"icon\/Charles.exe.png",
+						"type":"exe"
+					},{
+						"name":"Xshell",
+						"path":"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Xshell 5\\Xshell.lnk",
+						"icon":"icon\/Xshell.lnk.png",
+						"type":"lnk"
+					},{
+						"name":"FlashFXP",
+						"path":"D:\\软件\\FlashFXP_4.1.8.1700-Special\\FlashFXP.exe",
+						"icon":"icon\/FlashFXP.exe.png",
+						"type":"exe"
+					},{
+						"name":"code yun",
+						"path":"E:\\yun.ysszzs\\vscode.bat",
+						"icon":"icon\/code.png",
+						"type":"bat",
+						"par":"",
+						"dir":"E:\\yun.ysszzs"
+					},{
+						"name":"phpstorm64",
+						"path":"C:\\Program Files\\JetBrains\\PhpStorm 2018.1.6\\bin\\phpstorm64.exe",
+						"icon":"icon\/phpstorm64.exe.png",
+						"type":"exe"
+					}],
+				"p4":[{
+						"name":"regedit",
+						"path":"C:\\Windows\\regedit.exe",
+						"icon":"icon\/regedit.png",
+						"type":"exe"
+					},{
+						"name":"BB FlashBack Pro 5 Recorder",
+						"path":"C:\\Users\\Public\\Desktop\\BB FlashBack Pro 5 Recorder.lnk",
+						"icon":"icon\/BB FlashBack Pro 5 Recorder.lnk.png",
+						"type":"lnk"
+					},{
+						"name":"BB FlashBack Pro 5 Player",
+						"path":"C:\\Users\\Public\\Desktop\\BB FlashBack Pro 5 Player.lnk",
+						"icon":"icon\/BB FlashBack Pro 5 Player.lnk.png",
+						"type":"lnk"
+					},{
+						"name":" 掌上看家",
+						"path":"C:\\Users\\Public\\Desktop\\掌上看家.lnk",
+						"icon":"icon\/掌上看家.lnk.png",
+						"type":"lnk"
+					},{
+						"name":"CAD迷你看图",
+						"path":"C:\\Users\\Public\\Desktop\\CAD迷你看图.lnk",
+						"icon":"icon\/CAD迷你看图.lnk.png",
+						"type":"lnk"
+					},{
+						"name":"GPU-Z.1.18.0",
+						"path":"D:\\软件\\CPU-Z\\GPU-Z.1.18.0.exe",
+						"icon":"icon\/GPU-Z.1.18.0.exe.png",
+						"type":"exe"
+					},{
+						"name":"cpuz_x64",
+						"path":"D:\\软件\\CPU-Z\\cpuz_x64.exe",
+						"icon":"icon\/cpuz_x64.exe.png",
+						"type":"exe"
+					},{
+						"name":"局域网共享软件",
+						"path":"D:\\软件\\局域网共享软件.exe",
+						"icon":"icon\/局域网共享软件.exe.png",
+						"type":"exe"
+					},{
+						"name":"远程端口检测",
+						"path":"D:\\软件\\远程端口检测.exe",
+						"icon":"icon\/远程端口检测.exe.png",
+						"type":"exe"
+					},{
+						"name":"钉钉RC",
+						"path":"C:\\Users\\Public\\Desktop\\钉钉RC.lnk",
+						"icon":"icon\/钉钉RC.lnk.png",
+						"type":"lnk"
+					},{
+						"name":"钉钉",
+						"path":"C:\\Users\\Public\\Desktop\\钉钉.lnk",
+						"icon":"icon\/钉钉.lnk.png",
+						"type":"lnk"
+					},{
+						"name":"阿里旺旺",
+						"path":"C:\\Users\\Public\\Desktop\\阿里旺旺.lnk",
+						"icon":"icon\/阿里旺旺.lnk.png",
+						"type":"lnk"
+					},{
+						"name":"TIM",
+						"path":"C:\\Users\\Public\\Desktop\\TIM.lnk",
+						"icon":"icon\/TIM.lnk.png",
+						"type":"lnk"
+					},{
+						"name":"腾讯QQ",
+						"path":"C:\\Users\\Public\\Desktop\\腾讯QQ.lnk",
+						"icon":"icon\/腾讯QQ.lnk.png",
+						"type":"lnk"
+					},{
+						"name":"微信",
+						"path":"C:\\Users\\win7\\Desktop\\微信.lnk",
+						"icon":"icon\/微信.lnk.png",
+						"type":"lnk",
+						"par":"",
+						"dir":""
+					}]
+			};
+    	}
+    </script>
+
+</body>
+
+</html>

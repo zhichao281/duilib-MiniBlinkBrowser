@@ -7,16 +7,10 @@ using namespace std;
 
 
 
-#ifdef _UNICODE
-#define _tstring std::wstring
-#else
-#define _tstring std::string
-#endif
 
 #define EVENT_TICK_TIEMER_ID	42
 
-_tstring ANSI2T(LPCSTR);
-std::string T2ANSI(LPCTSTR);
+
 
 
 typedef struct _rend_data
@@ -60,7 +54,7 @@ public:
 
 	virtual void OnWkeDocumentReady(CWkeWebkitUI* webView) {}
 
-	virtual bool  onLoadUrlBegin(CWkeWebkitUI* webView, void* param, const char* url, void *job);
+	virtual bool  onLoadUrlBegin(CWkeWebkitUI* webView, void* param, const char* url, void *job) { return false; }
 	
 	virtual void OnWkeLoadingFinish(CWkeWebkitUI* webView, const LPCTSTR url, wkeLoadingResult result, LPCTSTR failedReason) {}
 

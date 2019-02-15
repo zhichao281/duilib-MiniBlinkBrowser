@@ -1,0 +1,30 @@
+<html>
+<head>
+<script type="text/javascript" src="fe.js">
+<script type="text/javascript">
+function whichElement(e)
+{
+	var targ
+	if (!e)
+		var e = window.event
+	if (e.target)
+		targ = e.target
+	else if (e.srcElement) 
+		targ = e.srcElement
+	if (targ.nodeType == 3) // defeat Safari bug   
+		targ = targ.parentNode
+	var tname
+	tname=targ.tagName
+	alert("You clicked on a " + tname + " element.");
+}
+</script>
+</head>
+
+<body onmousedown="whichElement(event)" >
+
+<h2>This is a header</h2>
+<p>This is a paragraph</p>
+<img border="0" src="image/btn-control.png" alt="Ball" style="-webkit-app-region: drag">
+
+</body>
+</html>
