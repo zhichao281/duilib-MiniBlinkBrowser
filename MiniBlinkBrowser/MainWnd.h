@@ -60,7 +60,7 @@ public:
 	virtual wkeWebView OnWkeCreateView(CWkeWebkitUI* webView, wkeNavigationType navigationType, const wkeString url, const wkeWindowFeatures* windowFeatures);
 	virtual void OnWkeDocumentReady(CWkeWebkitUI* webView);
 
-	
+	virtual bool  onLoadUrlBegin(CWkeWebkitUI *webView, void* param, const char* url, void *job);
 	virtual void OnWkeLoadingFinish(CWkeWebkitUI* webView, const LPCTSTR url, wkeLoadingResult result, LPCTSTR failedReason);
 	virtual LPCTSTR OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpContent, void *pListenObj);
 

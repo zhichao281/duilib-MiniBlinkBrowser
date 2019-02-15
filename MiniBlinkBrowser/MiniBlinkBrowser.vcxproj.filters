@@ -16,17 +16,20 @@
     <Filter Include="3rd">
       <UniqueIdentifier>{e0168ce5-8bfb-4534-9038-f802edbe5ced}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3rd\miniblink-190212">
-      <UniqueIdentifier>{f34fd0cb-c666-4813-b649-845996088933}</UniqueIdentifier>
-    </Filter>
     <Filter Include="资源文件\xmls">
       <UniqueIdentifier>{384ca846-e770-4a8d-a883-8a8fe15e60ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd\miniblink">
+      <UniqueIdentifier>{f34fd0cb-c666-4813-b649-845996088933}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{bf97aa16-ac3e-476e-8efb-87e4cc36ab44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\String">
+      <UniqueIdentifier>{2a6a73ea-4b06-4bc0-9b79-cdb3a97fb87a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\3rd\miniblink-190212\wke.h">
-      <Filter>3rd\miniblink-190212</Filter>
-    </ClInclude>
     <ClInclude Include="Helpers.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -50,6 +53,12 @@
     </ClInclude>
     <ClInclude Include="WkeWebkit.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\miniblink\wke.h">
+      <Filter>3rd\miniblink</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\String\NSString.h">
+      <Filter>Common\String</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="WkeWebkit.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\String\NSString.cpp">
+      <Filter>Common\String</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

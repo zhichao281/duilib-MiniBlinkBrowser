@@ -165,6 +165,8 @@ void CWkeWebkitUI::DoInit()
 
 	wkeOnDocumentReady(m_pWebView, OnWkeDocumentReady, this);
 
+	wkeOnLoadUrlBegin(m_pWebView, onLoadUrlBegin, this);
+
 	wkeOnLoadingFinish(m_pWebView, OnWkeLoadingFinish, this);
 
 
@@ -468,6 +470,46 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeDocumentReady(wkeWebView webView, void* pa
 		return pWkeUI->m_pWkeCallback->OnWkeDocumentReady(pWkeUI);
 	}
 }
+
+
+
+
+bool  WKE_CALL_TYPE CWkeWebkitUI::onLoadUrlBegin(wkeWebView webView, void* param, const char* url, void *job)
+{
+
+	const char kPreHead[] = "http://hook.test/";
+	const char* pos = strstr(url, kPreHead);
+	if (pos)
+	{
+		const utf8* decodeURL = wkeUtilDecodeURLEscape(url);
+		if (!decodeURL)
+			return false;
+		std::string urlString(decodeURL);
+		std::string localPath = urlString.substr(sizeof(kPreHead) - 1);
+
+		std::wstring path = getResourcesPath(utf8ToUtf16(localPath));
+		std::vector<char> buffer;
+
+		readJsFile(path.c_str(), &buffer);
+
+		wkeNetSetData(job, buffer.data(), buffer.size());
+
+		return true;
+	}
+	else if (strncmp(url, "http://localhost:12222", 22) == 0) {
+		wkeNetSetMIMEType(job, (char*)"text/html");
+		wkeNetSetData(job, (char*)"\"test1111\"", 10);
+		return true;
+	}
+	else if (strcmp(url, "http://www.baidu.com/") == 0) {
+		wkeNetHookRequest(job);
+	}
+	return false;
+
+
+}
+
+
 
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeLoadingFinish(wkeWebView webView, void* param, const wkeString url, wkeLoadingResult result, const wkeString failedReason)
 {

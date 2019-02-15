@@ -2,7 +2,11 @@
 #include <string>
 #include <map>
 using namespace std;
-#include "../3rd/miniblink-190212/wke.h"
+#include "../3rd/miniblink/wke.h"
+
+
+
+
 #ifdef _UNICODE
 #define _tstring std::wstring
 #else
@@ -56,10 +60,16 @@ public:
 
 	virtual void OnWkeDocumentReady(CWkeWebkitUI* webView) {}
 
+	virtual bool  onLoadUrlBegin(CWkeWebkitUI* webView, void* param, const char* url, void *job);
+	
 	virtual void OnWkeLoadingFinish(CWkeWebkitUI* webView, const LPCTSTR url, wkeLoadingResult result, LPCTSTR failedReason) {}
+
+
 
 	virtual LPCTSTR OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpContent, void *pListenObj) { return NULL; }
 };
+
+
 
 class CWkeWebkitUI : public CControlUI
 {
@@ -156,7 +166,12 @@ private:
 
 	static void WKE_CALL_TYPE OnWkeDocumentReady(wkeWebView webView, void* param);
 
+	static bool WKE_CALL_TYPE onLoadUrlBegin(wkeWebView webView, void* param, const char* url, void *job);
+	
 	static void WKE_CALL_TYPE OnWkeLoadingFinish(wkeWebView webView, void* param, const wkeString url, wkeLoadingResult result, const wkeString failedReason);
+	
+	
+	
 	//内置一个js与本地的函数映射
 	static jsValue JS_CALL JsToNative(jsExecState es);
 

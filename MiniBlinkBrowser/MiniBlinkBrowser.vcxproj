@@ -125,6 +125,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,7 +152,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\3rd\miniblink-190212\wke.h" />
+    <ClInclude Include="..\3rd\miniblink\wke.h" />
+    <ClInclude Include="..\Common\String\NSString.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="MainWnd.h" />
     <ClInclude Include="MsgWnd.h" />
@@ -169,6 +171,7 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Common\String\NSString.cpp" />
     <ClCompile Include="MainWnd.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>

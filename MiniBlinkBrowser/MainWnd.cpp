@@ -383,8 +383,10 @@ void CMainWnd::OnWkeTitleChanged(CWkeWebkitUI* webView, LPCTSTR title)
 void CMainWnd::OnWkeURLChanged(CWkeWebkitUI* webView, LPCTSTR url)
 {
 	vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), web_finder(webView));
-	if(it != m_vTabs.end()) {
-		if(m_pBrowserTabBody->GetItemIndex(webView) == m_pBrowserTabBody->GetCurSel()) {
+	if(it != m_vTabs.end()) 
+	{
+		if(m_pBrowserTabBody->GetItemIndex(webView) == m_pBrowserTabBody->GetCurSel())
+		{
 			lstrcpy((*it)->szUrl, url);
 			m_pAddressEdit->SetText(url);
 		}
@@ -423,6 +425,11 @@ void CMainWnd::OnWkeDocumentReady(CWkeWebkitUI* webView)
 
 }
 
+ bool  CMainWnd::onLoadUrlBegin(CWkeWebkitUI *webView, void* param, const char* url, void *job)
+{
+	 return true;
+
+}
 void CMainWnd::OnWkeLoadingFinish(CWkeWebkitUI* webView, const LPCTSTR url, wkeLoadingResult result, LPCTSTR failedReason)
 {
 
