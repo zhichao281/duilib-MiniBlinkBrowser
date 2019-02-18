@@ -507,16 +507,25 @@ jsValue WKE_CALL_TYPE CWkeWebkitUI::onShellExec(jsExecState es, void* param)
 	if (!jsIsString(arg0))
 		return jsUndefined();
 
+	jsValue arg1 = jsArg(es, 1);
+	if (!jsIsString(arg1))
+		return jsUndefined();
+
+	std::string strName;
+	strName = jsToTempString(es, arg0);
+
 	std::string path;
-	path = jsToTempString(es, arg0);
+	path = jsToTempString(es, arg1);
+
 	if ("runEchars" == path) {
 		//createECharsTest();
 	}
 	else if ("wkeBrowser" == path) {
 		//wkeBrowserMain(nullptr, nullptr, nullptr, TRUE);
 	}
-	else if ("wkeBrowser" == path) {
-		//wkeBrowserMain(nullptr, nullptr, nullptr, TRUE);
+	else{
+		//system(path.c_str());
+		WinExec(strName.c_str(), SW_SHOW);
 	}
 	
 	path += "\n";

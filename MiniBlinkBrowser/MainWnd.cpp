@@ -127,6 +127,14 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 	else if(sName.CompareNoCase(_T("home_go")) == 0) {
 		Home();
 	}
+	else if (sName.CompareNoCase(_T("app_btn")) == 0) 
+	{
+		// 演示使用hook的方式加载资源
+		CDuiString sUrl = L"http://hook.test/resources/view/index.html";
+		CWkeWebkitUI* pWeb = GetCurWeb();
+		pWeb->Navigate(sUrl);
+	}
+
 	else if(sName.CompareNoCase(_T("qq_btn")) == 0)
 	{
 		ShellExecute(NULL, _T("open"), _T("tencent://Message/?Uin=656067418&Menu=yes"), NULL, NULL, SW_SHOW);
