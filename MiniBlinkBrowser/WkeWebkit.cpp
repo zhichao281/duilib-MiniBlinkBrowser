@@ -144,8 +144,8 @@ bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopContro
 
 void CWkeWebkitUI::InitializeWebkit()
 {
-	// 初始化
-	wkeSetWkeDllPath(L"node_v8_4_8.dll");
+	//// 初始化
+	//wkeSetWkeDllPath(L"node_v8_4_8.dll");
 
 	wkeInitialize();
 
@@ -515,7 +515,10 @@ jsValue WKE_CALL_TYPE CWkeWebkitUI::onShellExec(jsExecState es, void* param)
 	else if ("wkeBrowser" == path) {
 		//wkeBrowserMain(nullptr, nullptr, nullptr, TRUE);
 	}
-
+	else if ("wkeBrowser" == path) {
+		//wkeBrowserMain(nullptr, nullptr, nullptr, TRUE);
+	}
+	
 	path += "\n";
 	OutputDebugStringA(path.c_str());
 
