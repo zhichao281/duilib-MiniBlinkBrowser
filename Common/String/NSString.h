@@ -240,7 +240,7 @@ namespace NStr
 	//	检测字串是否包含汉字、数字、字符	add by cherish 2016-08-20
 	BOOL		CheckUserPass(const char * iName);
 
-	// 检测是否包含汉子
+	// 检测是否包含汉字
 	BOOL		CheckHasChina(std::string  strData);
 
 	// 中文转拼音
