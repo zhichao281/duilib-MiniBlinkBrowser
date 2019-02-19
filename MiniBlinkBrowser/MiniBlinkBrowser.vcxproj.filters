@@ -104,5 +104,8 @@
     <Xml Include="..\bin\Skin\res.xml">
       <Filter>资源文件\xmls</Filter>
     </Xml>
+    <Xml Include="..\bin\Skin\browser.xml">
+      <Filter>资源文件\xmls</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

@@ -2,8 +2,7 @@
 #include <exdisp.h>
 #include <comdef.h>
 #include <ShellAPI.h>
-#include <shlwapi.h>
-#pragma comment(lib, "shlwapi.lib")
+
 
 #include "MainWnd.h"
 #include "resource.h"
@@ -69,6 +68,8 @@ void InitResource()
 		}
 		break;
 	}
+	// 注册控件
+	REGIST_DUICONTROL(CWkeWebkitUI);
 }
 bool isOneInstance()
 {
@@ -97,16 +98,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	CPaintManagerUI::SetInstance(hInstance);
 
 
-	// 加载mb的资源
-	CDuiString strResourcePath = CPaintManagerUI::GetInstancePath();
-	CDuiString mbPath = strResourcePath + L"node.dll";
-	//CDuiString mbPath = strResourcePath + L"node_v8_4_8.dll";
-	if (!::PathFileExists(mbPath))
-	{
-		::MessageBoxW(NULL, L"请把node.dll放exe目录下", L"错误", MB_OK);
-		return 0;
-	}
-	wkeSetWkeDllPath(mbPath);
+
+	
+	CWkeWebkitUI::InitializeWebkit();
 
 	// 初始化资源
 	InitResource();

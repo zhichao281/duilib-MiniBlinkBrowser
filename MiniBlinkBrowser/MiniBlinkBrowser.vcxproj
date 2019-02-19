@@ -190,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\bin\Skin\main.xml" />
+    <Xml Include="..\bin\Skin\browser.xml" />
     <Xml Include="..\bin\Skin\msg.xml" />
     <Xml Include="..\bin\Skin\res.xml" />
   </ItemGroup>

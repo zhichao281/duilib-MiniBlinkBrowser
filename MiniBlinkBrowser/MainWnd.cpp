@@ -70,10 +70,19 @@ void CMainWnd::InitWindow()
 	m_pSearchEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("search_edit")));
 	m_pBrowserTabBar = static_cast<CBrowserTabBar*>(m_pm.FindControl(_T("browser_tabbar")));
 	m_pBrowserTabBody = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("browser_tabbody")));
+	m_pModeMainTab = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("tabModeMain")));
 
-	CWkeWebkitUI::InitializeWebkit();
-	// 创建起始页
-	CreateNewTabAndGo(sHomePage);
+	if (m_pModeMainTab->GetCurSel() == 1)
+	{
+		// 创建起始页
+		CreateNewTabAndGo(sHomePage);
+	}
+	else
+	{
+		CWkeWebkitUI *pWeb = static_cast<CWkeWebkitUI*>(m_pm.FindControl(_T("wkeTest")));
+		CDuiString sUrl = L"http://hook.test/resources/view/index.html";
+		pWeb->Navigate(sUrl);
+	}
 }
 
 
@@ -134,10 +143,16 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 		CWkeWebkitUI* pWeb = GetCurWeb();
 		pWeb->Navigate(sUrl);
 	}
-
+	else if (sName.CompareNoCase(_T("skinbtn")) == 0) 
+	{
+		m_pModeMainTab->SelectItem(1);
+		CWkeWebkitUI *pWeb = static_cast<CWkeWebkitUI*>(m_pm.FindControl(_T("wkeTest")));
+		CDuiString sUrl = L"http://hook.test/resources/view/index.html";
+		pWeb->Navigate(sUrl);
+	}
 	else if(sName.CompareNoCase(_T("qq_btn")) == 0)
 	{
-		ShellExecute(NULL, _T("open"), _T("tencent://Message/?Uin=656067418&Menu=yes"), NULL, NULL, SW_SHOW);
+		ShellExecute(NULL, _T("open"), _T("tencent://Message/?Uin=125388771&Menu=yes"), NULL, NULL, SW_SHOW);
 	}
 }
 

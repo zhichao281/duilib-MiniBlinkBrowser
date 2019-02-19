@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "WkeWebkit.h"
 #include <Windows.h>
+#include <shlwapi.h>
+#pragma comment(lib, "shlwapi.lib")
 #pragma comment(lib, "imm32.lib")
 #include "../Common/String/NSString.h"
 
@@ -36,7 +38,7 @@ CWkeWebkitUI::CWkeWebkitUI(void)
 	GetModuleFileName(NULL, modulePath, MAX_PATH);
 	_wsplitpath(modulePath, drive, dir, NULL, NULL);
 	_tcscpy(curDir, drive), _tcscat(curDir, dir);
-	_tcscpy(m_chErrUrl, L"file:///"), _tcscat(m_chErrUrl, curDir), _tcscat(m_chErrUrl, L"error.html");
+	_tcscpy(m_chErrUrl, L"file:///"), _tcscat(m_chErrUrl, curDir), _tcscat(m_chErrUrl, L"//error.html");
 }
 
 CWkeWebkitUI::~CWkeWebkitUI(void)
@@ -116,6 +118,8 @@ void CWkeWebkitUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		SetHomePage(pstrValue);
 	}
 }
+
+
 bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 {
 	CControlUI::DoPaint(hDC, rcPaint, pStopControl);
@@ -144,8 +148,16 @@ bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopContro
 
 void CWkeWebkitUI::InitializeWebkit()
 {
-	//// 初始化
-	//wkeSetWkeDllPath(L"node_v8_4_8.dll");
+	// 加载mb的资源
+	CDuiString strResourcePath = CPaintManagerUI::GetInstancePath();
+	CDuiString mbPath = strResourcePath + L"node.dll";
+	//CDuiString mbPath = strResourcePath + L"node_v8_4_8.dll";
+	if (!::PathFileExists(mbPath))
+	{
+		::MessageBoxW(NULL, L"请把node.dll放exe目录下", L"错误", MB_OK);
+		return ;
+	}
+	wkeSetWkeDllPath(mbPath);
 
 	wkeInitialize();
 
@@ -449,24 +461,23 @@ bool  WKE_CALL_TYPE CWkeWebkitUI::onLoadUrlBegin(wkeWebView webView, void* param
 	return false;
 }
 
-
-
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeLoadingFinish(wkeWebView webView, void* param, const wkeString url, wkeLoadingResult result, const wkeString failedReason)
 {
+
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
 	if (!pWkeUI)	return;
 
 	//页面加载失败
-	if (result == WKE_LOADING_FAILED) {
+	if (result == WKE_LOADING_FAILED)
+	{
 		pWkeUI->Navigate(pWkeUI->m_chErrUrl);
 	}
 
-	if (pWkeUI->m_pWkeCallback) {
+	if (pWkeUI->m_pWkeCallback) 
+	{
 		pWkeUI->m_pWkeCallback->OnWkeLoadingFinish(pWkeUI, wkeGetStringT(url), result, wkeGetStringT(failedReason));
 	}
 }
-
-
 
 jsValue WKE_CALL_TYPE  CWkeWebkitUI::onMsg(jsExecState es, void* param)
 {

@@ -75,6 +75,8 @@ private:
 	CBrowserTabBar* m_pBrowserTabBar;
 	CTabLayoutUI* m_pBrowserTabBody;
 
+	CTabLayoutUI* m_pModeMainTab;
+
 	std::vector<TabInfo*> m_vTabs;
 	int m_nTabID;
 };
