@@ -496,6 +496,8 @@ jsValue WKE_CALL_TYPE  CWkeWebkitUI::onMsg(jsExecState es, void* param)
 	msgOutput += "\n";
 	OutputDebugStringA(msgOutput.c_str());
 
+
+
 	if ("close" == msg) 
 	{
 		//blinkClose();
@@ -506,8 +508,64 @@ jsValue WKE_CALL_TYPE  CWkeWebkitUI::onMsg(jsExecState es, void* param)
 	else if ("min" == msg) {
 		//blinkMinimize();
 	}
+	   	 
+	//查找UI对象
+	CWkeWebkitUI *pWkeUI = NULL;
+	wkeWebView pWke = jsGetWebView(es);
+	if (pWke) 
+	{
+		map<wkeWebView, CWkeWebkitUI*>::const_iterator iter = m_mapWke2UI.find(pWke);
+		if (iter != m_mapWke2UI.end()) 
+		{
+			pWkeUI = iter->second;
+		}
+	}
+	if (pWkeUI) 
+	{
+		int nArg = jsArgCount(es);
+		if (nArg >0) {
+			jsValue arg1 = jsArg(es, 0);
+
+			if (jsIsString(arg1)) 
+			{
+			
+#ifdef _UNICODE 
+				wchar_t buf1[16 * 1024] = { 0 };
+				wcsncpy(buf1, jsToTempStringW(es, arg1), 16 * 1024 - 1);
+
+#else
+				char buf1[16 * 1024] = { 0 };
+				strncpy(buf1, jsToTempString(es, arg1), 16 * 1024 - 1);
+			
+#endif
+
+				LPCTSTR lpArg1 = buf1;
+
+				if (wcscmp(lpArg1, L"refresh") == 0) {
+					//本地刷新
+					pWkeUI->Navigate(pWkeUI->m_chCurPageUrl);
+					return jsUndefined();
+				}
+
+				if (pWkeUI->m_pWkeCallback) {
+					LPCTSTR lpRet = pWkeUI->m_pWkeCallback->OnJS2Native(pWkeUI, lpArg1, L"", pWkeUI->m_pListenObj);
+					if (lpRet) {
+#ifdef _UNICODE
+						return jsStringW(es, lpRet);
+#else
+						return jsString(es, lpRet);
+#endif
+					}
+				}
+
+			}
+		}
+	}
 
 	return jsUndefined();
+
+
+
 }
 
 jsValue WKE_CALL_TYPE CWkeWebkitUI::onShellExec(jsExecState es, void* param)

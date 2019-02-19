@@ -72,6 +72,8 @@ void CMainWnd::InitWindow()
 	m_pBrowserTabBody = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("browser_tabbody")));
 	m_pModeMainTab = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("tabModeMain")));
 
+
+
 	if (m_pModeMainTab->GetCurSel() == 1)
 	{
 		// 创建起始页
@@ -142,6 +144,7 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 		CDuiString sUrl = L"http://hook.test/resources/view/index.html";
 		CWkeWebkitUI* pWeb = GetCurWeb();
 		pWeb->Navigate(sUrl);
+	
 	}
 	else if (sName.CompareNoCase(_T("skinbtn")) == 0) 
 	{
@@ -149,6 +152,7 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 		CWkeWebkitUI *pWeb = static_cast<CWkeWebkitUI*>(m_pm.FindControl(_T("wkeTest")));
 		CDuiString sUrl = L"http://hook.test/resources/view/index.html";
 		pWeb->Navigate(sUrl);
+		pWeb->SetWkeCallback(this);
 	}
 	else if(sName.CompareNoCase(_T("qq_btn")) == 0)
 	{
@@ -460,5 +464,33 @@ void CMainWnd::OnWkeLoadingFinish(CWkeWebkitUI* webView, const LPCTSTR url, wkeL
 
 LPCTSTR CMainWnd::OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpContent, void *pListenObj)
 {
+
+	CDuiString strMethod = lpMethod;
+	if (strMethod.CompareNoCase(_T("close")) == 0)
+	{
+		PostQuitMessage(0);
+	}
+	else if (strMethod.CompareNoCase(_T("max")) == 0)
+	{
+		SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+	}
+	else if (strMethod.CompareNoCase(_T("min")) == 0)
+	{
+		SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0);
+	}
+	else if (strMethod.CompareNoCase(_T("move")) == 0)
+	{
+		SendMessage(WM_SYSCOMMAND, SC_MOVE | HTCAPTION, 0);
+	}
+	else if (strMethod.CompareNoCase(_T("menu")) == 0)
+	{
+		m_pModeMainTab->SelectItem(0);
+		// 创建起始页
+		CreateNewTabAndGo(sHomePage);
+	}
+	else
+	{
+		::PostMessage(m_hWnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, 0);
+	}
 	return _T("");
 }
