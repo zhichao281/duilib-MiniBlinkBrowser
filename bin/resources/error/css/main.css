@@ -1,0 +1,51 @@
+/* reset style */
+body,div,p,ul,ol,li,dl,dt,dd,th,td,pre, form, fieldset, input, textarea, p, blockquote,th,td{ margin:0;padding:0;}
+article,aside,dialog,figure,footer,header,legend,nav,section{ margin:0; padding:0; display:block;} 
+h1,h2,h3,h4,h5,h6{margin:0;padding:0;font-weight:normal; font-size:100%;}
+fieldset,img{ border:0;}
+legend{display:none;}
+ul,ol{ list-style:none;}
+q:before,q:after{content:'';}
+address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:normal;}
+caprion,th{ text-align:left;}
+abbr,acronym{border:0;}
+textarea{ resize:none;}
+
+html {overflow-y:hidden; overflow-x:hidden; }
+body{ font-size:12px; font-family:\5FAE\8F6F\96C5\9ED1,\5b8b\4f53,Tahoma,Arial; background:#fff; overflow-y:hidden; overflow-x:hidden;}
+strong{font-weight:normal;}
+a,a:link,a:visited,a:hover,a:active{ color:#464646; text-decoration:none; outline:0; } 
+a:hover{ color:#c74229; text-decoration:underline; }
+a:hidefocus{ outline:none; }
+a:focus { outline:0; } 
+
+/* mini窗口结构  */
+
+.main { margin-left: auto; margin-right: auto; width: 750px; height: 540px; position: relative;  background:#fff url("img/bg.png") no-repeat 0 top; }
+
+.topbar{ height:44px; position:relative; z-index: 8;}
+
+	.logo{  z-index:1;position:absolute; top:8px; left:10px; height:32px; width:130px; background: url("img/skin_top.png") no-repeat 0 0 ;}
+	.top_move{ z-index:2; position:absolute; top:0; left:120px; width:600px; height:44px;  cursor:default; }
+
+	a.close{ display:block; z-index: 3;position: absolute; top: 1px; right: 6px; width:19px; height:21px; overflow:hidden; text-indent:-9999px; background: url("img/skin_top.png") no-repeat;}
+	a.close:link,a.close:visited{background-position:-210px -70px;}
+	a.close:hover{background-position:-210px -100px;}
+	a.close:active{background-position:-210px -100px;}
+
+
+/* 页面加载和网络出错 */
+.loading { display:none; position: absolute; top: 210px; left: 0; width: 100%; padding-top:125px; height: 120px; background: url("img/icon_load.png") no-repeat center 0; }
+.loading p{ margin:0 auto; width:100px; height:30px; line-height:30px; padding-left:40px; font-size:16px; font-family:\5FAE\8F6F\96C5\9ED1,\5b8b\4f53,Tahoma,Arial; color:#696969; background:url("img/loading24.gif") no-repeat 10px center;}	
+
+.network_error {display:none; position: absolute; top: 187px; left: 0; width: 100%; height: 130px; padding-top: 150px; text-align: center; font-family:\5FAE\8F6F\96C5\9ED1,\5b8b\4f53,Tahoma,Arial; background: url("img/icon_info.png") no-repeat center 0; }
+.network_error h3{ margin:0 auto; height:32px; line-height:24px; font-size:24px; color:#4d4d4d; padding-left: 10px; }
+.network_error p{ font-size:18px; color:#696969; padding-left: 10px;} 
+
+a.refresh:link,a.refresh:visited,a.refresh:hover,a.refresh:active{ padding:0 2px;color:#23beff;}
+a.refresh:hover{text-decoration:underline;}
+
+/* a.close:link,a.close:visited,a.close:hover,a.close:active{ display: block; z-index: 3;position: absolute; top: 5px; right: 5px; width: 20px; height: 20px; text-indent: -999px; overflow: hidden; background: url("img/closeimg.png") no-repeat 0 0;}
+a.close:hover{background-position: -20px 0;}
+a.close:active{background-position: -20px 0;}
+ 	 */
