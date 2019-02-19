@@ -38,7 +38,7 @@ CWkeWebkitUI::CWkeWebkitUI(void)
 	GetModuleFileName(NULL, modulePath, MAX_PATH);
 	_wsplitpath(modulePath, drive, dir, NULL, NULL);
 	_tcscpy(curDir, drive), _tcscat(curDir, dir);
-	_tcscpy(m_chErrUrl, L"file:///"), _tcscat(m_chErrUrl, curDir), _tcscat(m_chErrUrl, L"//error.html");
+	_tcscpy(m_chErrUrl, L"file:///"), _tcscat(m_chErrUrl, curDir), _tcscat(m_chErrUrl, L"//resources//error//error.html");
 }
 
 CWkeWebkitUI::~CWkeWebkitUI(void)
@@ -495,19 +495,6 @@ jsValue WKE_CALL_TYPE  CWkeWebkitUI::onMsg(jsExecState es, void* param)
 	msgOutput = msgOutput + msg;
 	msgOutput += "\n";
 	OutputDebugStringA(msgOutput.c_str());
-
-
-
-	if ("close" == msg) 
-	{
-		//blinkClose();
-	}
-	else if ("max" == msg) {
-		//blinkMaximize();
-	}
-	else if ("min" == msg) {
-		//blinkMinimize();
-	}
 	   	 
 	//≤È’“UI∂‘œÛ
 	CWkeWebkitUI *pWkeUI = NULL;

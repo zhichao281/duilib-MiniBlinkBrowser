@@ -7,11 +7,12 @@
     <link type="text/css" rel="stylesheet" href="style.css">
     <link type="text/css" rel="stylesheet" href="animate.css">
     <script src="./vue.js"></script>
+	
 </head>
 
 <body>
     <div id="all">
-        <div id="header" onmousedown="eMsg('move')" ><!--  -->
+        <div id="header" onmousedown="eMsg('move')" ><!--  -->	
             <div class="title" style="-webkit-app-region: drag">Estart</div><!-- 拖拽区域 -->
             <div class="tab" style="-webkit-app-region: drag">
                 <div class="plan p1" :class="{active: plan=='p1'}" @mousedown="plan='p1'">
@@ -60,8 +61,12 @@
 			</div>
 		</div>
     </div>
-    <script>
-    	
+
+    <script type="text/javascript"> 	
+
+
+
+
         //获得启动项目列表返回json字符串 转为对象 用作数据赋值
         var itemList = eItemDummy(); // JSON.parse(eItem());
         var app = new Vue({
@@ -548,6 +553,14 @@
 					}]
 			};
     	}
+		//document.getElementById("title").onmousedown = function()
+		//{
+		//	eMsg("move");        
+      //  };
+	 document.getElementById("title").addEventListener("mousedown",function()
+		{         
+           eMsg("move");
+        },false)
     </script>
 
 </body>

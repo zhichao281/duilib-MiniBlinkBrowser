@@ -38,25 +38,24 @@
                 window.qtWebkitQuery.jsAsynCall(JSON.stringify(data));
             }
         };
-
+	
         document.getElementById("refresh").onclick = function() {
+		eMsg("refresh");
             jsAsynCall({
                 'method': 'RefreshMinisite'
             })
         };
 
         document.getElementById("close").onclick = function(event) {
+		eMsg("close");
             jsAsynCall({
                 'method': 'ClickNotify',
                 'type': 'clickclosebtn'
             })
         };
-
-        document.getElementById("top_move").onmousedown = function() {
-            jsAsynCall({
-                'method': 'ClickNotify',
-                'type': 'hitcaption'
-            })
+        document.getElementById("top_move").onmousedown = function()
+		{
+			eMsg("move");        
         };
     </script>
 </body>

@@ -72,9 +72,7 @@ void CMainWnd::InitWindow()
 	m_pBrowserTabBody = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("browser_tabbody")));
 	m_pModeMainTab = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("tabModeMain")));
 
-
-
-	if (m_pModeMainTab->GetCurSel() == 1)
+	if (m_pModeMainTab->GetCurSel() == 0)
 	{
 		// 创建起始页
 		CreateNewTabAndGo(sHomePage);
@@ -83,7 +81,9 @@ void CMainWnd::InitWindow()
 	{
 		CWkeWebkitUI *pWeb = static_cast<CWkeWebkitUI*>(m_pm.FindControl(_T("wkeTest")));
 		CDuiString sUrl = L"http://hook.test/resources/view/index.html";
+		//CDuiString sUrl = L"file:///E:\study\MiniBlinkBrowser\bin\//resources//error//error.html";
 		pWeb->Navigate(sUrl);
+		pWeb->SetWkeCallback(this);
 	}
 }
 
@@ -252,6 +252,13 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 			 m_pAddressEdit->SetFocus();
 		 }
 	 }
+	 else if (uMsg == WM_LBUTTONDOWN)
+	 {
+	/*	 POINT point = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+		ReleaseCapture();
+		SendMessage(WM_SYSCOMMAND, SC_MOVE + HTCAPTION, 0);*/
+
+	 }
 	 //修改输入法的位置
 	 if (uMsg == WM_IME_STARTCOMPOSITION)
 	 {
@@ -283,6 +290,15 @@ LRESULT CMainWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 		bHandled = TRUE;
 		return 0;
 	}
+	if (wParam == SC_MOVE | HTCAPTION) 
+	{
+	    POINT point = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+		ReleaseCapture();
+		bHandled = FALSE;
+		return 0;
+	}
+
+
 	BOOL bZoomed = ::IsZoomed(*this);
 	LRESULT lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
 	if( ::IsZoomed(*this) != bZoomed ) {
@@ -472,25 +488,28 @@ LPCTSTR CMainWnd::OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpCo
 	}
 	else if (strMethod.CompareNoCase(_T("max")) == 0)
 	{
-		SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+	//	SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+		static bool isMax = true;
+		if (isMax)
+			::PostMessageW(m_hWnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+		else
+			::PostMessageW(m_hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+		isMax = !isMax;
 	}
 	else if (strMethod.CompareNoCase(_T("min")) == 0)
 	{
 		SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0);
 	}
 	else if (strMethod.CompareNoCase(_T("move")) == 0)
-	{
+	{		
 		SendMessage(WM_SYSCOMMAND, SC_MOVE | HTCAPTION, 0);
+		//::PostMessage(m_hWnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, 0);
 	}
 	else if (strMethod.CompareNoCase(_T("menu")) == 0)
 	{
 		m_pModeMainTab->SelectItem(0);
 		// 创建起始页
 		CreateNewTabAndGo(sHomePage);
-	}
-	else
-	{
-		::PostMessage(m_hWnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, 0);
 	}
 	return _T("");
 }
