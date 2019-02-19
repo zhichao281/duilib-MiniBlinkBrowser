@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window >
+  <VerticalLayout name="root" bkimage="file='imgs/main/bg.jpg'">
+    <HorizontalLayout name="header" height="64" >
+      <Container width="64" height="64" bkimage="imgs/logo.png" />
+
+      <VerticalLayout inset="6,0,6,0">
+        <HorizontalLayout name="title_bar" height="24" >
+          <Label name="title" width="300" font="1" text="浏览器（miniblink版） v1.0 alpha" textcolor="#FFEFEFEF"/>
+        </HorizontalLayout>
+        <HorizontalLayout name="browser_tools" inset="0,6,0,6" childpadding="5">
+          <HorizontalLayout width="190">
+            <Button name="back_btn" style="btn_style" text="后退" autocalcwidth="true" />
+            <Button name="forward_btn" style="btn_style" text="前进" autocalcwidth="true" />
+            <Button name="refresh_btn" style="btn_style" text="刷新" autocalcwidth="true" />
+            <Button name="restore_btn" style="btn_style" text="恢复" autocalcwidth="true" />
+            <Button name="home_go" style="btn_style" text="主页" autocalcwidth="true" />
+            <Control />
+          </HorizontalLayout>
+
+          <HorizontalLayout name="address_bar" bordersize="1" bordercolor="#FFAAAAAA" inset="1,1,1,1" >
+            <Edit name="address_edit" tipvalue="请输入网址" tooltip="地址栏" />
+            <Button name="address_go" style="btn_style" text="打开" autocalcwidth="true" />
+          </HorizontalLayout>
+
+          <HorizontalLayout name="search_bar" width="180" minwidth="160" bordersize="1" bordercolor="#FFAAAAAA" inset="1,1,1,1">
+            <Edit name="search_edit" tipvalue="请输入要搜索的关键词" tooltip="搜索栏" />
+            <Button name="search_go" style="btn_style" text="搜索" autocalcwidth="true" />
+          </HorizontalLayout>
+
+          <HorizontalLayout width="120">
+            <Control />
+            <Button name="download_btn" style="btn_style" text="下载" autocalcwidth="true" />
+            <Button name="app_btn" style="btn_style" text="应用" tooltip="演示使用hook的方式" autocalcwidth="true" />
+            <Button name="menu_btn" style="btn_style" text="菜单" autocalcwidth="true" />
+          </HorizontalLayout>
+        </HorizontalLayout>
+      </VerticalLayout>
+    </HorizontalLayout>
+
+    <BrowserTabBar name="browser_tabbar" height="32" childpadding="2" inset="0,4,0,0">
+      <Button name="newtab" width="18" height="18" normalimage="res='newtab' source='0,0,18,18'" hotimage="res='newtab' source='19,0,37,18'" pushedimage="res='newtab' source='38,0,56,18'"/>
+    </BrowserTabBar>
+
+    <VerticalLayout name="body" bkcolor="#FFFFFFFF">
+      <TabLayout name="browser_tabbody" />
+    </VerticalLayout>
+
+    <HorizontalLayout name="foot" height="32">
+    </HorizontalLayout>
+
+    <HorizontalLayout float="0,0,1,0" inset="0,-1,0,0" height="20">
+      <Control />
+
+      <Control />
+      <Button name="menubtn" visible="false" width="28" height="20" tooltip="菜单" normalimage="sysbtn_menu_normal" hotimage="sysbtn_menu_hot" pushedimage="sysbtn_menu_pushed"/>
+      <Button name="skinbtn" width="28" height="20" tooltip="模式切换" normalimage="sysbtn_skin_normal" hotimage="sysbtn_skin_hot" pushedimage="sysbtn_skin_pushed"/>
+      <Button name="minbtn" width="28" height="20" tooltip="最小化" normalimage="sysbtn_mini_normal" hotimage="sysbtn_mini_hot" pushedimage="sysbtn_mini_pushed"/>
+      <Button name="maxbtn" width="28" height="20" tooltip="最大化" normalimage="sysbtn_max_normal" hotimage="sysbtn_max_hot" pushedimage="sysbtn_max_pushed"/>
+      <Button name="restorebtn" width="28" height="20" tooltip="还原" visible="false" normalimage="sysbtn_restore_normal" hotimage="sysbtn_restore_hot" pushedimage="sysbtn_restore_pushed"/>
+      <Button name="closebtn" width="39" height="20" tooltip="关闭" normalimage="sysbtn_close_normal" hotimage="sysbtn_close_hot" pushedimage="sysbtn_close_pushed"/>
+    </HorizontalLayout>
+  </VerticalLayout>
+  
+  
+</Window>
