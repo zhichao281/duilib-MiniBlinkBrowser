@@ -81,7 +81,7 @@
                     let p = this.plan;
                     let item = this.itemList[p][i];
                     //eMsg("close");
-                    eShellExec(item.path, item.par, item.dir);
+                    eShellExec(item.name,item.path, item.par, item.dir);
                     //console.log("执行：", item.name, item.path, item.par, item.dir, p, i);
                 },
                 contextmenu: function (index) {
