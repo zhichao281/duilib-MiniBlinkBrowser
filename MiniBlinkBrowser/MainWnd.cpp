@@ -290,9 +290,9 @@ LRESULT CMainWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 		bHandled = TRUE;
 		return 0;
 	}
-	if (wParam == SC_MOVE | HTCAPTION) 
+	if (wParam == SC_MOVE | HTCAPTION)
 	{
-	    POINT point = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+		POINT point = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 		ReleaseCapture();
 		bHandled = FALSE;
 		return 0;
