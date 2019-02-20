@@ -19,5 +19,6 @@
     <VerticalLayout>
       <WkeWebkit name="wkeTest" homepage="http://hook.test/resources/view/index.html"/>
     </VerticalLayout>
+  
   </TabLayout>
 </Window>

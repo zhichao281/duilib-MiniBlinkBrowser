@@ -60,9 +60,16 @@ public:
 	virtual wkeWebView OnWkeCreateView(CWkeWebkitUI* webView, wkeNavigationType navigationType, const wkeString url, const wkeWindowFeatures* windowFeatures);
 	virtual void OnWkeDocumentReady(CWkeWebkitUI* webView);
 
+	//任何网络请求发起前会触发此回调
 	virtual bool  onLoadUrlBegin(CWkeWebkitUI *webView, void* param, const char* url, void *job);
+
 	virtual void OnWkeLoadingFinish(CWkeWebkitUI* webView, const LPCTSTR url, wkeLoadingResult result, LPCTSTR failedReason);
+
 	virtual LPCTSTR OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpContent, void *pListenObj);
+
+
+	//页面下载事件回调。点击某些链接，触发下载会调用
+	virtual bool  OnWkeDownload(CWkeWebkitUI* webView, const char* url);
 
 private:
 	CButtonUI* m_pCloseBtn;

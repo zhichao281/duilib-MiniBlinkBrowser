@@ -55,6 +55,8 @@ public:
 	virtual void OnWkeDocumentReady(CWkeWebkitUI* webView) {}
 
 	virtual bool  onLoadUrlBegin(CWkeWebkitUI* webView, void* param, const char* url, void *job) { return false; }
+	//页面下载事件回调。点击某些链接，触发下载会调用
+	virtual bool  OnWkeDownload(CWkeWebkitUI* webView,  const char* url) { return false; }
 	
 	virtual void OnWkeLoadingFinish(CWkeWebkitUI* webView, const LPCTSTR url, wkeLoadingResult result, LPCTSTR failedReason) {}
 	   
@@ -162,7 +164,8 @@ private:
 	
 	static void WKE_CALL_TYPE OnWkeLoadingFinish(wkeWebView webView, void* param, const wkeString url, wkeLoadingResult result, const wkeString failedReason);
 	
-	
+
+	static bool  WKE_CALL_TYPE  OnWkeDownload(wkeWebView webView, void* param, const char* url);
 	
 	//内置一个js与本地的函数映射
 	static jsValue JS_CALL JsToNative(jsExecState es);

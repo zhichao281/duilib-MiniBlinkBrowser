@@ -468,11 +468,12 @@ void CMainWnd::OnWkeDocumentReady(CWkeWebkitUI* webView)
 
 }
 
- bool  CMainWnd::onLoadUrlBegin(CWkeWebkitUI *webView, void* param, const char* url, void *job)
+bool  CMainWnd::onLoadUrlBegin(CWkeWebkitUI *webView, void* param, const char* url, void *job)
 {
 	 return true;
 
 }
+
 void CMainWnd::OnWkeLoadingFinish(CWkeWebkitUI* webView, const LPCTSTR url, wkeLoadingResult result, LPCTSTR failedReason)
 {
 
@@ -512,4 +513,12 @@ LPCTSTR CMainWnd::OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpCo
 		CreateNewTabAndGo(sHomePage);
 	}
 	return _T("");
+}
+
+//页面下载事件回调。点击某些链接，触发下载会调用
+bool CMainWnd::OnWkeDownload(CWkeWebkitUI * webView, const char * url)
+{
+
+
+	return false;
 }

@@ -156,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="..\3rd\miniblink\wke.h" />
     <ClInclude Include="..\Common\String\NSString.h" />
+    <ClInclude Include="..\Common\Url\Url.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="MainWnd.h" />
     <ClInclude Include="MsgWnd.h" />
@@ -174,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Common\String\NSString.cpp" />
+    <ClCompile Include="..\Common\Url\Url.cpp" />
     <ClCompile Include="MainWnd.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
