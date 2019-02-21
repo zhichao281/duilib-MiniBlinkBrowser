@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="160,110" layeredimage="file='hintbg.png'">
+    <Font id="0" name="Microsoft YaHei" size="12" bold="false" italic="false" underline="false" />
+    <VerticalLayout width="318" height="213" bkimage="hintbg.png">
+        <HorizontalLayout height="12" />
+        <HorizontalLayout height="20">
+            <Label text="下载时间：" width="85" height="20" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="right" valign="center" />
+            <Label name="downTimeLabel" text="00:00:00" height="20" textpadding="5,0,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="left" valign="center" />
+        </HorizontalLayout>
+        <HorizontalLayout height="20">
+            <Label text="完成大小：" width="85" height="20" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="right" valign="center" />
+            <Label name="downInfoLabel" text="0M/0M" height="20" textpadding="5,0,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="left" valign="center" />
+        </HorizontalLayout>
+        <HorizontalLayout height="20">
+            <Label text="资源数目：" width="85" height="20" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="right" valign="center" />
+            <Label name="resourceCntLabel" text="0/0" height="20" textpadding="5,0,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="left" valign="center" />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Window>

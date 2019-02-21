@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window >
+    <MenuContainer interval="-3" keyevent="true">
+		<MyMenu name="major" width="130" inset="2,2,2,2" height="95"  bkcolor="#ffffffff" major="true">
+		<MenuItem name="menu_undo" height="22" command="menu_undo">
+		        <HorizontalLayout >
+					 <Control width="22"/>
+		            <Label name="menu_label" text="撤销(U)" />
+				 </HorizontalLayout>
+		   </MenuItem>
+		   
+		    <StaticMenuItem  height="3" padding="5,0,5,0">
+		        <VerticalLayout>
+				    <Control height="1" />
+					<Control bkcolor="#ffcdcdcc" height="1"/>
+					<Control />
+		        </VerticalLayout>
+			</StaticMenuItem>
+			
+		   <MenuItem name="menu_cut" height="22" command="menu_cut">
+		        <HorizontalLayout >
+					 <Control width="22"/>
+		            <Label name="menu_label" text="剪切(T)" />
+				 </HorizontalLayout>
+		   </MenuItem>
+		   
+		     <MenuItem name="menu_copy" height="22" command="menu_copy">
+		        <HorizontalLayout>
+					 <Control width="22"/>
+		            <Label name="menu_label" text="复制(C)" />
+				 </HorizontalLayout>
+		   </MenuItem>
+		   
+		    <MenuItem name="menu_paste" height="22"  command="menu_paste">
+		        <HorizontalLayout>
+					 <Control width="22"/>
+		            <Label name="menu_label" text="粘贴(P)" />
+				 </HorizontalLayout>
+		   </MenuItem>
+		</MyMenu>
+	</MenuContainer>
+</Window>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window >
+    <MenuContainer interval="-3" keyevent="true">
+		<MyMenu name="major" width="130" height="120"  bkcolor="#ffffffff" major="true">
+		<MenuItem name="menu_restore" height="40" command="menu_restore">
+		        <HorizontalLayout >
+				     <Control name="ico" bkimage="file='menurestore.png' dest='10,10,30,30'" width="40" height="40" />
+					 <Control name="ico_hover" bkimage="file='menurestore_hover.png' dest='10,10,30,30'" width="40" height="40"  visible="false"/>
+					 <Control width="5"/>
+		            <Label name="menu_label" text="还原" />
+				 </HorizontalLayout>
+		   </MenuItem>
+		    <MenuItem name="menu_del" height="40"  command="menu_del">
+		        <HorizontalLayout>
+				     <Control name="ico" bkimage="file='menudel.png' dest='10,10,30,30'" width="40" height="40" />
+					 <Control name="ico_hover" bkimage="file='menudel_hover.png' dest='10,10,30,30'" width="40" height="40"  visible="false"/>
+					 <Control width="5"/>
+		            <Label name="menu_label" text="删除任务" />
+				 </HorizontalLayout>
+		   </MenuItem>
+		   
+		    <MenuItem name="menu_copylink" height="40"  command="menu_copylink">
+		        <HorizontalLayout>
+				     <Control name="ico" bkimage="file='menucopy.png' dest='10,10,30,30'" width="40" height="40" />
+					 <Control name="ico_hover" bkimage="file='menucopy_hover.png' dest='10,10,30,30'" width="40" height="40"  visible="false"/>
+					 <Control width="5"/>
+		            <Label name="menu_label" text="复制链接地址" />
+				 </HorizontalLayout>
+		   </MenuItem>
+		</MyMenu>
+	</MenuContainer>
+</Window>

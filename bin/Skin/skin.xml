@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="410,650" caption="0,0,0,70" mininfo="400,650">
+    <Font id="1" name="Microsoft YaHei" size="12" bold="false" italic="false" />
+	<Font id="2" name="Arial" size="12" bold="false" italic="false" />
+    <Font id="0" name="Microsoft YaHei" size="14" bold="false" italic="false" default="true" />
+	  <Default name="VScrollBar" value="showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; width=&quot;8&quot; thumbnormalimage=&quot;file='scrollbar.png' source='0,0,8,30' corner='0,4,0,4'&quot; thumbhotimage=&quot;file='scrollbar.png' source='0,0,8,30' corner='0,4,0,4'&quot; thumbpushedimage=&quot;file='scrollbar_hover.png' source='0,0,8,30' corner='0,4,0,4'&quot;" />
+    <VerticalLayout bordersize="1" enabled="true" height="650" bkimage="file=&apos;bg.png&apos; corner=&apos;10,100,10,10&apos; hole=&apos;true&apos;" bkcolor="#FFC0C0C0" bordercolor="#ffbae0c9" inset="1,1,1,1">
+        <HorizontalLayout enabled="true" height="70" bkcolor="#FF22CB64">
+            <HorizontalLayout enabled="true" width="322">
+                <Option name="taskOption" text="任务" float="true" pos="100,0,0,0" enabled="true" width="70" height="70" textpadding="0,40,0,2" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" font="0" align="center" hotimage="tabbar_hover.png" group="quickbar" selected="true" foreimage="file=&apos;task.png&apos; dest=&apos;19,9,51,41&apos;" selectedimage="tabbar_hover.png" />
+                <Option name="finishedOption" text="完成" float="true" pos="170,0,0,0" enabled="true" width="70" height="70" textpadding="0,40,0,2" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" font="0" align="center" hotimage="tabbar_hover.png" pushedimage="tabbar_hover.png" group="quickbar" foreimage="file=&apos;finished.png&apos; dest=&apos;19,9,51,41&apos;" selectedimage="tabbar_hover.png" />
+                <Option name="recycleOption" text="回收站" float="true" pos="240,0,0,0" enabled="true" width="70" height="70" textpadding="0,40,0,2" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" font="0" align="center" hotimage="tabbar_hover.png" pushedimage="tabbar_hover.png" group="quickbar" foreimage="file=&apos;recycle.png&apos; dest=&apos;19,9,51,41&apos;" selectedimage="tabbar_hover.png" />
+                <Label name="logoLabel" float="true" pos="17,0,0,0" enabled="true" width="60" height="70" bkimage="logo.png" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+                <Label name="countLabel" font="2" text="1" float="true" pos="220,5,0,0" enabled="true" width="16" height="16" bkimage="count.png" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" align="center" />
+            </HorizontalLayout>
+            <HorizontalLayout enabled="true" height="70">
+                <Button name="minBtn" float="true" pos="28,0,0,0" enabled="true" width="30" height="28" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;min.png&apos; dest=&apos;9,9,19,19&apos;" hotimage="file=&apos;min_hover.png&apos; dest=&apos;9,9,19,19&apos;" pushedimage="file=&apos;min_press.png&apos; dest=&apos;9,9,19,19&apos;" />
+                <Button name="closeBtn" float="true" pos="58,0,0,0" enabled="true" width="28" height="28" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="close.png" hotimage="close_hover.png" pushedimage="close_press.png" />
+            </HorizontalLayout>
+        </HorizontalLayout>
+        <TabLayout name="mainTab" enabled="true" height="510">
+            <VerticalLayout enabled="true">
+                <HorizontalLayout enabled="true" height="40" bkcolor="#FF5E5E5E" inset="1,0,1,0">
+                    <Button name="newTaskBtn" text="新建任务" float="true" pos="10,5,0,0" enabled="true" width="95" height="30" textpadding="18,0,0,0" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" font="0" align="center" normalimage="file=&apos;new_task.png&apos; dest=&apos;9,9,21,21&apos;" hottextcolor="#0015B956" />
+                    <Label name="splitBtn" float="true" pos="110,15,0,0" enabled="true" width="1" height="10" bkcolor="#FFC0C0C0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+                    <Button name="itemStopBtn" float="true" pos="175,5,0,0" enabled="true" width="30" height="30" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;stop.png&apos; dest=&apos;4,4,26,26&apos;" hotimage="file=&apos;stop_hover.png&apos; dest=&apos;4,4,26,26&apos;" pushedimage="file=&apos;stop_hover.png&apos; dest=&apos;4,4,26,26&apos;" disabledimage="file=&apos;stop_disable.png&apos; dest=&apos;4,4,26,26&apos;"/>
+                    <Button name="itemDeleteBtn" float="true" pos="215,5,0,0" enabled="true" width="30" height="30" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;delete.png&apos; dest=&apos;4,4,26,26&apos;" hotimage="file=&apos;delete_hover.png&apos; dest=&apos;4,4,26,26&apos;" pushedimage="file=&apos;delete_hover.png&apos; dest=&apos;4,4,26,26&apos;" disabledimage="file=&apos;delete_disable.png&apos; dest=&apos;4,4,26,26&apos;" />
+                    <Button name="startAllBtn" text="全部开始" float="true" pos="330,5,0,0" enabled="true" width="70" height="30" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" font="0" align="center" hottextcolor="#0015B956" />
+                    <Button name="itemStartBtn" float="true" pos="135,5,0,0" enabled="true" width="30" height="30" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;start.png&apos; dest=&apos;4,4,26,26&apos;" hotimage="file=&apos;start_hover.png&apos; dest=&apos;4,4,26,26&apos;" pushedimage="file=&apos;start_hover.png&apos; dest=&apos;4,4,26,26&apos;" disabledimage="file=&apos;start_disable.png&apos; dest=&apos;4,4,26,26&apos;"/>
+                </HorizontalLayout>
+                <List name="taskList" virtualwnd="taskListVrtualwnd" bordersize="1" enabled="true" bkcolor="#FFffffff" itemtextcolor="#FF000000" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFe4f4ea" itemhottextcolor="#FF000000" itemhotbkcolor="#FFe8f5ed" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF" header="hidden" inset="3,3,3,3" vscrollbar="true" hscrollbar="true" bkimage="file='null_bgk.png' dest='101,107,301,357'">
+                    <ListHeader />
+                </List>
+            </VerticalLayout>
+            <List name="finishedList" virtualwnd="finishedListVrtualwnd" bordersize="1" enabled="true" bkcolor="#FFffffff" itemtextcolor="#FF000000" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFe4f4ea" itemhottextcolor="#FF000000" itemhotbkcolor="#FFe8f5ed" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF" header="hidden" inset="3,3,3,3" vscrollbar="true" hscrollbar="true" bkimage="file='null_bgk.png' dest='101,127,301,377'">
+                <ListHeader />
+            </List>
+            <List name="recycleList" virtualwnd="recycleListVrtualwnd" bordersize="1" enabled="true" bkcolor="#FFffffff" itemtextcolor="#FF000000" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFe4f4ea" itemhottextcolor="#FF000000" itemhotbkcolor="#FFe8f5ed" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF" header="hidden" inset="3,3,3,3" vscrollbar="true" hscrollbar="true" bkimage="file='null_bgk.png' dest='101,127,301,377'">
+                <ListHeader />
+            </List>
+        </TabLayout>
+        <HorizontalLayout enabled="true" width="408" bkcolor="#FFFFFFFF">
+            <Button name="clearBtn" text="一键清空" float="true" pos="297,21,0,0" enabled="true" width="89" height="30" textpadding="18,0,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="center" normalimage="file=&apos;clear.png&apos; dest=&apos;6,6,24,24&apos;" hottextcolor="#0015B956" />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Window>

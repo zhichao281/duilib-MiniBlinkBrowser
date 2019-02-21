@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="1200,400" sizebox="4,4,4,4" caption="0,0,0,35" roundcorner="4,4">
+    <Font name="Microsoft YaHei" size="12" bold="false" italic="false" underline="false" />
+    <VerticalLayout width="405" height="311" bkcolor="#FF1E1E1E">
+        <HorizontalLayout height="35">
+            <HorizontalLayout height="35">
+                <Text text="测试程序" float="true" pos="16,6,0,0" width="166" height="24" textpadding="2,0,2,0" textcolor="#00FFFBF0" disabledtextcolor="#FFA7A6AA" align="left" valign="center" />
+            </HorizontalLayout>
+            <HorizontalLayout width="45" height="35">
+                <Button name="closeBtn" float="true" pos="5,5,0,0" width="25" height="25" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" valign="center" normalimage="file=&apos;close_dlg.png&apos; dest=&apos;7,7,18,18&apos;" hotimage="file=&apos;close_hover_dlg.png&apos; dest=&apos;7,7,18,18&apos;" pushedimage="file=&apos;close_press_dlg.png&apos; dest=&apos;7,7,18,18&apos;" />
+            </HorizontalLayout>
+        </HorizontalLayout>
+        <List name="taskInfoList" bkcolor="#FFFFFFFF" itemtextcolor="#FF000000" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFC1E3FF" itemhottextcolor="#FF000000" itemhotbkcolor="#FFE9F5FF" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF" itemalign="center">
+            <ListHeader height="24">
+                <ListHeaderItem text="id" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="文件名" width="90" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  总大小" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  已经下载大小" width="100" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  下载状态" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  已经下载时间" width="100" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  下载速度" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  是否打开过" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  链接数" width="60" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  下载目录" width="120" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  下载链接地址" width="120" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  下载类型" width="60" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  唯一标识符" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  上传大小" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  taskId" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+                <ListHeaderItem text="  szFilePriorities" width="100" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+				<ListHeaderItem text="  bIsMultiFile" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+				<ListHeaderItem text="  bIsAutoRun" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" sepimage="file=&apos;list_header_sep.png&apos;" />
+            </ListHeader>
+        </List>
+    </VerticalLayout>
+</Window>

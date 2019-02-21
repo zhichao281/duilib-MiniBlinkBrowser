@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window>
+    <ListContainerElement>
+        <HorizontalLayout width="500" height="281">
+            <Label name="downFileNameLabel" endellipsis="true" float="true" pos="15,9,0,0" width="295" height="21" textpadding="5,0,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="left" valign="center" />
+            <Label name="totalSizeLabel" text="0M" float="true" pos="310,9,0,0" width="69" height="21" textcolor="#00999999" disabledtextcolor="#FFA7A6AA" align="right" valign="center" />
+            <Button name="deleteFileBtn" float="true" pos="15,30,0,0" width="21" height="19" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" valign="center" normalimage="file=&apos;delete_item.png&apos; dest=&apos;2,2,19,19&apos;" hotimage="file=&apos;delete_item_hover.png&apos; dest=&apos;2,2,19,19&apos;" />
+            <Button name="restoreBtn" text="还原" float="true" pos="325,30,0,0" width="55" height="21" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="right" valign="center" hottextcolor="#0015B956" />
+        </HorizontalLayout>
+    </ListContainerElement>
+</Window>

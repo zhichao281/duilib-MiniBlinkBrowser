@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+	<Font shared="true" id="0"  name="微软雅黑" size="12" bold="false" />
+	<Font shared="true" id="1"  name="微软雅黑" size="13" bold="false" />
+	<Font shared="true" id="2"  name="微软雅黑" size="14" bold="false" />
+	<Font shared="true" id="3"  name="微软雅黑" size="15" bold="false"/>
+	<Font shared="true" id="4"  name="微软雅黑" size="16" bold="false" />
+	<Font shared="true" id="5"  name="微软雅黑" size="18" bold="false" />
+	<Font shared="true" id="6"  name="微软雅黑" size="13" bold="true"  />
+	<Font shared="true" id="7"  name="微软雅黑" size="12" underline="true"  />
+    <Font shared="true" id="8"  name="微软雅黑" size="16" bold="true"/>
+	<Font shared="true" id="9"  name="微软雅黑" size="12" bold="true"/>
+	<Font shared="true" id="10"  name="微软雅黑" size="11" bold="false"/>
+</Window>

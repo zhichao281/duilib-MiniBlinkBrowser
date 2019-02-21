@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window>
+
+  <Default name="VScrollBar" shared="true" value="width=&quot;8&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; thumbnormalimage=&quot;file='common/vscrollbar.png' source='0,60,8,100' corner='0,4,0,4'&quot; thumbhotimage=&quot;file='common/vscrollbar.png' source='8,60,16,100' corner='0,4,0,4'&quot; thumbpushedimage=&quot;file='common/vscrollbar.png' source='16,60,24,100' corner='0,4,0,4'&quot; railnormalimage=&quot;&quot; railhotimage=&quot;&quot; railpushedimage=&quot;&quot; raildisabledimage=&quot;&quot; bknormalimage=&quot;file='common/vscrollbar.png' source='0,0,8,60' corner='0,4,0,4'&quot; bkhotimage=&quot;&quot; bkpushedimage=&quot;&quot; bkdisabledimage=&quot;&quot; "/>
+  <Default name="HScrollBar" shared="true" value="height=&quot;8&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; thumbnormalimage=&quot;file='common/hscrollbar.png' source='0,0,32,8' corner='4,0,4,0'&quot; thumbhotimage=&quot;file='common/hscrollbar.png' source='0,8,32,16' corner='4,0,4,0'&quot; thumbpushedimage=&quot;file='common/hscrollbar.png' source='0,16,32,24' corner='4,0,4,0'&quot; railnormalimage=&quot;&quot; railhotimage=&quot;&quot; railpushedimage=&quot;&quot; raildisabledimage=&quot;&quot; bknormalimage=&quot;file='common/hscrollbar.png' source='0,0,32,8' corner='4,0,4,0'&quot; bkhotimage=&quot;&quot; bkpushedimage=&quot;&quot; bkdisabledimage=&quot;&quot; "/>
+
+  <!-- Menu样式 -->
+  <Default name="Menu" value="itemfont=&quot;5&quot; inset=&quot;0,0,0,0&quot; itemtextpadding=&quot;25,0,25,0&quot; itemselectedtextcolor=&quot;0xffffffff&quot; itemdisabledbkcolor=&quot;0x00ffffff&quot; itemdisabledtextcolor=&quot;0xFFA7A7AB&quot; itemselectedbkcolor=&quot;0xff00A4FF&quot; itemhottextcolor=&quot;0xffffffff&quot; itembkcolor=&quot;0xffffffff&quot;" />
+  <!-- ExplandIcon样式 -->
+  <Default name="ExplandIcon" value="common/menu/menu_expand.png" />
+  
+ <Style name="treenode_folder_style" value="padding=&quot;10,1,0,0&quot; width=&quot;16&quot; height=&quot;16&quot; normalimage=&quot;file='common/treeview_b.png' source='0,0,16,16' &quot; hotimage=&quot;file='common/treeview_b.png' source='16,0,32,16' &quot; selectedimage=&quot;file='common/treeview_a.png' source='0,0,16,16' &quot; selectedhotimage=&quot;file='common/treeview_a.png' source='16,0,32,16' &quot;"/>
+ 
+ <Style name="treenode_checkbox_style" value="width=&quot;14&quot; height=&quot;14&quot; normalimage=&quot;file='common/check_hover.png' dest='0,1,14,15'&quot; selectedimage=&quot;file='common/checked_normal.png' dest='0,1,14,15'&quot;" />
+ <!--folderattr=&quot;treenode_folder_style&quot; -->
+ <Style name="treeview_style" value="checkboxattr=&quot;treenode_checkbox_style&quot;" />
+
+ <Style name="listex_item_style" value="checkboxwidth=&quot;16&quot; checkboxheight=&quot;16&quot; checkboxnormalimage=&quot;file='common/unchecked.png'&quot; checkboxselectedimage=&quot;file='common/checked.png'&quot;"/>
+
+  <Style name="list_style" value="headerbkimage=&quot;res='common/list_header_bg.png'&quot; itemalign=&quot;center&quot; itemlinecolor=&quot;#FF888888&quot; itemshowrowline=&quot;true&quot; itemshowcolumnline=&quot;true&quot;" />
+</Window>

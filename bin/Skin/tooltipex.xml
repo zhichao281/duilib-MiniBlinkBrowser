@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="80,30" roundcorner="2,2">
+    <Font  id="0" name="Microsoft YaHei" size="12" bold="false" italic="false" underline="false" />
+    <HorizontalLayout width="108" height="21">
+        <Label name="tipsLabel" float="true" pos="0,0,0,0" width="80" height="30" bkcolor="#FF1E1E1E" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" font="0" align="center" valign="center" />
+    </HorizontalLayout>
+</Window>

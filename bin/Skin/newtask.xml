@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="450,375" caption="0,0,0,35" roundcorner="4,4">
+    <Font id="1" name="Microsoft YaHei" size="12" bold="false" italic="false" underline="false" />
+    <Font id="0" name="Microsoft YaHei" size="14" bold="false" italic="false" underline="false" default="true" />
+    <Default name="VScrollBar" value="showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; width=&quot;8&quot; thumbnormalimage=&quot;file=&apos;scrollbar.png&apos; source=&apos;0,0,8,30&apos; corner=&apos;0,4,0,4&apos;&quot; thumbhotimage=&quot;file=&apos;scrollbar.png&apos; source=&apos;0,0,8,30&apos; corner=&apos;0,4,0,4&apos;&quot; thumbpushedimage=&quot;file=&apos;scrollbar_hover.png&apos; source=&apos;0,0,8,30&apos; corner=&apos;0,4,0,4&apos;&quot;" />
+    <VerticalLayout width="518" height="335" bkcolor="#FFFFFFFF">
+        <HorizontalLayout height="35" bkcolor="#FF5E5E5E">
+            <Label text="新建下载任务" float="true" pos="25,0,0,0" width="90" height="35" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" font="0" align="left" valign="center" />
+            <Button name="closeBtn" float="true" pos="410,5,0,0" width="25" height="25" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" valign="center" normalimage="file=&apos;close_dlg.png&apos; dest=&apos;7,7,18,18&apos;" hotimage="file=&apos;close_hover_dlg.png&apos; dest=&apos;7,7,18,18&apos;" pushedimage="file=&apos;close_press_dlg.png&apos; dest=&apos;7,7,18,18&apos;" />
+        </HorizontalLayout>
+        <HorizontalLayout height="25" />
+        <HorizontalLayout height="130">
+            <RichEdit name="httpUrlEdit" bordersize="1" float="true" pos="25,0,0,0" width="400" height="131" textpadding="5,5,5,5" bordercolor="#00C3E6D1" vscrollbar="true" autovscroll="true" font="1" align="left" placeholdertext="请输入下载链接" placeholdertextcolor="#ffD0D0D0"/>
+        </HorizontalLayout>
+        <HorizontalLayout height="30">
+            <HorizontalLayout width="25" height="30" />
+            <HorizontalLayout width="400" height="30" bkcolor="#FFE2F3E9">
+                <Button name="newHttpBtn" text="添加http任务" float="true" pos="1,0,0,0" width="197" height="29" bkcolor="#FF78c999" enabled="false" textcolor="#00666666" disabledtextcolor="#00FFFFFF" font="0" align="center" valign="center" hottextcolor="#00333333" />
+                <Label visible="false" float="true" pos="199,10,0,0" width="1" height="10" bkcolor="#FF808080" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="left" valign="center" />
+                <Button name="newBTBtn" text="添加BT任务" float="true" pos="200,0,0,0" width="199" height="29" textcolor="#00666666" disabledtextcolor="#FFA7A6AA" font="0" align="center" valign="center" hottextcolor="#00333333" />
+                <Label float="true" pos="0,0,0,0" width="1" height="30" bkcolor="#FFC3E6D1" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="left" valign="center" />
+                <Label float="true" pos="0,29,0,0" width="400" height="1" bkcolor="#FFD1E6C3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="left" valign="center" />
+                <Label float="true" pos="399,0,0,0" width="1" height="30" bkcolor="#FFD1E6C3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="left" valign="center" />
+            </HorizontalLayout>
+        </HorizontalLayout>
+        <HorizontalLayout height="25" />
+        <HorizontalLayout height="30">
+            <Combo name="historyCombo" bordersize="1" float="true" pos="24,0,0,0" width="400" height="30" bordercolor="#00C3E6D1" itemtextpadding="5,0,0,0" itemtextcolor="#FF000000" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFC1E3FF" itemhottextcolor="#FF000000" itemhotbkcolor="#FFE9F5FF" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF" normalimage="file=&apos;down.png&apos; dest=&apos;334,3,359,28&apos;" dropboxsize="0,150" />
+            <Edit name="historyEdit" readonly="true" float="true" pos="25,1,0,0" width="260" height="28" bkcolor="#FFFFFFFF" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="left" valign="center" nativebkcolor="#00FFFFFF" />
+            <Label name="capacityLabel" text="剩余：125G" float="true" pos="284,0,0,0" width="74" height="30" textcolor="#00666666" disabledtextcolor="#FFA7A6AA" font="1" align="right" valign="center" />
+            <Label float="true" pos="383,10,0,0" width="1" height="10" bkcolor="#FFC0C0C0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="left" valign="center" />
+            <Button name="dirBtn" float="true" pos="384,0,0,0" width="40" height="30" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" valign="center" normalimage="file=&apos;dir.png&apos; dest=&apos;9,4,31,26&apos;" hotimage="file=&apos;dir_hover.png&apos; dest=&apos;9,4,31,26&apos;" pushedimage="file=&apos;dir_press.png&apos; dest=&apos;9,4,31,26&apos;" />
+        </HorizontalLayout>
+        <HorizontalLayout>
+            <Button name="startBtn" text="立即下载" float="true" pos="143,30,0,0" width="165" height="40" bkcolor="#FF22CB64" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" font="0" align="center" valign="center" />
+        </HorizontalLayout>
+    </VerticalLayout>
+</Window>

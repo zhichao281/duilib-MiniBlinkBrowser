@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window  size="380,180" caption="0,0,0,380" >
+
+	 <Include source="Font.xml" />
+   <Include source="Default.xml" />
+	<VerticalLayout bkcolor="#ffffffff" hole="true" bordersize="1" bordercolor="#ff7e7e7e" inset="1,1,1,1">
+		 <!-- 标题部分 -->
+        <HorizontalLayout height="30" >
+			<Control width="10"/>
+			<HorizontalLayout>
+				<Label name="MessageTitle" text="" textcolor="#FF000000" width="150" font="2" />
+			 </HorizontalLayout>
+			<HorizontalLayout width="30" inset="0,0,0,0">	 
+			<Button name="btnClose"
+					normalimage="file='imgs/titlebar/frame_btn_exit_s.png' source='0,0,30,30'" 
+					hotimage="file='imgs/titlebar/frame_btn_exit_s.png' source='30,0,60,30'" 
+					pushedimage="file='imgs/titlebar/frame_btn_exit_s.png' source='60,0,90,30'" cursor="hand" />
+			</HorizontalLayout>
+		</HorizontalLayout>
+		
+		<!-- 中间部分 -->
+		<HorizontalLayout bkcolor="#ffffffff" inset="5,1,1,5">
+		  <VerticalLayout >
+		  <HorizontalLayout height="10" />
+			<HorizontalLayout height="40" >
+				 <Control width="20" />
+				<Control bkimage="file='imgs/common/MsgBoxIcon.png' source='0,0,42,40'" width="42" height="40" />
+				<Control width="10" />
+				<Label name="MessageText" text="" textcolor="#FF383838" autocalcwidth="true" font="0" />
+			</HorizontalLayout>
+		  </VerticalLayout >
+		</HorizontalLayout>
+		
+		
+		<HorizontalLayout height="35" bkcolor="#FFEAEAEA">
+
+			<HorizontalLayout />
+			<Button name="btnOk" text="确定" width="70" height="25" font="0" padding="0,5,0,0" textcolor="#ff000000"
+				normalimage="imgs/common/button_normal.png" 
+				hotimage="imgs/common/button_hover.png" 
+				pushedimage="imgs/common/button_pushed.png"
+				disabledimage="imgs/common/button_normal.png'" cursor="hand" />
+				<Control width="5" />
+			<Button name="btnCancel" text="取消" width="70" height="25" font="0" padding="0,5,0,0" textcolor="#ff000000"
+				normalimage="imgs/common/button_normal.png" 
+				hotimage="imgs/common/button_hover.png" 
+				pushedimage="imgs/common/button_pushed.png"
+				disabledimage="imgs/common/button_normal.png" cursor="hand" visible="true"/>
+			<Control width="10" />
+		</HorizontalLayout>
+		
+	</VerticalLayout>
+	
+</Window>

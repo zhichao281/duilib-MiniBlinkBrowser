@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window>
+    <ListContainerElement>
+        <HorizontalLayout width="500" height="281">
+            <Label name="downFileNameLabel" endellipsis="true" float="true" pos="70,9,0,0" width="240" height="21" textpadding="5,0,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="left" valign="center" />
+            <Label name="totalSizeLabel" text="0M" float="true" pos="310,9,0,0" width="69" height="21" textcolor="#00999999" disabledtextcolor="#FFA7A6AA" align="right" valign="center" />
+            <Label name="finishedLabel" float="true" pos="15,9,0,0" width="42" height="42" bkimage="finished_state.png" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="left" valign="center" />
+            <Button name="openFileBtn" text="打开" float="true" pos="70,30,0,0" width="65" height="21" textpadding="15,0,0,0" textcolor="#00666666" disabledtextcolor="#FFA7A6AA" align="center" valign="center" normalimage="file=&apos;fileopen_btn.png&apos; dest=&apos;2,2,18,18&apos;" />
+            <Button name="openFolderBtn" text="文件夹" float="true" pos="135,30,0,0" width="65" height="21" textpadding="15,0,0,0" textcolor="#00666666" disabledtextcolor="#FFA7A6AA" align="center" valign="center" normalimage="file=&apos;folderopen_btn.png&apos; dest=&apos;2,2,18,18&apos;" />
+            <Button name="deleteFileBtn" float="true" pos="358,30,0,0" width="21" height="19" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" valign="center" normalimage="file=&apos;delete_item.png&apos; dest=&apos;2,2,19,19&apos;" hotimage="file=&apos;delete_item_hover.png&apos; dest=&apos;2,2,19,19&apos;" />
+        </HorizontalLayout>
+    </ListContainerElement>
+</Window>

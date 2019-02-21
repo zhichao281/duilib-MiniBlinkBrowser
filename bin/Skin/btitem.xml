@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window>
+    <ListHBoxElement>
+        <HorizontalLayout height="26">
+            <Label name="leftOffset" width="26" height="26" float="false" />
+            <Button name="expandBtn" width="26" height="26" float="false" />
+            <HorizontalLayout width="46" height="26">
+                <Label name="downCheck" float="true" pos="5,5,0,0" width="16" height="16" />
+                <Icon name="iconLabel" float="true" pos="25,5,0,0" width="16" height="16" />
+            </HorizontalLayout>
+            <Label name="fileNameLabel" height="26" textcolor="#FF333333" disabledtextcolor="#FFA7A6AA" font="2" align="left" valign="center" endellipsis="true" />
+        </HorizontalLayout>
+        <HorizontalLayout width="60" height="26">
+            <Label name="typeLabel" width="60" height="26" textcolor="#FF333333" disabledtextcolor="#FFA7A6AA" font="2" align="center" valign="center" />
+        </HorizontalLayout>
+        <HorizontalLayout width="90" height="26">
+            <Label name="sizeLabel" width="90" height="26" textcolor="#FF333333" disabledtextcolor="#FFA7A6AA" font="2" align="center" valign="center" />
+        </HorizontalLayout>
+    </ListHBoxElement>
+</Window>
