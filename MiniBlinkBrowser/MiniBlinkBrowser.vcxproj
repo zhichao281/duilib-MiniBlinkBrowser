@@ -157,14 +157,18 @@
     <ClInclude Include="..\3rd\miniblink\wke.h" />
     <ClInclude Include="..\Common\String\NSString.h" />
     <ClInclude Include="..\Common\Url\Url.h" />
+    <ClInclude Include="Define.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="MainWnd.h" />
-    <ClInclude Include="MsgWnd.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SqliteDB\SqliteDB.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TroyControls.h" />
+    <ClInclude Include="UI\MiniControls.h" />
+    <ClInclude Include="UI\MsgWnd.h" />
     <ClInclude Include="WkeWebkit.h" />
+    <ClInclude Include="xldl.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MiniBlinkBrowser.rc" />
@@ -179,12 +183,12 @@
     <ClCompile Include="MainWnd.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="MsgWnd.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="SqliteDB\SqliteDB.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="UI\MiniControls.cpp" />
+    <ClCompile Include="UI\MsgWnd.cpp" />
     <ClCompile Include="WkeDemo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -195,7 +199,9 @@
   <ItemGroup>
     <Xml Include="..\bin\Skin\main.xml" />
     <Xml Include="..\bin\Skin\browser.xml" />
-    <Xml Include="..\bin\Skin\msg.xml" />
+    <Xml Include="..\bin\Skin\MsgBox.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="..\bin\Skin\res.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

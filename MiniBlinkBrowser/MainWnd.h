@@ -30,6 +30,8 @@ public:
 	virtual CDuiString GetSkinFile();
 	virtual LPCTSTR GetWindowClassName( void ) const;
 
+	virtual CControlUI* CreateControl(LPCTSTR pstrClass);
+
 	DUI_DECLARE_MESSAGE_MAP()
 	virtual void OnClick(TNotifyUI& msg);
 	virtual void OnSelectChanged( TNotifyUI &msg );

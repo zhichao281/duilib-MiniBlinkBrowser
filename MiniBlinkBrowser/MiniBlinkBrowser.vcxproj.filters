@@ -31,15 +31,24 @@
     <Filter Include="Common\Url">
       <UniqueIdentifier>{ab5bb386-9cf1-4cac-9651-ace93dad65dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\UI">
+      <UniqueIdentifier>{bed3b384-ed3f-41b5-96e2-06dd7994d74f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\UI">
+      <UniqueIdentifier>{d37f488c-59a4-4f7e-bc69-1450f5972579}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SqliteDB">
+      <UniqueIdentifier>{2f150f53-be93-4b15-a6c4-7691612b4dcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\SqliteDB">
+      <UniqueIdentifier>{efc79254-88a0-4ee5-8f7a-3c7163fba5d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helpers.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MainWnd.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="MsgWnd.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -66,6 +75,21 @@
     <ClInclude Include="..\Common\Url\Url.h">
       <Filter>Common\Url</Filter>
     </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xldl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\MsgWnd.h">
+      <Filter>头文件\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SqliteDB\SqliteDB.h">
+      <Filter>头文件\SqliteDB</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\MiniControls.h">
+      <Filter>头文件\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MiniBlinkBrowser.rc">
@@ -84,9 +108,6 @@
     <ClCompile Include="MainWnd.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="MsgWnd.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="StdAfx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -102,18 +123,27 @@
     <ClCompile Include="..\Common\Url\Url.cpp">
       <Filter>Common\Url</Filter>
     </ClCompile>
+    <ClCompile Include="UI\MsgWnd.cpp">
+      <Filter>源文件\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SqliteDB\SqliteDB.cpp">
+      <Filter>源文件\SqliteDB</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\MiniControls.cpp">
+      <Filter>源文件\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\bin\Skin\main.xml">
-      <Filter>资源文件\xmls</Filter>
-    </Xml>
-    <Xml Include="..\bin\Skin\msg.xml">
       <Filter>资源文件\xmls</Filter>
     </Xml>
     <Xml Include="..\bin\Skin\res.xml">
       <Filter>资源文件\xmls</Filter>
     </Xml>
     <Xml Include="..\bin\Skin\browser.xml">
+      <Filter>资源文件\xmls</Filter>
+    </Xml>
+    <Xml Include="..\bin\Skin\MsgBox.xml">
       <Filter>资源文件\xmls</Filter>
     </Xml>
   </ItemGroup>

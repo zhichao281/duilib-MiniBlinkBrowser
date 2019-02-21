@@ -1,6 +1,9 @@
 #include "StdAfx.h"
 #include "MainWnd.h"
 #include "resource.h"
+#include "UI/MsgWnd.h"
+
+#include "UI/MiniControls.h"
 #include <algorithm>
 #include <ShellAPI.h>
 
@@ -98,13 +101,27 @@ LPCTSTR CMainWnd::GetWindowClassName( void ) const
 	return _T("MainWnd");
 }
 
+CControlUI* CMainWnd::CreateControl(LPCTSTR pstrClass)
+{
+	if (_tcsicmp(pstrClass, DUI_CTR_ICON) == 0)
+	{
+		CControlUI* pUI = new CIconUI();
+		return pUI;
+	}
+}
+
 void CMainWnd::OnClick( TNotifyUI &msg )
 {
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
 
-	if( msg.pSender == m_pCloseBtn ) {
-		PostQuitMessage(0);
+	if( msg.pSender == m_pCloseBtn )
+	{
+		int  ret= CMsgWnd::MessageBox(m_hWnd, _T("提示信息"), _T("你确定要退出吗?"));
+	if(ret== MSGID_OK)
+		{
+			PostQuitMessage(0);
+		}
 		return; 
 	}
 	else if( msg.pSender == m_pMinBtn ) { 

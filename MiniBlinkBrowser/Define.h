@@ -3,7 +3,7 @@
 
 
 #include "stdafx.h"
-#include "MiniControls.h"
+#include "UI/MiniControls.h"
 #include <map>
 #include <vector>
 #include <list>
