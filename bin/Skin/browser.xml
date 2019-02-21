@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <Window >
-  <VerticalLayout name="root" bkimage="file='imgs/main/bg.jpg'">
-    <HorizontalLayout name="header" height="64" >
+  <VerticalLayout name="root" bkimage="file='imgs/main/bg.jpg'" bkcolor="#FF006EDF">
+    <HorizontalLayout name="header" height="64" bkcolor="#FF006EDF">
       <Container width="64" height="64" bkimage="imgs/logo.png" />
 
-      <VerticalLayout inset="6,0,6,0">
+      <VerticalLayout inset="6,0,6,0"  >
         <HorizontalLayout name="title_bar" height="24" >
           <Label name="title" width="300" font="1" text="浏览器（miniblink版） v1.0 alpha" textcolor="#FFEFEFEF"/>
         </HorizontalLayout>
@@ -38,7 +38,7 @@
       </VerticalLayout>
     </HorizontalLayout>
 
-    <BrowserTabBar name="browser_tabbar" height="32" childpadding="2" inset="0,4,0,0">
+    <BrowserTabBar name="browser_tabbar" height="32" childpadding="2" inset="0,4,0,0" bkcolor="#FF006EDF">
       <Button name="newtab" width="18" height="18" normalimage="res='newtab' source='0,0,18,18'" hotimage="res='newtab' source='19,0,37,18'" pushedimage="res='newtab' source='38,0,56,18'"/>
     </BrowserTabBar>
 
@@ -46,7 +46,7 @@
       <TabLayout name="browser_tabbody" />
     </VerticalLayout>
 
-    <HorizontalLayout name="foot" height="32">
+    <HorizontalLayout name="foot" height="32" bkcolor="#FF006EDF">
     </HorizontalLayout>
 
     <HorizontalLayout float="0,0,1,0" inset="0,-1,0,0" height="20">
