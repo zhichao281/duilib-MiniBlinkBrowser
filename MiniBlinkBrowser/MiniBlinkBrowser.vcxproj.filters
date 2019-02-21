@@ -146,5 +146,11 @@
     <Xml Include="..\bin\Skin\MsgBox.xml">
       <Filter>资源文件\xmls</Filter>
     </Xml>
+    <Xml Include="..\bin\Skin\Default.xml">
+      <Filter>资源文件\xmls</Filter>
+    </Xml>
+    <Xml Include="..\bin\Skin\Font.xml">
+      <Filter>资源文件\xmls</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
