@@ -14,9 +14,7 @@
       <Button name="closebtn" float="false"   height="20" width="39" normalimage="sysbtn_close_normal" hotimage="sysbtn_close_hot" pushedimage="sysbtn_close_pushed"/>
     </HorizontalLayout>
 
-    <!-- 客户区域-->
-    <HorizontalLayout name="tabbar" padding="0,5,0,0" height="37">
-    </HorizontalLayout>
+
     <!--tab选项卡-->
     <TabLayout name="main_Tablayout" bkcolor="#FFEAEAEA">
       <VerticalLayout name="tabOpt1">
@@ -32,14 +30,16 @@
         <!--水平布局-->
         <HorizontalLayout padding="10,5,10,10">
           <VerticalLayout>
-            <List name="listViewEx" bkcolor="#FFFFFFFF" itemshowhtml="true"  vscrollbar="true" hscrollbar="true" headerbkimage="file='list_header_bg.png'" itemalign="center" itembkcolor="#FFFFFFFF" hscrollbar="true" menu="true">
+            <List name="listViewEx" bkcolor="#FFFFFFFF" itemshowhtml="true"  vscrollbar="true" hscrollbar="true" headerbkimage="file='list_header_bg.png'" itemalign="center" itembkcolor="#FFFFFFFF" menu="true">
               <ListHeader height="24" menu="true">
                 <ListHeaderItem text="序号" font="1" width="30" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
-                <ListHeaderItem text="文件名称" font="1" width="200" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
-                <ListHeaderItem text="下载进度" font="1" width="200" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
-                <ListHeaderItem text="下载速度" font="1" width="200" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
-                <ListHeaderItem text="下载状态" font="1" width="200" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+                <ListHeaderItem text="文件名称" font="1" width="100" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+                <ListHeaderItem text="下载进度条" font="1" width="200" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+                <ListHeaderItem text="下载进度" font="1" width="100" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+                <ListHeaderItem text="下载速度" font="1" width="100" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
+                <ListHeaderItem text="下载状态" font="1" width="100" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
               </ListHeader>
+              <Include source="downitem.xml"/>
             </List>
           </VerticalLayout>
         </HorizontalLayout>
@@ -70,5 +70,9 @@
         </HorizontalLayout>
       </VerticalLayout>
     </TabLayout>
+
+    <!-- 客户区域-->
+    <HorizontalLayout name="tabbar" padding="0,5,0,0" height="37">
+    </HorizontalLayout>
   </VerticalLayout>
 </Window>

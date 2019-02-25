@@ -184,8 +184,9 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 	else if (sName.CompareNoCase(_T("download_btn")) == 0)
 	{
 		SetWindowPos(m_pDownloadWnd->GetHWND(), HWND_TOP,0, 0, 0, 0, SWP_NOMOVE |SWP_NOSIZE);
-		m_pDownloadWnd->CenterWindow();
+
 		m_pDownloadWnd->ShowWindow();
+		m_pDownloadWnd->AddDownloadItem();
 	}
 
 	
@@ -440,6 +441,8 @@ void CMainWnd::Refresh()
 	CWkeWebkitUI* pWeb = GetCurWeb();
 	pWeb->Reload();
 }
+
+
 
 void CMainWnd::OnWkeTitleChanged(CWkeWebkitUI* webView, LPCTSTR title)
 {

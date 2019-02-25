@@ -56,6 +56,8 @@ public:
 	void Home();
 	void Refresh();
 
+
+
 public:
 	virtual void OnWkeTitleChanged(CWkeWebkitUI* webView, LPCTSTR title);
 	virtual void OnWkeURLChanged(CWkeWebkitUI* webView, LPCTSTR url);
