@@ -16,6 +16,9 @@ typedef struct _tagTabInfo
 	CWkeWebkitUI* pWebBrowser;
 }TabInfo;
 
+
+
+class CDownloadWnd;
 class CMainWnd : public WindowImplBase, public IWkeCallback
 {
 public:
@@ -88,4 +91,7 @@ private:
 
 	std::vector<TabInfo*> m_vTabs;
 	int m_nTabID;
+
+
+	CDownloadWnd  *m_pDownloadWnd;
 };

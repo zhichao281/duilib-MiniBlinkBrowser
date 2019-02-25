@@ -90,19 +90,14 @@
     <ClInclude Include="UI\MiniControls.h">
       <Filter>头文件\UI</Filter>
     </ClInclude>
+    <ClInclude Include="UI\DownloadWnd.h">
+      <Filter>头文件\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MiniBlinkBrowser.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="MiniBlinkBrowser.ico">
-      <Filter>资源文件</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainWnd.cpp">
@@ -132,6 +127,9 @@
     <ClCompile Include="UI\MiniControls.cpp">
       <Filter>源文件\UI</Filter>
     </ClCompile>
+    <ClCompile Include="UI\DownloadWnd.cpp">
+      <Filter>源文件\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\bin\Skin\main.xml">
@@ -152,5 +150,13 @@
     <Xml Include="..\bin\Skin\Font.xml">
       <Filter>资源文件\xmls</Filter>
     </Xml>
+    <Xml Include="..\bin\Skin\DownloadFrame.xml">
+      <Filter>资源文件\xmls</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Res\MiniBlinkBrowser.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

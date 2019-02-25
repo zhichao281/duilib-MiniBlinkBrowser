@@ -103,12 +103,12 @@ int testIeMain(HINSTANCE hInstance);
 
 void MB_CALL_TYPE onGetMHTMLCallback(mbWebView webView, void* param, const utf8* mhtml)
 {
-    OutputDebugStringA("");
+    OutputDebugStringA("onGetMHTMLCallback");
 }
 
 void MB_CALL_TYPE onRunJsCallback(mbWebView webView, void* param, mbJsExecState es, mbJsValue v)
 {
-    OutputDebugStringA("");
+    OutputDebugStringA("onRunJsCallback");
 }
 
 static void MB_CALL_TYPE onUrlRequestWillRedirectCallback(mbWebView webView, void* param, mbWebUrlRequestPtr oldRequest, mbWebUrlRequestPtr request, mbWebUrlResponsePtr redirectResponse)
@@ -200,7 +200,7 @@ void RootWindow::onShowDevtools()
 //         onUrlRequestDidFailCallback,
 //         onUrlRequestDidFinishLoadingCallback
 //     };
-//     int netRequestId = mbNetStartUrlRequest(m_mbView, request, this, &callbacks);    
+//     int netRequestId = mbNetStartUrlRequest(m_mbView, request, this, &callbacks);
 
     std::vector<wchar_t> path;
     path.resize(MAX_PATH + 1);
@@ -296,7 +296,7 @@ static void registerRootClass(HINSTANCE hInstance, const std::wstring& window_cl
     RegisterClassEx(&wcex);
 }
 
-void RootWindow::onCanGoForwardCallback(mbWebView webView, void* param, MbAsynRequestState state, bool b)
+void RootWindow::onCanGoForwardCallback(mbWebView webView, void* param, MbAsynRequestState state, BOOL b)
 {
     if (kMbAsynRequestStateOk != state)
         return;
@@ -304,7 +304,7 @@ void RootWindow::onCanGoForwardCallback(mbWebView webView, void* param, MbAsynRe
     ::EnableWindow(self->m_forwardHwnd, b);
 }
 
-void RootWindow::onCanGoBackCallback(mbWebView webView, void* param, MbAsynRequestState state, bool b)
+void RootWindow::onCanGoBackCallback(mbWebView webView, void* param, MbAsynRequestState state, BOOL b)
 {
     if (kMbAsynRequestStateOk != state)
         return;
@@ -312,7 +312,7 @@ void RootWindow::onCanGoBackCallback(mbWebView webView, void* param, MbAsynReque
     ::EnableWindow(self->m_backHwnd, b);
 }
 
-void RootWindow::onUrlChangedCallback(mbWebView webView, void* param, const utf8* url, bool canGoBack, bool canGoForward)
+void RootWindow::onUrlChangedCallback(mbWebView webView, void* param, const utf8* url, BOOL canGoBack, BOOL canGoForward)
 {
     RootWindow* self = (RootWindow*)param;
     std::wstring urlString = utf8ToUtf16(url);
@@ -322,23 +322,23 @@ void RootWindow::onUrlChangedCallback(mbWebView webView, void* param, const utf8
     ::EnableWindow(self->m_forwardHwnd, canGoForward);
 }
 
-static bool MB_CALL_TYPE handleLoadUrlBegin(mbWebView webView, void* param, const char* url, void* job);
+static BOOL MB_CALL_TYPE handleLoadUrlBegin(mbWebView webView, void* param, const char* url, void* job);
 static void MB_CALL_TYPE handleLoadUrlEnd(mbWebView webView, void* param, const char* url, void* job, void* buf, int len);
 
 void RootWindow::onDocumentReady(mbWebView webView, void* param, mbWebFrameHandle frameId)
 {
-//     if (mbIsMainFrame(webView, frameId))
-//         OutputDebugStringA("HandleDocumentReady main----------------\n");
-//     else
-//         OutputDebugStringA("HandleDocumentReady not main------------------\n");
+    if (mbIsMainFrame(webView, frameId))
+        OutputDebugStringA("HandleDocumentReady main");
+    else
+        OutputDebugStringA("HandleDocumentReady not main");
 }
 
 void RootWindow::onLoadingFinish(mbWebView webView, void* param, mbWebFrameHandle frameId, const utf8* url, mbLoadingResult result, const utf8* failedReason)
 {
-//     if (mbIsMainFrame(webView, frameId))
-//         OutputDebugStringA("handleLoadingFinish main=======================\n");
-//     else
-//         OutputDebugStringA("handleLoadingFinish not main======================\n");
+    if (mbIsMainFrame(webView, frameId))
+        OutputDebugStringA("handleLoadingFinish main");
+    else
+        OutputDebugStringA("handleLoadingFinish not main");
 }
 
 static BOOL* isRegistered = nullptr;
@@ -378,7 +378,7 @@ void RootWindow::initSettings()
 //     mbSetProxy(nullptr, &proxy);
 
     mbSetDragDropEnable(m_mbView, true);
-    mbSetDebugConfig(m_mbView, "wakeMinInterval", "5"); // ?????1-200
+    mbSetDebugConfig(m_mbView, "wakeMinInterval", "5");
     mbSetDebugConfig(m_mbView, "drawMinInterval", "300");
     mbSetDebugConfig(m_mbView, "contentScale", "100");
     mbSetCookieEnabled(m_mbView, true);
@@ -394,21 +394,7 @@ void RootWindow::initSettings()
     mbOnDocumentReady(m_mbView, onDocumentReady, nullptr);
     mbOnLoadingFinish(m_mbView, onLoadingFinish, nullptr);
 
-//     wkeOnWillMediaLoad(webWindow, handleWillMediaLoad, nullptr);
-//     wkeOnWindowClosing(webWindow, handleWindowClosing, nullptr);
-//     wkeOnWindowDestroy(webWindow, handleWindowDestroy, nullptr);
-//     wkeOnDocumentReady(webWindow, handleDocumentReady, nullptr);
-     mbOnTitleChanged(m_mbView, onTitleChangedCallback, this);
-//     wkeOnCreateView(webWindow, handleCreateView, nullptr);
-//     wkeOnLoadUrlBegin(webWindow, handleLoadUrlBegin, nullptr);
-//     wkeOnLoadUrlEnd(webWindow, handleLoadUrlEnd, nullptr);
-//     wkeOnNavigation(webWindow, handleNavigationCallback, nullptr);
-//     wkeOnConsole(webWindow, onConsoleCallback, nullptr);
-//     wkeOnAlertBox(webWindow, onAlert, nullptr);
-//     wkeSetZoomFactor(webWindow, 1.0);
-//     wkeOnOtherLoad(webWindow, onOtherLoadCallback, nullptr);
-//     wkeOnAlertBox(webWindow, onAlert, nullptr);
-//     wkeOnLoadingFinish(webWindow, onLoadingFinish, nullptr);
+    mbOnTitleChanged(m_mbView, onTitleChangedCallback, this);
 }
 
 mbWebView RootWindow::onCreateView(mbWebView parentWebviwe, void* param, mbNavigationType navType, const utf8* url, const mbWindowFeatures* features)
@@ -487,7 +473,7 @@ static bool hookUrl(void* job, const char* url, const char* hookUrl, const wchar
     return true;
 }
 
-static bool MB_CALL_TYPE handleLoadUrlBegin(mbWebView webView, void* param, const char* url, void* job)
+static BOOL MB_CALL_TYPE handleLoadUrlBegin(mbWebView webView, void* param, const char* url, void* job)
 {
 //     OutputDebugStringA("handleLoadUrlBegin:");
 //     OutputDebugStringA(url);
@@ -610,49 +596,10 @@ LRESULT CALLBACK rootWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 //         return 0;
 // 
     case WM_ERASEBKGND:
-//         if (self->OnEraseBkgnd())
-//             break;
         // Don't erase the background.
         break;
-// 
-//     case WM_ENTERMENULOOP:
-//         if (!wParam) {
-//             // Entering the menu loop for the application menu.
-//             CefSetOSModalLoop(true);
-//         }
-//         break;
-// 
-//     case WM_EXITMENULOOP:
-//         if (!wParam) {
-//             // Exiting the menu loop for the application menu.
-//             CefSetOSModalLoop(false);
-//         }
-//         break;
-// 
-//     case WM_CLOSE:
-//         if (self->OnClose())
-//             return 0;  // Cancel the close.
-//         break;
-// 
-//     case WM_NCHITTEST:
-//     {
-//         LRESULT hit = DefWindowProc(hWnd, message, wParam, lParam);
-//         if (hit == HTCLIENT) {
-//             POINTS points = MAKEPOINTS(lParam);
-//             POINT point = { points.x, points.y };
-//             ::ScreenToClient(hWnd, &point);
-//             if (::PtInRegion(self->draggable_region_, point.x, point.y)) {
-//                 // If cursor is inside a draggable region return HTCAPTION to allow
-//                 // dragging.
-//                 return HTCAPTION;
-//             }
-//         }
-//         return hit;
-//     }
-// 
+
     case WM_NCDESTROY:
-        // Clear the reference to |self|.
-        //SetUserDataPtr(hWnd, NULL);
         self->onDestroyed();
         return 0;
     }

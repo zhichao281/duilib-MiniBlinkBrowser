@@ -2,7 +2,7 @@
 #include "MainWnd.h"
 #include "resource.h"
 #include "UI/MsgWnd.h"
-
+#include "UI/DownloadWnd.h"
 #include "UI/MiniControls.h"
 #include <algorithm>
 #include <ShellAPI.h>
@@ -88,6 +88,11 @@ void CMainWnd::InitWindow()
 		pWeb->Navigate(sUrl);
 		pWeb->SetWkeCallback(this);
 	}
+	m_pDownloadWnd = new CDownloadWnd;
+	m_pDownloadWnd->Create(NULL, _T("msgwnd"), WS_POPUP | WS_CLIPCHILDREN, WS_EX_TOOLWINDOW);
+	m_pDownloadWnd->CenterWindow();
+	
+
 }
 
 

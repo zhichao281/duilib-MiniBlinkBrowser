@@ -165,6 +165,7 @@
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TroyControls.h" />
+    <ClInclude Include="UI\DownloadWnd.h" />
     <ClInclude Include="UI\MiniControls.h" />
     <ClInclude Include="UI\MsgWnd.h" />
     <ClInclude Include="WkeWebkit.h" />
@@ -172,10 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MiniBlinkBrowser.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="MiniBlinkBrowser.ico" />
-    <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Common\String\NSString.cpp" />
@@ -187,6 +184,7 @@
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="UI\DownloadWnd.cpp" />
     <ClCompile Include="UI\MiniControls.cpp" />
     <ClCompile Include="UI\MsgWnd.cpp" />
     <ClCompile Include="WkeDemo.cpp">
@@ -198,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\bin\Skin\Default.xml" />
+    <Xml Include="..\bin\Skin\DownloadFrame.xml" />
     <Xml Include="..\bin\Skin\Font.xml" />
     <Xml Include="..\bin\Skin\main.xml" />
     <Xml Include="..\bin\Skin\browser.xml" />
@@ -205,6 +204,9 @@
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="..\bin\Skin\res.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Res\MiniBlinkBrowser.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

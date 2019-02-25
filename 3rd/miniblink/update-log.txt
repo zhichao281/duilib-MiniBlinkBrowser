@@ -1,4 +1,11 @@
-﻿2019.2.18
+﻿2019.2.24
+    * 增加wkeCreateWebCustomWindow，可设置底色以及更灵活的创建窗口方式
+
+2019.2.19
+    * 修复https://mozilla.github.io/pdf.js/崩溃
+    * 修复右键菜单抢焦点问题、不消失问题
+
+2019.2.18
     * 修复https://zhitongche.taobao.com/登陆不了的问题。taobao自身js编码写错了
     * pdf预览模式自动禁用右键菜单
 

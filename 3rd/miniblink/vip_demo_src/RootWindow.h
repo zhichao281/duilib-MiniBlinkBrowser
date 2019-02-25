@@ -48,9 +48,9 @@ private:
     LRESULT hideWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
     void initSettings();
 
-    static void MB_CALL_TYPE onUrlChangedCallback(mbWebView webView, void* param, const utf8* url, bool canGoBack, bool canGoForward);
-    static void MB_CALL_TYPE onCanGoForwardCallback(mbWebView webView, void* param, MbAsynRequestState state, bool b);
-    static void MB_CALL_TYPE onCanGoBackCallback(mbWebView webView, void* param, MbAsynRequestState state, bool b);
+    static void MB_CALL_TYPE onUrlChangedCallback(mbWebView webView, void* param, const utf8* url, BOOL canGoBack, BOOL canGoForward);
+    static void MB_CALL_TYPE onCanGoForwardCallback(mbWebView webView, void* param, MbAsynRequestState state, BOOL b);
+    static void MB_CALL_TYPE onCanGoBackCallback(mbWebView webView, void* param, MbAsynRequestState state, BOOL b);
     static mbWebView MB_CALL_TYPE onCreateView(mbWebView parentWebviwe, void* param, mbNavigationType navType, const utf8* url, const mbWindowFeatures* features);
     static void MB_CALL_TYPE onDocumentReady(mbWebView webView, void* param, mbWebFrameHandle frameId);
     static void MB_CALL_TYPE onLoadingFinish(mbWebView webView, void* param, mbWebFrameHandle frameId, const utf8* url, mbLoadingResult result, const utf8* failedReason);

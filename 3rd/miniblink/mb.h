@@ -638,7 +638,7 @@ ITERATOR1(void, mbDeleteString, mbStringPtr, "") \
 ITERATOR2(void, mbSetProxy, mbWebView webView, const mbProxy* proxy, "") \
 ITERATOR3(void, mbSetDebugConfig, mbWebView webView, const char* debugString, const char* param, "") \
 \
-ITERATOR3(void, mbNetSetData, mbNetJob jobPtr, void *buf, int len, "调用此函数后,网络层收到数据会存储在一buf内,接收数据完成后响应OnLoadUrlEnd事件.#此调用严重影响性能,慎用" \
+ITERATOR3(void, mbNetSetData, mbNetJob jobPtr, void* buf, int len, "调用此函数后,网络层收到数据会存储在一buf内,接收数据完成后响应OnLoadUrlEnd事件.#此调用严重影响性能,慎用" \
     "此函数和mbNetSetData的区别是，mbNetHookRequest会在接受到真正网络数据后再调用回调，并允许回调修改网络数据。"\
     "而mbNetSetData是在网络数据还没发送的时候修改") \
 ITERATOR1(void, mbNetHookRequest, mbNetJob jobPtr, "") \
@@ -659,6 +659,7 @@ ITERATOR3(const utf8*, mbNetGetHTTPHeaderField, mbNetJob job, const char* key, B
 \
 ITERATOR2(void, mbSetMouseEnabled, mbWebView webView, bool b, "") \
 ITERATOR2(void, mbSetTouchEnabled, mbWebView webView, bool b, "") \
+ITERATOR2(void, mbSetContextMenuEnabled, mbWebView webView, bool b, "") \
 ITERATOR2(void, mbSetNavigationToNewWindowEnable, mbWebView webView, BOOL b, "") \
 ITERATOR2(void, mbSetHeadlessEnabled, mbWebView webView, BOOL b, "可以关闭渲染") \
 ITERATOR2(void, mbSetDragDropEnable, mbWebView webView, BOOL b, "可以关闭拖拽文件、文字") \
@@ -721,6 +722,7 @@ ITERATOR1(void, mbEditorCopy, mbWebView webView, "") \
 ITERATOR1(void, mbEditorCut, mbWebView webView, "") \
 ITERATOR1(void, mbEditorPaste, mbWebView webView, "") \
 ITERATOR1(void, mbEditorDelete, mbWebView webView, "") \
+ITERATOR1(void, mbEditorUndo, mbWebView webView, "") \
 \
 ITERATOR5(BOOL, mbFireMouseEvent, mbWebView webView, unsigned int message, int x, int y, unsigned int flags, "") \
 ITERATOR4(BOOL, mbFireContextMenuEvent, mbWebView webView, int x, int y, unsigned int flags, "") \
@@ -764,12 +766,15 @@ ITERATOR1(const utf8*, mbUtilBase64Encode, const utf8* str, "") \
 ITERATOR1(const utf8*, mbUtilBase64Decode, const utf8* str, "") \
 ITERATOR1(const utf8*, mbUtilDecodeURLEscape, const utf8* url, "") \
 ITERATOR1(const utf8*, mbUtilEncodeURLEscape, const utf8* url, "") \
+ITERATOR1(const mbMemBuf*, mbUtilCreateV8Snapshot, const utf8* str, "") \
 ITERATOR5(void, mbUtilPrintToPdf, mbWebView webView, mbWebFrameHandle frameId, const mbPrintSettings* settings, mbPrintPdfDataCallback callback, void* param, "") \
 ITERATOR5(void, mbUtilPrintToBitmap, mbWebView webView, mbWebFrameHandle frameId, const mbScreenshotSettings* settings, mbPrintBitmapCallback callback, void* param, "") \
 \
 ITERATOR3(BOOL, mbPopupDownloadMgr, mbWebView webView, const char* url, void* downloadJob, "") \
 ITERATOR9(mbDownloadOpt, mbPopupDialogAndDownload, mbWebView webView, void* param, size_t contentLength, const char* url, \
     const char* mime, const char* disposition, mbNetJob job, mbNetJobDataBind* dataBind, mbPopupDialogAndDownloadBind* callbackBind, "") \
+\
+ITERATOR1(void, mbFreeMemBuf, mbMemBuf* buf, "") \
 
 #if ENABLE_MB == 1
 

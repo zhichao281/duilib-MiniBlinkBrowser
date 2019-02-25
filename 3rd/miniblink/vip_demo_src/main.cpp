@@ -310,9 +310,20 @@ void MB_CALL_TYPE handlePaintUpdatedCallback(mbWebView webView, void* param, con
     }
 }
 
+void MB_CALL_TYPE onRunJs(mbWebView webView, void* param, mbJsExecState es, mbJsValue v)
+{
+    const utf8* str = mbJsToString(es, v);
+
+    OutputDebugStringA("onRunJs:");
+    OutputDebugStringA(str);
+    OutputDebugStringA("\n");
+}
+
 void MB_CALL_TYPE handleDocumentReady(mbWebView webView, void* param, mbWebFrameHandle frameId)
 {
     OutputDebugStringA("HandleDocumentReady\n");
+
+    mbRunJs(webView, mbWebFrameGetMainFrame(webView), "return window.onNativeRunjs('I am runjs');", TRUE, onRunJs, nullptr, nullptr);
 }
 
 void MB_CALL_TYPE handleLoadingFinish(mbWebView webView, void* param, mbWebFrameHandle frameId, const utf8* url, mbLoadingResult result, const utf8* failedReason)
@@ -352,15 +363,6 @@ void MB_CALL_TYPE onJsQuery(mbWebView webView, void* param, mbJsExecState es, in
     mbResponseQuery(webView, queryId, customMsg, "I am response");
 }
 
-void MB_CALL_TYPE onRunJs(mbWebView webView, void* param, mbJsExecState es, mbJsValue v)
-{
-    const utf8* str = mbJsToString(es, v);
-
-    OutputDebugStringA("onRunJs:");
-    OutputDebugStringA(str);
-    OutputDebugStringA("\n");
-}
-
 void createSimpleMb()
 {
     regWndClass(kClassWindow, CS_HREDRAW | CS_VREDRAW);
@@ -379,18 +381,17 @@ void createSimpleMb()
     
     mbLoadHtmlWithBaseUrl(view,
         "<html><head><style></style><script type=\"text/javascript\">"
-        "function onNativeRunjs(response) {"
+        "window.onNativeRunjs = function(response) {"
         "    console.log('onNativeRunjs:' + response);"
         "    return 'onNativeRunjs ret'"
         "};"
         "function onNativeResponse(customMsg, response) {"
         "    console.log('mbQuery:' + response);"
         "};"
+        "console.log('test');"
         "window.mbQuery(0x123456, \"I am in js context\", onNativeResponse);"
         "</script></head><body>test js bind</body></html>",
         "test_js.htm");
-
-    mbRunJs(view, mbWebFrameGetMainFrame(view), "return onNativeRunjs('I am runjs');", TRUE, onRunJs, nullptr, nullptr);
     
     //::mbLoadURL(view, "http://news.baidu.com");
     //::mbLoadURL(view, "file:///E:/mycode/mtmb/Debug/guiji.htm");
