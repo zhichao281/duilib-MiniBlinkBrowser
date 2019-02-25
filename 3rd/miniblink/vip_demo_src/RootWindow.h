@@ -28,6 +28,7 @@ public:
     void onPaint();
     void onSize(bool minimized);
     void onShowDevtools();
+    void onTestNodejs();
     void onFocus();
     void onWheel(WPARAM wParam, LPARAM lParam);
     void onDestroyed();

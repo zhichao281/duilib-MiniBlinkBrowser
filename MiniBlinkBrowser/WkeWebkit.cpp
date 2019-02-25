@@ -49,7 +49,7 @@ CWkeWebkitUI::~CWkeWebkitUI(void)
 		m_mapWke2UI.erase(iter);
 	}
 
-	m_pManager->KillTimer(this, EVENT_TICK_TIEMER_ID);
+	//m_pManager->KillTimer(this, EVENT_TICK_TIEMER_ID);
 	wkeDestroyWebView(m_pWebView);
 }
 
@@ -75,7 +75,7 @@ void CWkeWebkitUI::DoInit()
 	// 设置名称
 	wkeSetName(m_pWebView, NStr::T2ANSI(GetName()).c_str());
 	// 启动定时器
-	SetTimer(EVENT_TICK_TIEMER_ID, 30);
+	//SetTimer(EVENT_TICK_TIEMER_ID, 30);
 
 	// 初始化后回调接口
 	wkeSetTransparent(m_pWebView, false);
@@ -95,6 +95,8 @@ void CWkeWebkitUI::DoInit()
 	wkeOnLoadingFinish(m_pWebView, OnWkeLoadingFinish, this);
 
 	wkeOnDownload(m_pWebView, OnWkeDownload, this);
+
+	wkeOnPaintUpdated(m_pWebView, OnWkePaintUpdate, this);
 
 	// 设置UA
 	wkeSetUserAgent(m_pWebView, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.2228.0 Safari/537.36");
@@ -119,6 +121,15 @@ void CWkeWebkitUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		SetHomePage(pstrValue);
 	}
 }
+
+void WKE_CALL_TYPE CWkeWebkitUI::OnWkePaintUpdate(wkeWebView webView, void* param, const HDC hdc, int x, int y, int cx, int cy)
+{
+	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
+	if (!pWkeUI)	return ;
+	pWkeUI->Invalidate();
+
+}
+
 
 
 bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)

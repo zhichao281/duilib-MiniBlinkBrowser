@@ -62,7 +62,7 @@ void CMainWnd::OnFinalMessage( HWND hWnd)
 
 void CMainWnd::InitWindow()
 {
-
+	//设置任务栏图标
 	SetIcon(IDR_MAINFRAME);
 	m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("closebtn")));
 	m_pMaxBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("maxbtn")));

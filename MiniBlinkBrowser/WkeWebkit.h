@@ -174,6 +174,8 @@ private:
 
 	static jsValue WKE_CALL_TYPE onShellExec(jsExecState es, void* param);
 
+	static void WKE_CALL_TYPE OnWkePaintUpdate(wkeWebView webView, void* param, const HDC hdc, int x, int y, int cx, int cy);
+
 private:
 	REND_DATA m_RendData;
 

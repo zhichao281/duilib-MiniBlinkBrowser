@@ -103,12 +103,12 @@ int testIeMain(HINSTANCE hInstance);
 
 void MB_CALL_TYPE onGetMHTMLCallback(mbWebView webView, void* param, const utf8* mhtml)
 {
-    OutputDebugStringA("onGetMHTMLCallback");
+    OutputDebugStringA("onGetMHTMLCallback\n");
 }
 
 void MB_CALL_TYPE onRunJsCallback(mbWebView webView, void* param, mbJsExecState es, mbJsValue v)
 {
-    OutputDebugStringA("onRunJsCallback");
+    OutputDebugStringA("onRunJsCallback\n");
 }
 
 static void MB_CALL_TYPE onUrlRequestWillRedirectCallback(mbWebView webView, void* param, mbWebUrlRequestPtr oldRequest, mbWebUrlRequestPtr request, mbWebUrlResponsePtr redirectResponse)
@@ -134,7 +134,30 @@ static void MB_CALL_TYPE onUrlRequestDidFinishLoadingCallback(mbWebView webView,
     OutputDebugStringA("onUrlRequestDidFinishLoadingCallback\n");
 }
 
+void RootWindow::onTestNodejs()
+{
+    std::vector<wchar_t> path;
+    path.resize(MAX_PATH + 1);
+    memset(&path.at(0), 0, sizeof(wchar_t) * (MAX_PATH + 1));
+
+    ::GetModuleFileNameW(nullptr, &path.at(0), MAX_PATH);
+    ::PathRemoveFileSpecW(&path.at(0));
+
+    ::PathAppend(&path.at(0), L"..\\test_nodejs.html");
+
+    std::string url = utf16ToUtf8(&path.at(0));
+
+    for (size_t i = 0; i < url.size(); ++i) {
+        if ('\\' == url[i])
+            url[i] = '/';
+    }
+    url.insert(0, "file:///");
+
+    ::mbLoadURL(m_mbView, url.c_str());
+}
+
 const UINT kBaseId = 100;
+const UINT kTestNodejsId = 101;
 
 LRESULT RootWindow::hideWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -144,6 +167,8 @@ LRESULT RootWindow::hideWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
     
     if (kBaseId + 0 == id) {
         onShowDevtools();
+    } else if (kBaseId + 1 == id) {
+        onTestNodejs();
     }
 
     return ::DefWindowProc(hwnd, uMsg, wParam, lParam);
@@ -172,6 +197,14 @@ void RootWindow::onMoreCommand()
     UINT count = 0;
 
     std::wstring labelStr(L"打开devtools");
+    info.fMask |= MIIM_STRING | MIIM_ID;
+    info.cch = labelStr.size();
+    info.dwTypeData = const_cast<LPWSTR>(labelStr.c_str());
+    info.wID = kBaseId + count;
+    ::InsertMenuItem(m_hMenu, count, TRUE, &info);
+    count++;
+
+    labelStr = L"测试nodejs";
     info.fMask |= MIIM_STRING | MIIM_ID;
     info.cch = labelStr.size();
     info.dwTypeData = const_cast<LPWSTR>(labelStr.c_str());
@@ -328,17 +361,17 @@ static void MB_CALL_TYPE handleLoadUrlEnd(mbWebView webView, void* param, const 
 void RootWindow::onDocumentReady(mbWebView webView, void* param, mbWebFrameHandle frameId)
 {
     if (mbIsMainFrame(webView, frameId))
-        OutputDebugStringA("HandleDocumentReady main");
+        OutputDebugStringA("HandleDocumentReady main\n");
     else
-        OutputDebugStringA("HandleDocumentReady not main");
+        OutputDebugStringA("HandleDocumentReady not main\n");
 }
 
 void RootWindow::onLoadingFinish(mbWebView webView, void* param, mbWebFrameHandle frameId, const utf8* url, mbLoadingResult result, const utf8* failedReason)
 {
     if (mbIsMainFrame(webView, frameId))
-        OutputDebugStringA("handleLoadingFinish main");
+        OutputDebugStringA("handleLoadingFinish main\n");
     else
-        OutputDebugStringA("handleLoadingFinish not main");
+        OutputDebugStringA("handleLoadingFinish not main\n");
 }
 
 static BOOL* isRegistered = nullptr;
@@ -395,6 +428,8 @@ void RootWindow::initSettings()
     mbOnLoadingFinish(m_mbView, onLoadingFinish, nullptr);
 
     mbOnTitleChanged(m_mbView, onTitleChangedCallback, this);
+
+    mbSetNodeJsEnable(m_mbView, TRUE);
 }
 
 mbWebView RootWindow::onCreateView(mbWebView parentWebviwe, void* param, mbNavigationType navType, const utf8* url, const mbWindowFeatures* features)
@@ -406,7 +441,7 @@ mbWebView RootWindow::onCreateView(mbWebView parentWebviwe, void* param, mbNavig
     std::wstring urlString = utf8ToUtf16(url);
     ::SetWindowText(rootWin->m_editHwnd, urlString.c_str());
 
-    mbSetCookieJarFullPath(newWindow, L"d:\\我cookie.txt");
+    //mbSetCookieJarFullPath(newWindow, L"d:\\我cookie.txt");
 
     mbShowWindow(newWindow, true);
     return newWindow;
@@ -479,8 +514,8 @@ static BOOL MB_CALL_TYPE handleLoadUrlBegin(mbWebView webView, void* param, cons
 //     OutputDebugStringA(url);
 //     OutputDebugStringA("\n"); 
 
-    if (hookUrl(job, url, "dore.script.js", L"E:\\test\\weibo\\dore.script.js", "text/javascript"))
-        return true;
+//     if (hookUrl(job, url, "dore.script.js", L"E:\\test\\weibo\\dore.script.js", "text/javascript"))
+//         return true;
 
 //     if (0 != strstr(url, "video.hls.min.js")) {
 //         mbNetHookRequest(job);
@@ -491,11 +526,7 @@ static BOOL MB_CALL_TYPE handleLoadUrlBegin(mbWebView webView, void* param, cons
 
 static void MB_CALL_TYPE handleLoadUrlEnd(mbWebView webView, void* param, const char* url, void* job, void* buf, int len)
 {
-    //     std::vector<char> buffer;
-    //     readJsFile(L"C:\\Users\\weo\\Desktop\\shansuo\\Test\\zhaopin.htm", &buffer);
-    //     wkeNetSetData(job, &buffer[0], buffer.size());
 
-    //saveDumpFile(L"E:\\test\\slow_js\\1.js", (const char*)buf, len);
 }
 
 void RootWindow::onPaint()

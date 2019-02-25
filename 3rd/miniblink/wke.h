@@ -139,7 +139,7 @@ typedef struct _wkeSettings {
     unsigned int mask;
 } wkeSettings;
 
-typedef struct {
+typedef struct _wkeViewSettings {
     int size;
     unsigned int bgColor;
 } wkeViewSettings;
@@ -548,12 +548,24 @@ typedef void* v8ContextPtr;
 typedef void* v8Isolate;
 
 //wke window-----------------------------------------------------------------------------------
-typedef enum {
+typedef enum _wkeWindowType {
     WKE_WINDOW_TYPE_POPUP,
     WKE_WINDOW_TYPE_TRANSPARENT,
     WKE_WINDOW_TYPE_CONTROL
-
 } wkeWindowType;
+
+typedef struct _wkeWindowCreateInfo {
+    int size;
+    HWND parent;
+    DWORD style; 
+    DWORD styleEx; 
+    int x; 
+    int y; 
+    int width; 
+    int height;
+    COLORREF color;
+
+} wkeWindowCreateInfo;
 
 typedef bool(WKE_CALL_TYPE*wkeWindowClosingCallback)(wkeWebView webWindow, void* param);
 typedef void(WKE_CALL_TYPE*wkeWindowDestroyCallback)(wkeWebView webWindow, void* param);
@@ -1126,6 +1138,7 @@ public:
     ITERATOR0(v8Isolate, wkeGetBlinkMainThreadIsolate, "") \
     \
     ITERATOR6(wkeWebView, wkeCreateWebWindow, wkeWindowType type, HWND parent, int x, int y, int width, int height, "") \
+    ITERATOR1(wkeWebView, wkeCreateWebCustomWindow, const wkeWindowCreateInfo* info, "") \
     ITERATOR1(void, wkeDestroyWebWindow, wkeWebView webWindow, "") \
     ITERATOR1(HWND, wkeGetWindowHandle, wkeWebView webWindow, "") \
     \

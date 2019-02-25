@@ -390,12 +390,15 @@ void createSimpleMb()
         "};"
         "console.log('test');"
         "window.mbQuery(0x123456, \"I am in js context\", onNativeResponse);"
-        "</script></head><body>test js bind</body></html>",
+        "</script></head>"
+        "<body>"
+        "test js bind"
+        ""
+        "</body>"
+        "</html>",
         "test_js.htm");
     
     //::mbLoadURL(view, "http://news.baidu.com");
-    //::mbLoadURL(view, "file:///E:/mycode/mtmb/Debug/guiji.htm");
-    //::mbLoadURL(view, "https://passport.csdn.net/account/login");//http://www.17sucai.com/pins/demo-show?id=23150
 
     mbOnJsQuery(view, onJsQuery, (void*)1);
 
@@ -444,7 +447,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_ int       nCmdShow)
 {
     initDllPath();
-    mbInit(NULL);
+
+    mbSettings settings;
+    memset(&settings, 0, sizeof(settings));
+    settings.mask = MB_ENABLE_NODEJS;
+    mbInit(&settings);
 
     createMbClient();
     createSimpleMb();
