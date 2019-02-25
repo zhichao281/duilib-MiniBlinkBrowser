@@ -51,8 +51,6 @@
 
     <HorizontalLayout float="0,0,1,0" inset="0,-1,0,0" height="20">
       <Control />
-
-      <Control />
       <Button name="menubtn" visible="false" width="28" height="20" tooltip="菜单" normalimage="sysbtn_menu_normal" hotimage="sysbtn_menu_hot" pushedimage="sysbtn_menu_pushed"/>
       <Button name="skinbtn" width="28" height="20" tooltip="模式切换 切换到EStart界面" normalimage="sysbtn_skin_normal" hotimage="sysbtn_skin_hot" pushedimage="sysbtn_skin_pushed"/>
       <Button name="minbtn" width="28" height="20" tooltip="最小化" normalimage="sysbtn_mini_normal" hotimage="sysbtn_mini_hot" pushedimage="sysbtn_mini_pushed"/>

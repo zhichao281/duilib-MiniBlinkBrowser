@@ -153,6 +153,9 @@
     <Xml Include="..\bin\Skin\DownloadFrame.xml">
       <Filter>资源文件\xmls</Filter>
     </Xml>
+    <Xml Include="..\bin\Skin\downitem.xml">
+      <Filter>资源文件\xmls</Filter>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\MiniBlinkBrowser.ico">

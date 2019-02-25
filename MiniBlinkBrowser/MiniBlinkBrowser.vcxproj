@@ -196,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\bin\Skin\Default.xml" />
+    <Xml Include="..\bin\Skin\downitem.xml" />
     <Xml Include="..\bin\Skin\DownloadFrame.xml" />
     <Xml Include="..\bin\Skin\Font.xml" />
     <Xml Include="..\bin\Skin\main.xml" />

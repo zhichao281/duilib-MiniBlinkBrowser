@@ -89,9 +89,9 @@ void CMainWnd::InitWindow()
 		pWeb->SetWkeCallback(this);
 	}
 	m_pDownloadWnd = new CDownloadWnd;
-	m_pDownloadWnd->Create(NULL, _T("msgwnd"), WS_POPUP | WS_CLIPCHILDREN, WS_EX_TOOLWINDOW);
+	m_pDownloadWnd->Create(nullptr, _T("downwnd"), WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW);
 	m_pDownloadWnd->CenterWindow();
-	
+	::PostMessageW(m_pDownloadWnd->GetHWND(), WM_SYSCOMMAND, SC_MINIMIZE, 0);
 
 }
 
@@ -180,6 +180,15 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 	{
 		ShellExecute(NULL, _T("open"), _T("tencent://Message/?Uin=125388771&Menu=yes"), NULL, NULL, SW_SHOW);
 	}
+
+	else if (sName.CompareNoCase(_T("download_btn")) == 0)
+	{
+		SetWindowPos(m_pDownloadWnd->GetHWND(), HWND_TOP,0, 0, 0, 0, SWP_NOMOVE |SWP_NOSIZE);
+		m_pDownloadWnd->CenterWindow();
+		m_pDownloadWnd->ShowWindow();
+	}
+
+	
 }
 
 void CMainWnd::OnSelectChanged( TNotifyUI &msg )
