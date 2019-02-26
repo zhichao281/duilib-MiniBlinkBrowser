@@ -8,15 +8,14 @@
     <HorizontalLayout height="37" bkcolor="#FF006EDF">
       <!--这一块是需要占用标题栏空白区域把标题的按钮顶到最右边-->
       <Label name="captionEx" float="true" pos="10,3,0,0" width="523" height="37" text="极速下载引擎--By:QQ125388771" align="left" textcolor="#FFFFFFFF"/>
-  
       <Control />
       <Button name="minbtn" float="false"  height="20" width="28" normalimage="sysbtn_mini_normal" hotimage="sysbtn_mini_hot" pushedimage="sysbtn_mini_pushed"/>
       <Button name="closebtn" float="false"   height="20" width="39" normalimage="sysbtn_close_normal" hotimage="sysbtn_close_hot" pushedimage="sysbtn_close_pushed"/>
     </HorizontalLayout>
 
-
     <!--tab选项卡-->
-    <TabLayout name="main_Tablayout" bkcolor="#FFEAEAEA">
+    <TabLayout name="down_Tablayout" bkcolor="#FFEAEAEA">
+      
       <VerticalLayout name="tabOpt1">
         <HorizontalLayout height="35">
           <VerticalLayout width="100" height ="30">
@@ -47,32 +46,39 @@
       <!--界面二-->
       <VerticalLayout name="tabOpt3">
         <HorizontalLayout height="50">
-          <VerticalLayout height ="30" width="100">
+          <VerticalLayout height ="50" width="100">
             <Text text="常规设置:" font="0"  padding="10,5,10,10" />
           </VerticalLayout>
         </HorizontalLayout>
         <HorizontalLayout>
-          <VerticalLayout height="30" width="150">
+          <VerticalLayout height="30" width="150">       
             <Text text="下载文件保存位置:" padding="10,10,0,0" font="1"  />
           </VerticalLayout>
           <VerticalLayout height="30">
             <Edit name="downPath" padding="10,5,0,0"  bordercolor="#FF798A9C" bordersize="1" />
           </VerticalLayout>
-          <Button name="savePath"  padding="10,5,10,0"  width="50" text="..." textpadding="5,5,5,5"  height="20" font="0" textcolor="#FF2A2A2C" bkcolor="#FFE1EEFD" bordersize="1" bordercolor="#FF006EDF" hottextcolor="#FF2A2A2C" focusbordercolor="#FF006EDF" />
+          <Button name="savePath"  padding="10,5,10,0"  width="18"  height="16" tooltip="保存文件地址" textpadding="5,5,5,5"  font="0" textcolor="#FF2A2A2C" bkcolor="#FFE1EEFD" bordersize="1" bordercolor="#FF006EDF" hottextcolor="#FF2A2A2C" focusbordercolor="#FF006EDF" normalimage="imgs/tabbar/openfolder.png" hotimage="imgs/tabbar/openfolder_hover.png" pushedimage="imgs/tabbar/openfolder_hover.png" />
+          <Control />
         </HorizontalLayout>
       </VerticalLayout>
       <!--界面三-->
       <VerticalLayout name="tabOpt2">
         <HorizontalLayout >
           <VerticalLayout>
-            <RichEdit name="logRich" padding="10,5,10,10"  vscrollbar="true" bordercolor="#FF798A9C" bordersize="1"  multiline="true" readonly="true"/>
+            <RichEdit name="logRich" padding="10,5,10,10"  vscrollbar="true" bordercolor="#FF798A9C" bordersize="1"  multiline="true" readonly="true" />
           </VerticalLayout>
         </HorizontalLayout>
       </VerticalLayout>
     </TabLayout>
 
     <!-- 客户区域-->
-    <HorizontalLayout name="tabbar" padding="0,5,0,0" height="37">
+    
+    <HorizontalLayout name="tabbar" padding="0,5,0,0" height="50" childpadding="5">
+      <Control />
+      <Button name="clearbtn"  width="38" height="38" tooltip="清空已下载" normalimage="imgs/tabbar/clear.png" hotimage="imgs/tabbar/clear_hover.png" pushedimage="imgs/tabbar/clear_hover.png"/>
+      <Button name="newbtn" width="38" height="38" tooltip="新建下载" normalimage="imgs/tabbar/new.png" hotimage="imgs/tabbar/new_hover.png" pushedimage="imgs/tabbar/new_hover.png"/>
+      <Button name="settingbtn"  width="62" height="26" tooltip="设置" normalimage="imgs/tabbar/setting.png" hotimage="imgs/tabbar/setting.png" pushedimage="imgs/tabbar/setting_hover.png"/>
+      
     </HorizontalLayout>
   </VerticalLayout>
 </Window>
