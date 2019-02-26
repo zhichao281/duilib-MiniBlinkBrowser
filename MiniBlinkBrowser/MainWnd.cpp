@@ -188,7 +188,13 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 		m_pDownloadWnd->ShowWindow();
 		m_pDownloadWnd->AddDownloadItem();
 	}
+	else if (sName.CompareNoCase(_T("js_btn")) == 0)
+	{
+		CWkeWebkitUI* pWeb = GetCurWeb();
+		pWeb->ExecuteJS(_T("JsFunSub(\"1\",\"2\");"));
+	}
 
+	
 	
 }
 
@@ -362,13 +368,14 @@ int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 
 	CWkeWebkitUI* pWeb = new CWkeWebkitUI();
 	m_pBrowserTabBody->AddAt(pWeb, nIndex);
-	pWeb->SetHomePage(_T("about:blank"));
+	//pWeb->SetHomePage(_T("about:blank"));
 	pWeb->SetWkeCallback(this);
-
+	pWeb->NavigateHomePage();
 	if(pstrUrl == NULL) {
-		lstrcpy(pInfo->szUrl, _T("about:blank"));
-		lstrcpy(pInfo->szTitle, _T("空白页"));
-		pTab->SetText(_T("空白页"));
+	
+		//lstrcpy(pInfo->szUrl, _T("about:blank"));
+		//lstrcpy(pInfo->szTitle, _T("空白页"));
+		//pTab->SetText(_T("空白页"));
 	}
 	else {
 		lstrcpy(pInfo->szUrl, pstrUrl);
@@ -546,7 +553,7 @@ LPCTSTR CMainWnd::OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpCo
 		// 创建起始页
 		CreateNewTabAndGo(sHomePage);
 	}
-	return _T("");
+	return lpMethod;
 }
 
 //页面下载事件回调。点击某些链接，触发下载会调用

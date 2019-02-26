@@ -39,6 +39,10 @@ CWkeWebkitUI::CWkeWebkitUI(void)
 	_wsplitpath(modulePath, drive, dir, NULL, NULL);
 	_tcscpy(curDir, drive), _tcscat(curDir, dir);
 	_tcscpy(m_chErrUrl, L"file:///"), _tcscat(m_chErrUrl, curDir), _tcscat(m_chErrUrl, L"//resources//error//error.html");
+	_tcscpy(m_chHomeUrl, L"file:///"), _tcscat(m_chHomeUrl, curDir), _tcscat(m_chHomeUrl, L"//resources//test.html");
+
+
+
 }
 
 CWkeWebkitUI::~CWkeWebkitUI(void)
@@ -627,9 +631,15 @@ jsValue JS_CALL CWkeWebkitUI::JsToNative(jsExecState es)
 	}
 	if (pWkeUI) {
 		int nArg = jsArgCount(es);
-		if (nArg == 2) {
+		if (nArg == 2)
+		{
 			jsValue arg1 = jsArg(es, 0);
 			jsValue arg2 = jsArg(es, 1);
+			int int0 = jsToInt(es, arg1);
+			int int1 = jsToInt(es, arg2);
+	
+
+			return jsInt(int0+int1);
 			if (jsIsString(arg1) && jsIsString(arg2)) {
 				//需要保证两个参数都为字符串
 #ifdef _UNICODE 

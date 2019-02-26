@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript">
+        function Login() {
+            var result = eMsg(document.getElementById("userName").value, document.getElementById("password").value);
+            alert('C++∑µªÿ÷µ£∫' + result);
+        }
+
+        register('GetComputerName', function (name, args) {
+            alert(name);
+            alert(args);
+            return "qdtroy";
+        });
+		
+	function CallCppFunSub(x,y)  
+        {
+			var num = jsToNative(x,y); 
+		
+			alert(num);
+			return num
+        } 
+		function JsFunSub(x,y)  
+        {
+			var num = x - y;
+			alert(num);
+			return num
+        }
+
+    </script>
+    <title>CEF JS Integration</title>
+</head>
+
+<body>
+    <h3>Call into native by Window bindings:</h3>
+    <form>
+        UserName: <input type="text" id="userName" />&nbsp;&nbsp;Password:
+        <input type="text" id="password" />&nbsp;&nbsp;<input type="button" value="Login" onclick="Login()" />		
+    </form>
+    <hr>
+    <button type="button" onclick="CallCppFunSub(4,7)">JS call C++</button>  
+</body>
+</html>

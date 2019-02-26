@@ -31,6 +31,7 @@
           <HorizontalLayout width="120">
             <Control />
             <Button name="download_btn" style="btn_style" text="下载" autocalcwidth="true" />
+            <Button name="js_btn" style="btn_style" text="执行JS" tooltip="MB的JS方法使用" autocalcwidth="true" />
             <Button name="app_btn" style="btn_style" text="应用" tooltip="演示使用hook的方式" autocalcwidth="true" />
             <Button name="menu_btn" style="btn_style" text="菜单" autocalcwidth="true" />
           </HorizontalLayout>
