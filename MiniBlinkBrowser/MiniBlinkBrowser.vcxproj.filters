@@ -43,6 +43,9 @@
     <Filter Include="源文件\SqliteDB">
       <UniqueIdentifier>{efc79254-88a0-4ee5-8f7a-3c7163fba5d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd\ThunderOpenSDK">
+      <UniqueIdentifier>{51262824-9165-4379-b01d-cd4ced2658be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helpers.h">
@@ -78,9 +81,6 @@
     <ClInclude Include="Define.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="xldl.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="UI\MsgWnd.h">
       <Filter>头文件\UI</Filter>
     </ClInclude>
@@ -92,6 +92,15 @@
     </ClInclude>
     <ClInclude Include="UI\DownloadWnd.h">
       <Filter>头文件\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\ThunderOpenSDK\xldl.h">
+      <Filter>3rd\ThunderOpenSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="xldownloader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\DllLoader.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +138,9 @@
     </ClCompile>
     <ClCompile Include="UI\DownloadWnd.cpp">
       <Filter>源文件\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="xldownloader.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

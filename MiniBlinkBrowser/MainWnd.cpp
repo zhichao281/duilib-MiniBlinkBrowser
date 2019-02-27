@@ -6,6 +6,7 @@
 #include "UI/MiniControls.h"
 #include <algorithm>
 #include <ShellAPI.h>
+#include "xldownloader.h"
 
 //////////////////////////////////////////////////////////////////////////
 ///
@@ -186,7 +187,7 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 		SetWindowPos(m_pDownloadWnd->GetHWND(), HWND_TOP,0, 0, 0, 0, SWP_NOMOVE |SWP_NOSIZE);
 
 		m_pDownloadWnd->ShowWindow();
-		m_pDownloadWnd->AddDownloadItem();
+		m_pDownloadWnd->UpdateDownloadItem();
 	}
 	else if (sName.CompareNoCase(_T("js_btn")) == 0)
 	{
@@ -560,6 +561,8 @@ LPCTSTR CMainWnd::OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpCo
 bool CMainWnd::OnWkeDownload(CWkeWebkitUI * webView, const char * url)
 {
 
+	XLDownloader    pdown;
+	pdown.initXunLei();
 
 	return false;
 }

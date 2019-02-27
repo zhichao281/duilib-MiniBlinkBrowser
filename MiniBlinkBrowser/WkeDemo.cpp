@@ -113,6 +113,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 #endif
 
 
+
+
+
+
 	// 创建主窗口
 	CMainWnd* pMainWnd = new CMainWnd();
 	if( pMainWnd == NULL ) return 0;

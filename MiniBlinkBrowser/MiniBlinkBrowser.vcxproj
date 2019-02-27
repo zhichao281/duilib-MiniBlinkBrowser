@@ -155,6 +155,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\3rd\miniblink\wke.h" />
+    <ClInclude Include="..\3rd\ThunderOpenSDK\xldl.h" />
+    <ClInclude Include="..\Common\DllLoader.h" />
     <ClInclude Include="..\Common\String\NSString.h" />
     <ClInclude Include="..\Common\Url\Url.h" />
     <ClInclude Include="Define.h" />
@@ -169,7 +171,7 @@
     <ClInclude Include="UI\MiniControls.h" />
     <ClInclude Include="UI\MsgWnd.h" />
     <ClInclude Include="WkeWebkit.h" />
-    <ClInclude Include="xldl.h" />
+    <ClInclude Include="xldownloader.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MiniBlinkBrowser.rc" />
@@ -193,6 +195,7 @@
     <ClCompile Include="WkeWebkit.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="xldownloader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\bin\Skin\Default.xml" />

@@ -37,8 +37,7 @@
                 <ListHeaderItem text="下载进度" font="1" width="100" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
                 <ListHeaderItem text="下载速度" font="1" width="100" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
                 <ListHeaderItem text="下载状态" font="1" width="100" hotimage="file='list_header_hot.png'" pushedimage="file='list_header_pushed.png'" sepimage="file='list_header_sep.png'" sepwidth="1"/>
-              </ListHeader>
-              <Include source="downitem.xml"/>
+              </ListHeader>       
             </List>
           </VerticalLayout>
         </HorizontalLayout>
