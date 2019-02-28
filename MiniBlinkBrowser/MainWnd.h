@@ -19,6 +19,9 @@ typedef struct _tagTabInfo
 
 
 class CDownloadWnd;
+class  XLDownloader;
+
+
 class CMainWnd : public WindowImplBase, public IWkeCallback
 {
 public:
@@ -96,4 +99,6 @@ private:
 
 
 	CDownloadWnd  *m_pDownloadWnd;
+
+	XLDownloader    *m_pDownloader;
 };

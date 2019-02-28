@@ -10,7 +10,7 @@
   <Style name="combo_style" value="height=&quot;22&quot; textpadding=&quot;4,1,22,1&quot; normalimage=&quot;file='imgs/common/combo.png' source='0,0,100,22' corner='2,2,20,2'&quot; hotimage=&quot;file='imgs/common/combo.png' source='0,22,100,44' corner='2,2,22,2'&quot; pushedimage=&quot;file='imgs/common/combo.png' source='0,44,100,66' corner='2,2,22,2'&quot;" />
   <Style name="edit_style" value="bkimage=&quot;res='imgs/common/edit_bk.png' corner='6,6,6,6'&quot;" />
 
-  <TabLayout name="tabModeMain" selectedid="1">
+  <TabLayout name="tabModeMain" selectedid="0">
     <!-- 浏览器模式 -->
    
    <Include source="browser.xml" />

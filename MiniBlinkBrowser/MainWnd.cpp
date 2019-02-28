@@ -49,6 +49,9 @@ DUI_END_MESSAGE_MAP()
 
 CMainWnd::CMainWnd(void)
 {
+
+	m_pDownloader = new XLDownloader;
+	m_pDownloader->initXunLei();
 }
 
 CMainWnd::~CMainWnd(void)
@@ -187,7 +190,7 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 		SetWindowPos(m_pDownloadWnd->GetHWND(), HWND_TOP,0, 0, 0, 0, SWP_NOMOVE |SWP_NOSIZE);
 
 		m_pDownloadWnd->ShowWindow();
-		m_pDownloadWnd->UpdateDownloadItem();
+	
 	}
 	else if (sName.CompareNoCase(_T("js_btn")) == 0)
 	{
@@ -557,12 +560,13 @@ LPCTSTR CMainWnd::OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpCo
 	return lpMethod;
 }
 
+#include <thread>
 //页面下载事件回调。点击某些链接，触发下载会调用
 bool CMainWnd::OnWkeDownload(CWkeWebkitUI * webView, const char * url)
 {
 
-	XLDownloader    pdown;
-	pdown.initXunLei();
+	m_pDownloader->downloadWithXL(_T("http://s.funnycore.com/funnyCore_190116_2695.exe"), _T("d://"), _T("funnyCore_190116_2695.exe"));
+
 
 	return false;
 }
