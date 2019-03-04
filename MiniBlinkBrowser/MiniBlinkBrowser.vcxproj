@@ -157,6 +157,7 @@
     <ClInclude Include="..\3rd\miniblink\wke.h" />
     <ClInclude Include="..\3rd\ThunderOpenSDK\xldl.h" />
     <ClInclude Include="..\Common\DllLoader.h" />
+    <ClInclude Include="..\Common\FileManager\FileManange.h" />
     <ClInclude Include="..\Common\String\NSString.h" />
     <ClInclude Include="..\Common\Url\Url.h" />
     <ClInclude Include="Define.h" />
@@ -177,6 +178,7 @@
     <ResourceCompile Include="MiniBlinkBrowser.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Common\FileManager\FileManange.cpp" />
     <ClCompile Include="..\Common\String\NSString.cpp" />
     <ClCompile Include="..\Common\Url\Url.cpp" />
     <ClCompile Include="MainWnd.cpp">

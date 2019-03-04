@@ -70,14 +70,14 @@ struct DownTaskInfo
 		bIsOriginUsable = false;
 		fHashPercent = 0;
 	}
-	DOWN_TASK_STATUS	stat;
-	TASK_ERROR_TYPE		fail_code;
-	wchar_t		szFilename[MAX_PATH];
+	DOWN_TASK_STATUS	stat;//任务状态
+	TASK_ERROR_TYPE		fail_code;//错误码
+	wchar_t		szFilename[MAX_PATH];//文件名 
 	wchar_t		szReserved0[MAX_PATH];
 	__int64     nTotalSize;         // 该任务总大小(字节)
 	__int64     nTotalDownload;     // 下载有效字节数(可能存在回退的情况)
 	float		fPercent;           // 下载进度
-	int			nReserved0;
+	int			nReserved0;		// 不提供该值
 	int			nSrcTotal;          // 总资源数
 	int			nSrcUsing;          // 可用资源数
 	int			nReserved1;
@@ -92,8 +92,8 @@ struct DownTaskInfo
 	__int64		nReserved7;
 	__int64     nReserved8;
 	int			nSpeed;             // 即时速度(字节/秒)
-	int			nSpeedP2S;          // 即时速度(字节/秒)
-	int			nSpeedP2P;          // 即时速度(字节/秒)
+	int			nSpeedP2S;          // 加速服务器资源的下载速度(字节/秒)
+	int			nSpeedP2P;          //  peer即时速度(字节/秒)
 	bool		bIsOriginUsable;    // 原始资源是否有效
 	float		fHashPercent;       // 现不提供该值
 	int			IsCreatingFile;     // 是否正在创建文件

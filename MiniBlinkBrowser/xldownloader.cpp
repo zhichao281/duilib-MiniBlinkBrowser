@@ -4,12 +4,21 @@
 #include <TCHAR.H>
 XLDownloader::XLDownloader()
 {
+	m_QueryTaskInfoThread = nullptr;
+	m_pCallbackParam = nullptr;
+	m_bRun.store(TRUE);
 }
 
 
 XLDownloader::~XLDownloader()
 {
+	m_bRun.store(FALSE);
+	if (m_QueryTaskInfoThread != nullptr)
+	{
+		m_QueryTaskInfoThread->join();
+	}
 	XL_UnInit();
+	
 }
 
 
@@ -100,9 +109,42 @@ bool XLDownloader::initXunLei()
 }
 bool XLDownloader::downloadWithXL(std::wstring url, std::wstring  filepath,std::wstring  filename)
 {
-	HANDLE  retdown = XL_CreateTaskByURL(url.c_str(), filepath.c_str(), filename.c_str(), FALSE);
-	bool bres=XL_StartTask(retdown);
+	HANDLE  hDownTask = XL_CreateTaskByURL(url.c_str(), filepath.c_str(), filename.c_str(), FALSE);
+	bool bres=XL_StartTask(hDownTask);
+	m_vecTask.push_back(hDownTask);
+	if (m_QueryTaskInfoThread == nullptr)
+	{
+		m_QueryTaskInfoThread = new std::thread([this]()
+		{
+			while (m_bRun.load())
+			{
+				for (HANDLE hDownTask : m_vecTask)
+				{
+					DownTaskInfo  stTaskInfo;
+				    BOOL bRet=	XL_QueryTaskInfoEx(hDownTask, stTaskInfo);
+					if (m_callbackfuc != nullptr && bRet)
+					{
+						m_callbackfuc(m_pCallbackParam,hDownTask, stTaskInfo);
+					}				
+				}
+				Sleep(1000);
+
+
+
+			}
+		});
+		m_QueryTaskInfoThread->detach();
+	}
+
+
 	return bres;
 
 
+}
+
+void XLDownloader::setCallback(CallBackFunc callbackfuc, void * lpParam)
+{
+	m_callbackfuc = callbackfuc;
+
+	m_pCallbackParam = lpParam;
 }

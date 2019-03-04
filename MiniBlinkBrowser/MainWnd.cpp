@@ -1,13 +1,17 @@
 #include "StdAfx.h"
+#include <algorithm>
+#include <regex>
+#include <ShellAPI.h>
+#include <thread>
 #include "MainWnd.h"
 #include "resource.h"
 #include "UI/MsgWnd.h"
 #include "UI/DownloadWnd.h"
 #include "UI/MiniControls.h"
-#include <algorithm>
-#include <ShellAPI.h>
 #include "xldownloader.h"
-
+#include "../Common/Url/Url.h"
+#include "../Common/String/NSString.h"
+#include "../Common/FileManager/FileManange.h"
 //////////////////////////////////////////////////////////////////////////
 ///
 
@@ -52,6 +56,23 @@ CMainWnd::CMainWnd(void)
 
 	m_pDownloader = new XLDownloader;
 	m_pDownloader->initXunLei();
+
+	m_pDownloader->setCallback([=](void* lpParam, HANDLE hTask, DownTaskInfo & stTaskInfo)
+	{
+		if (stTaskInfo.stat == DOWN_TASK_STATUS::TSC_STARTPENDING)
+		{
+			m_pDownloadWnd->AddDownloadItem(hTask,stTaskInfo);
+
+		}
+		else
+		{
+			m_pDownloadWnd->UpdateDownloadItem(hTask,stTaskInfo);
+		}
+	
+
+	}, this);
+	
+	
 }
 
 CMainWnd::~CMainWnd(void)
@@ -454,7 +475,6 @@ void CMainWnd::Refresh()
 }
 
 
-
 void CMainWnd::OnWkeTitleChanged(CWkeWebkitUI* webView, LPCTSTR title)
 {
 	vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), web_finder(webView));
@@ -560,13 +580,31 @@ LPCTSTR CMainWnd::OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpCo
 	return lpMethod;
 }
 
-#include <thread>
+
 //页面下载事件回调。点击某些链接，触发下载会调用
 bool CMainWnd::OnWkeDownload(CWkeWebkitUI * webView, const char * url)
 {
 
-	m_pDownloader->downloadWithXL(_T("http://s.funnycore.com/funnyCore_190116_2695.exe"), _T("d://"), _T("funnyCore_190116_2695.exe"));
-
-
+	std::string  strUrl = url;
+	std::smatch results;
+	std::string pattern{ ".+/(.+)$" }; 
+	std::regex re(pattern);
+	bool ret = std::regex_search(strUrl, results, re);
+	if (ret)
+	{
+		std::string  strFileName = results[1]; ;
+		std::wstring strdownPath;
+	
+		if (m_pDownloadWnd->GetDownloadPath().size()<1)
+		{
+			strdownPath = WisdomUtils::CFileManange::GetModulePathW();
+			strdownPath = strdownPath + _T("down\\");
+		}
+		else
+		{
+			strdownPath = m_pDownloadWnd->GetDownloadPath();
+		}
+		m_pDownloader->downloadWithXL(NStr::StrToWStr(strUrl).c_str(), strdownPath.c_str(), NStr::StrToWStr(strFileName).c_str());
+	}
 	return false;
 }

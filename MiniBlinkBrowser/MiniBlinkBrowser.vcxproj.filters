@@ -46,6 +46,9 @@
     <Filter Include="3rd\ThunderOpenSDK">
       <UniqueIdentifier>{51262824-9165-4379-b01d-cd4ced2658be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\FileManager">
+      <UniqueIdentifier>{ba1fed6a-14ba-4176-8ad0-87a7950e44ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helpers.h">
@@ -102,6 +105,9 @@
     <ClInclude Include="..\Common\DllLoader.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\FileManager\FileManange.h">
+      <Filter>Common\FileManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MiniBlinkBrowser.rc">
@@ -141,6 +147,9 @@
     </ClCompile>
     <ClCompile Include="xldownloader.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\FileManager\FileManange.cpp">
+      <Filter>Common\FileManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
