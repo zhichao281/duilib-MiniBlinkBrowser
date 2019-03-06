@@ -35,6 +35,8 @@ void NodeData::asyncCallback(Async *async)
 }
 
 Node::Node(int recvLength, int prePadding, int postPadding, bool useDefaultLoop) {
+
+
     nodeData = new NodeData;
     nodeData->recvBufferMemoryBlock = new char[recvLength];
     nodeData->recvBuffer = nodeData->recvBufferMemoryBlock + prePadding;

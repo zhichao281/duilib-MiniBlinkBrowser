@@ -126,7 +126,7 @@ struct WIN32_EXPORT HttpSocket : uS::Socket {
                  size_t extensionsLength, const char *subprotocol,
                  size_t subprotocolLength, bool *perMessageDeflate);
 
-protected:
+public:
     friend struct uS::Socket;
     friend struct HttpResponse;
     friend struct Hub;

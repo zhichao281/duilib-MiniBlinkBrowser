@@ -41,6 +41,8 @@
 #endif
 #define WIN32_EXPORT __declspec(dllexport)
 
+
+
 inline void close(SOCKET fd) {closesocket(fd);}
 inline int setsockopt(SOCKET fd, int level, int optname, const void *optval, socklen_t optlen) {
     return setsockopt(fd, level, optname, (const char *) optval, optlen);
@@ -196,7 +198,7 @@ Context WIN32_EXPORT createContext(std::string certChainFileName, std::string ke
 struct Socket;
 
 // NodeData is like a Context, maybe merge them?
-struct WIN32_EXPORT NodeData {
+struct  NodeData {
     char *recvBufferMemoryBlock;
     char *recvBuffer;
     int recvLength;

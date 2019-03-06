@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="3rd">
+      <UniqueIdentifier>{9c169f45-d696-4dc3-988f-be61b5ae0743}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Asio.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Backend.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Epoll.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Extensions.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Group.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HTTPSocket.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hub.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Libuv.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Networking.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Node.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Socket.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\usclient.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\uWS.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WebSocket.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WebSocketProtocol.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Epoll.cpp">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Extensions.cpp">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Group.cpp">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HTTPSocket.cpp">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hub.cpp">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Networking.cpp">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Node.cpp">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Socket.cpp">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\usclient.cpp">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WebSocket.cpp">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

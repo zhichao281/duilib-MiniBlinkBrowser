@@ -61,7 +61,6 @@ CMainWnd::CMainWnd(void)
 
 	client.SetEvent(m_event);
 	client.Start("ws://127.0.0.1:6800/jsonrpc");
-	
 
 
 
@@ -80,6 +79,7 @@ CMainWnd::CMainWnd(void)
 			m_pDownloadWnd->UpdateDownloadItem(hTask,stTaskInfo);
 		}
 	
+
 
 	}, this);
 	

@@ -7,6 +7,7 @@
 #else
 #define UWBESOCKET_EXPORTIMPL __declspec(dllimport)
 #endif 
+
 class UWebSocketsClientEvent;
 enum OpCode : unsigned char {
 	TEXT = 1,

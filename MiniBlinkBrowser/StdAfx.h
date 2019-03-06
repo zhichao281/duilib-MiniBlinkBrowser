@@ -18,7 +18,7 @@ using namespace DuiLib;
 #ifdef _DEBUG
 #   ifdef _UNICODE
 #       pragma comment(lib, "..\\lib\\DuiLib_d.lib")
-		pragma comment(lib, "..\\lib\\TroyControls_d.lib")
+#		pragma comment(lib, "..\\lib\\TroyControls_d.lib")
 #       pragma comment(lib, "..\\lib\\uWebSockets_d.lib")
 #   else
 #       pragma comment(lib, "..\\lib\\DuiLibA_d.lib")

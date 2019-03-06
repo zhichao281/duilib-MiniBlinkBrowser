@@ -142,7 +142,7 @@ public:
         }
 
         uv_os_sock_t listenFd = SOCKET_ERROR;
-        addrinfo *listenAddr;
+        addrinfo *listenAddr =NULL;
         if ((options & uS::ONLY_IPV4) == 0) {
             for (addrinfo *a = result; a && listenFd == SOCKET_ERROR; a = a->ai_next) {
                 if (a->ai_family == AF_INET6) {

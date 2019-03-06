@@ -1,6 +1,7 @@
 #include "usclient.h"
 #include "Hub.h"
 #include <openssl/sha.h>
+#include <iostream>
 UWebSocketsClient::UWebSocketsClient()
 {
 	m_bStop.reset(new bool(false));
@@ -14,9 +15,91 @@ UWebSocketsClient::~UWebSocketsClient()
 	
 	
 }
+void testConnections() 
+{
+	uWS::Hub h;
+
+	h.onError([](void *user) {
+		switch ((long)user) {
+		case 1:
+			std::cout << "Client emitted error on invalid URI" << std::endl;
+			break;
+		case 2:
+			std::cout << "Client emitted error on resolve failure" << std::endl;
+			break;
+		case 3:
+			std::cout << "Client emitted error on connection timeout (non-SSL)" << std::endl;
+			break;
+		case 5:
+			std::cout << "Client emitted error on connection timeout (SSL)" << std::endl;
+			break;
+		case 6:
+			std::cout << "Client emitted error on HTTP response without upgrade (non-SSL)" << std::endl;
+			break;
+		case 7:
+			std::cout << "Client emitted error on HTTP response without upgrade (SSL)" << std::endl;
+			break;
+		case 10:
+			std::cout << "Client emitted error on poll error" << std::endl;
+			break;
+		case 11:
+		{
+			static int protocolErrorCount = 0;
+			protocolErrorCount++;
+			std::cout << "Client emitted error on invalid protocol" << std::endl;
+			if (protocolErrorCount > 1) {
+				std::cout << "FAILURE:  " << protocolErrorCount << " errors emitted for one connection!" << std::endl;
+				exit(-1);
+			}
+			break;
+		}
+
+		default:
+			std::cout << "FAILURE: " << user << " should not emit error!" << std::endl;
+			exit(-1);
+		}
+	});
+
+	h.onConnection([](uWS::WebSocket<uWS::CLIENT> *ws, uWS::HttpRequest req) {
+		switch ((long)ws->getUserData()) {
+		case 8:
+			std::cout << "Client established a remote connection over non-SSL" << std::endl;
+			ws->close(1000);
+			break;
+		case 9:
+			std::cout << "Client established a remote connection over SSL" << std::endl;
+			ws->close(1000);
+			break;
+		default:
+			std::cout << "FAILURE: " << ws->getUserData() << " should not connect!" << std::endl;
+			exit(-1);
+		}
+	});
+
+	h.onDisconnection([](uWS::WebSocket<uWS::CLIENT> *ws, int code, char *message, size_t length) {
+		std::cout << "Client got disconnected with data: " << ws->getUserData() << ", code: " << code << ", message: <" << std::string(message, length) << ">" << std::endl;
+	});
+
+	h.connect("invalid URI", (void *)1);
+	h.connect("invalid://validButUnknown.yolo", (void *)11);
+	h.connect("ws://validButUnknown.yolo", (void *)2);
+	h.connect("ws://echo.websocket.org", (void *)3, {}, 10);
+	h.connect("ws://echo.websocket.org", (void *)8);
+	h.connect("wss://echo.websocket.org", (void *)5, {}, 10);
+	h.connect("wss://echo.websocket.org", (void *)9);
+	h.connect("ws://google.com", (void *)6);
+	h.connect("wss://google.com", (void *)7);
+	h.connect("ws://127.0.0.1:6000", (void *)10, {}, 60000);
+
+	h.run();
+	std::cout << "Falling through testConnections" << std::endl;
+}
+
+
 
 void UWebSocketsClient::Start(std::string url)
 {
+
 	m_url = url;
 	if (m_bStop)
 	{
