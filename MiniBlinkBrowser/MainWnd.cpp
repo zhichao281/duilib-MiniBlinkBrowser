@@ -51,8 +51,19 @@ DUI_BEGIN_MESSAGE_MAP(CMainWnd, WindowImplBase)
 	DUI_ON_MSGTYPE(DUI_MSGTYPE_TABCLOSED,OnTabClosed)
 DUI_END_MESSAGE_MAP()
 
+
+
+
 CMainWnd::CMainWnd(void)
 {
+	m_event = new ClientEvent();
+
+
+	client.SetEvent(m_event);
+	client.Start("ws://127.0.0.1:6800/jsonrpc");
+	
+
+
 
 	m_pDownloader = new XLDownloader;
 	m_pDownloader->initXunLei();
@@ -607,4 +618,16 @@ bool CMainWnd::OnWkeDownload(CWkeWebkitUI * webView, const char * url)
 		m_pDownloader->downloadWithXL(NStr::StrToWStr(strUrl).c_str(), strdownPath.c_str(), NStr::StrToWStr(strFileName).c_str());
 	}
 	return false;
+}
+
+void ClientEvent::onConnection()
+{
+	int i1 = 0;
+
+
+}
+
+void ClientEvent::onDisconnection()
+{
+	int in2 = 3;
 }

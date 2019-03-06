@@ -83,8 +83,11 @@ bool isOneInstance()
 
 
 
+
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
+
 
 	if (!isOneInstance()) {
 		::MessageBoxW(NULL, L"该进程已经启动", L"错误", MB_OK);
