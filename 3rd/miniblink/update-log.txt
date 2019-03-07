@@ -1,4 +1,20 @@
-﻿2019.2.24
+﻿2019.3.7
+    * 定制版支持硬盘缓存（diskcache）
+    * 修复定制版下载崩溃问题
+    * 修复定制版打印frame的问题
+    * 增加mbGetPdfPageData，可以获取pdf页面的pdf原始数据
+    * 增加window.close关闭当前窗口HWND的功能
+    * 增加MB_ENABLE_DISABLE_H5VIDEO宏，可禁用H5video功能
+
+2019.2.28
+    * 修复https://signin.ebay.com.hk/ws/eBayISAPI.dll?SignIn&ru=https%3A%2F%2Fwww.ebay.com.hk%2F崩溃问题
+    * 修复负责图片崩溃的问题
+
+2019.2.26
+    * 增加定制版的nodejs能力及demo，及修复崩溃
+    * 修复mini-electron在点击超链接时可能的崩溃
+
+2019.2.24
     * 增加wkeCreateWebCustomWindow，可设置底色以及更灵活的创建窗口方式
 
 2019.2.19

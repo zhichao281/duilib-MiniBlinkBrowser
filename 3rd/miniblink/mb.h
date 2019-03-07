@@ -97,6 +97,7 @@ typedef struct {
 enum mbSettingMask {
     MB_SETTING_PROXY = 1,
     MB_ENABLE_NODEJS = 1 << 3,
+    MB_ENABLE_DISABLE_H5VIDEO = 1 << 4,
 };
 
 typedef void(MB_CALL_TYPE* mbOnBlinkThreadInitCallback)(void* param);
@@ -434,12 +435,12 @@ typedef struct _mbNetJobDataBind {
 
 typedef void(MB_CALL_TYPE*mbPopupDialogSaveNameCallback)(void* ptr, const wchar_t* filePath);
 
-typedef struct _mbPopupDialogAndDownloadBind {
+typedef struct _mbDownloadBind {
     void* ptr;
     mbNetJobDataRecvCallback recvCallback;
     mbNetJobDataFinishCallback finishCallback;
     mbPopupDialogSaveNameCallback saveNameCallback;
-} mbPopupDialogAndDownloadBind;
+} mbDownloadBind;
 
 typedef mbDownloadOpt(MB_CALL_TYPE*mbDownloadInBlinkThreadCallback)(
     mbWebView webView, 
@@ -468,6 +469,26 @@ typedef struct _mbScreenshotSettings {
 
 typedef void(MB_CALL_TYPE* mbPrintBitmapCallback)(mbWebView webview, void* param, const char* data, size_t size);
 
+typedef enum _mbHttBodyElementType {
+    mbHttBodyElementTypeData,
+    mbHttBodyElementTypeFile,
+} mbHttBodyElementType;
+
+typedef struct _mbPostBodyElement {
+    int size;
+    mbHttBodyElementType type;
+    mbMemBuf* data;
+    mbStringPtr filePath;
+    __int64 fileStart;
+    __int64 fileLength; // -1 means to the end of the file.
+} mbPostBodyElement;
+
+typedef struct _mbPostBodyElements {
+    int size;
+    mbPostBodyElement** element;
+    size_t elementSize;
+    bool isDirty;
+} mbPostBodyElements;
 
 //mbwindow-----------------------------------------------------------------------------------
 typedef enum {
@@ -544,6 +565,10 @@ typedef BOOL(MB_CALL_TYPE *mbPrintingCallback)(mbWebView webview, void* param, m
     typedef returnVal(MB_CALL_TYPE* FN_##name)(p1, p2, p3, p4, p5, p6, p7, p8, p9); \
     __declspec(selectany) FN_##name name = ((FN_##name)0);
 
+#define MB_DEFINE_ITERATOR10(returnVal, name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, description) \
+    typedef returnVal(MB_CALL_TYPE* FN_##name)(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10); \
+    __declspec(selectany) FN_##name name = ((FN_##name)0);
+
 #define MB_DEFINE_ITERATOR11(returnVal, name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, description) \
     typedef returnVal(MB_CALL_TYPE* FN_##name)(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11); \
     __declspec(selectany) FN_##name name = ((FN_##name)0);
@@ -579,6 +604,9 @@ typedef BOOL(MB_CALL_TYPE *mbPrintingCallback)(mbWebView webview, void* param, m
 
 #define MB_DECLARE_ITERATOR9(returnVal, name, p1, p2, p3, p4, p5, p6, p7, p8, p9, description) \
     MB_EXTERN_C __declspec(dllexport) returnVal MB_CALL_TYPE name(p1, p2, p3, p4, p5, p6, p7, p8, p9);
+
+#define MB_DECLARE_ITERATOR10(returnVal, name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, description) \
+    MB_EXTERN_C __declspec(dllexport) returnVal MB_CALL_TYPE name(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10);
 
 #define MB_DECLARE_ITERATOR11(returnVal, name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, description) \
     MB_EXTERN_C __declspec(dllexport) returnVal MB_CALL_TYPE name(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11);
@@ -620,11 +648,14 @@ typedef BOOL(MB_CALL_TYPE *mbPrintingCallback)(mbWebView webview, void* param, m
 #define MB_GET_PTR_ITERATOR9(returnVal, name, p1, p2, p3, p4, p5, p6, p7, p8, p9, description) \
     MB_GET_PTR_ITERATOR(name);
 
+#define MB_GET_PTR_ITERATOR10(returnVal, name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, description) \
+    MB_GET_PTR_ITERATOR(name);
+
 #define MB_GET_PTR_ITERATOR11(returnVal, name, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, description) \
     MB_GET_PTR_ITERATOR(name);
 
 // 以下是mb的导出函数。格式按照【返回类型】【函数名】【参数】来排列
-#define MB_FOR_EACH_DEFINE_FUNCTION(ITERATOR0, ITERATOR1, ITERATOR2, ITERATOR3, ITERATOR4, ITERATOR5, ITERATOR6, ITERATOR7, ITERATOR8, ITERATOR9, ITERATOR11) \
+#define MB_FOR_EACH_DEFINE_FUNCTION(ITERATOR0, ITERATOR1, ITERATOR2, ITERATOR3, ITERATOR4, ITERATOR5, ITERATOR6, ITERATOR7, ITERATOR8, ITERATOR9, ITERATOR10, ITERATOR11) \
 ITERATOR0(void, mbUninit, "") \
 ITERATOR0(mbWebView, mbCreateWebView, "") \
 ITERATOR1(void, mbDestroyWebView, mbWebView, "") \
@@ -645,6 +676,12 @@ ITERATOR1(void, mbNetHookRequest, mbNetJob jobPtr, "") \
 ITERATOR2(void, mbNetChangeRequestUrl, mbNetJob jobPtr, const char* url, "") \
 ITERATOR1(void, mbNetContinueJob, mbNetJob jobPtr, "") \
 ITERATOR1(void, mbNetHoldJobToAsynCommit, mbNetJob jobPtr, "") \
+\
+ITERATOR1(mbPostBodyElements*, mbNetGetPostBody, mbNetJob jobPtr, "") \
+ITERATOR2(mbPostBodyElements*, mbNetCreatePostBodyElements, mbWebView webView, size_t length, "") \
+ITERATOR1(void, mbNetFreePostBodyElements, mbPostBodyElements* elements, "") \
+ITERATOR1(mbPostBodyElement*, mbNetCreatePostBodyElement, mbWebView webView, "") \
+ITERATOR1(void, mbNetFreePostBodyElement, mbPostBodyElement* element, "") \
 \
 ITERATOR3(mbWebUrlRequestPtr, mbNetCreateWebUrlRequest, const utf8* url, const utf8* method, const utf8* mime, "")\
 ITERATOR3(void, mbNetAddHTTPHeaderFieldToUrlRequest, mbWebUrlRequestPtr request, const utf8* name, const utf8* value, "")\
@@ -681,6 +718,7 @@ ITERATOR2(void, mbAddPluginDirectory, mbWebView webView, const WCHAR* path, "") 
 ITERATOR2(void, mbSetUserAgent, mbWebView webView, const utf8* userAgent, "") \
 ITERATOR2(void, mbSetZoomFactor, mbWebView webView, float factor, "") \
 ITERATOR1(float, mbGetZoomFactor, mbWebView webView, "") \
+ITERATOR2(void, mbSetDiskCacheEnabled, mbWebView webView, BOOL enable, "") \
 \
 ITERATOR2(void, mbSetResourceGc, mbWebView webView, int intervalSec, "") \
 \
@@ -772,7 +810,11 @@ ITERATOR5(void, mbUtilPrintToBitmap, mbWebView webView, mbWebFrameHandle frameId
 \
 ITERATOR3(BOOL, mbPopupDownloadMgr, mbWebView webView, const char* url, void* downloadJob, "") \
 ITERATOR9(mbDownloadOpt, mbPopupDialogAndDownload, mbWebView webView, void* param, size_t contentLength, const char* url, \
-    const char* mime, const char* disposition, mbNetJob job, mbNetJobDataBind* dataBind, mbPopupDialogAndDownloadBind* callbackBind, "") \
+    const char* mime, const char* disposition, mbNetJob job, mbNetJobDataBind* dataBind, mbDownloadBind* callbackBind, "") \
+ITERATOR10(mbDownloadOpt, mbDownloadByPath, mbWebView webView, void* param, const WCHAR* path, size_t contentLength, const char* url, \
+    const char* mime, const char* disposition, mbNetJob job, mbNetJobDataBind* dataBind, mbDownloadBind* callbackBind, "") \
+\
+ITERATOR1(mbMemBuf*, mbGetPdfPageData, mbWebView webView, "使用完毕，记得用mbFreeMemBuf销毁内存") \
 \
 ITERATOR1(void, mbFreeMemBuf, mbMemBuf* buf, "") \
 
@@ -781,12 +823,12 @@ ITERATOR1(void, mbFreeMemBuf, mbMemBuf* buf, "") \
 MB_EXTERN_C __declspec(dllexport) void MB_CALL_TYPE mbInit(const mbSettings* settings);
 
 MB_FOR_EACH_DEFINE_FUNCTION(MB_DECLARE_ITERATOR0, MB_DECLARE_ITERATOR1, MB_DECLARE_ITERATOR2, \
-    MB_DECLARE_ITERATOR3, MB_DECLARE_ITERATOR4, MB_DECLARE_ITERATOR5, MB_DECLARE_ITERATOR6, MB_DECLARE_ITERATOR7, MB_DECLARE_ITERATOR8, MB_DECLARE_ITERATOR9, MB_DECLARE_ITERATOR11)
+    MB_DECLARE_ITERATOR3, MB_DECLARE_ITERATOR4, MB_DECLARE_ITERATOR5, MB_DECLARE_ITERATOR6, MB_DECLARE_ITERATOR7, MB_DECLARE_ITERATOR8, MB_DECLARE_ITERATOR9, MB_DECLARE_ITERATOR10, MB_DECLARE_ITERATOR11)
 
 #else
 
 MB_FOR_EACH_DEFINE_FUNCTION(MB_DEFINE_ITERATOR0, MB_DEFINE_ITERATOR1, MB_DEFINE_ITERATOR2, \
-    MB_DEFINE_ITERATOR3, MB_DEFINE_ITERATOR4, MB_DEFINE_ITERATOR5, MB_DEFINE_ITERATOR6, MB_DEFINE_ITERATOR7, MB_DEFINE_ITERATOR8, MB_DEFINE_ITERATOR9, MB_DEFINE_ITERATOR11)
+    MB_DEFINE_ITERATOR3, MB_DEFINE_ITERATOR4, MB_DEFINE_ITERATOR5, MB_DEFINE_ITERATOR6, MB_DEFINE_ITERATOR7, MB_DEFINE_ITERATOR8, MB_DEFINE_ITERATOR9, MB_DEFINE_ITERATOR10, MB_DEFINE_ITERATOR11)
 
 typedef void (MB_CALL_TYPE *FN_mbInit)(const mbSettings* settings);
 
@@ -812,7 +854,7 @@ inline void mbInit(const mbSettings* settings)
     mbInitExFunc(settings);
 
     MB_FOR_EACH_DEFINE_FUNCTION(MB_GET_PTR_ITERATOR0, MB_GET_PTR_ITERATOR1, MB_GET_PTR_ITERATOR2, MB_GET_PTR_ITERATOR3, \
-        MB_GET_PTR_ITERATOR4, MB_GET_PTR_ITERATOR5, MB_GET_PTR_ITERATOR6, MB_GET_PTR_ITERATOR7, MB_GET_PTR_ITERATOR8, MB_GET_PTR_ITERATOR9, MB_GET_PTR_ITERATOR11);
+        MB_GET_PTR_ITERATOR4, MB_GET_PTR_ITERATOR5, MB_GET_PTR_ITERATOR6, MB_GET_PTR_ITERATOR7, MB_GET_PTR_ITERATOR8, MB_GET_PTR_ITERATOR9, MB_GET_PTR_ITERATOR10, MB_GET_PTR_ITERATOR11);
 
     return;
 }

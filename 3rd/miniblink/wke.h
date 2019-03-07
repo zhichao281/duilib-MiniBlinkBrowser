@@ -353,12 +353,12 @@ typedef struct {
     void* headers;
 } wkeWillSendRequestInfo;
 
-typedef enum {
+typedef enum _wkeHttBodyElementType {
     wkeHttBodyElementTypeData,
     wkeHttBodyElementTypeFile,
 } wkeHttBodyElementType;
 
-typedef struct {
+typedef struct _wkePostBodyElement {
     int size;
     wkeHttBodyElementType type;
     wkeMemBuf* data;
@@ -1184,6 +1184,8 @@ public:
     ITERATOR1(const wkeMemBuf*, wkeUtilCreateV8Snapshot, const utf8* str, "") \
     \
     ITERATOR0(void, wkeRunMessageLoop, "") \
+    \
+    ITERATOR1(void, wkeSaveMemoryCache, wkeWebView webView, "") \
     \
     ITERATOR3(void, jsBindFunction, const char* name, jsNativeFunction fn, unsigned int argCount, "") \
     ITERATOR2(void, jsBindGetter, const char* name, jsNativeFunction fn, "") \
