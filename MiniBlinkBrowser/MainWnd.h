@@ -21,25 +21,6 @@ typedef struct _tagTabInfo
 class CDownloadWnd;
 class  XLDownloader;
 
-#include "E:\study\MiniBlinkBrowser\uWebSockets\src\usclient.h"
-
-
-class ClientEvent :public UWebSocketsClientEvent
-{
-public:
-	ClientEvent()
-	{
-
-	}
-	~ClientEvent()
-	{
-
-	}
-	virtual void onConnection();
-	virtual void onDisconnection();
-	virtual void OnMessage(std::string message, UWebSocketsClient* client) {};
-	virtual void onTimeEvent() {};
-};
 
 
 
@@ -124,7 +105,7 @@ private:
 
 	XLDownloader    *m_pDownloader;
 
-	ClientEvent  *m_event;
-	UWebSocketsClient  client;
+
+
 
 };

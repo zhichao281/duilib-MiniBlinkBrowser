@@ -58,4 +58,6 @@ public:
 	virtual void onTimeEvent() = 0;
 
 	virtual void onError(int port) = 0;
+	virtual void onError(void *user) = 0;
+
 };

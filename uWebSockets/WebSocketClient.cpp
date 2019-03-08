@@ -85,6 +85,15 @@ void CWebSocketClient::Start(std::string url)
 			uWS::Hub h;
 			m_pus = &h;
 			UWebSocketsClientEvent* pevent = m_event;
+
+			h.onError([&](void *user)
+			{
+				std::cout << "FAILURE: Connection failed! Timeout?" << std::endl;
+				if (m_event)
+				{
+					m_event->onError(user);
+				}
+			});
 			h.onMessage([&](uWS::WebSocket<uWS::CLIENT> *ws, char *message, size_t length, uWS::OpCode opCode) {
 				if (m_event)
 				{

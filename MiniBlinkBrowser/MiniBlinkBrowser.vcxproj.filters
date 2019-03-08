@@ -108,6 +108,9 @@
     <ClInclude Include="..\Common\FileManager\FileManange.h">
       <Filter>Common\FileManager</Filter>
     </ClInclude>
+    <ClInclude Include="Aria2cEngine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MiniBlinkBrowser.rc">
@@ -150,6 +153,9 @@
     </ClCompile>
     <ClCompile Include="..\Common\FileManager\FileManange.cpp">
       <Filter>Common\FileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Aria2cEngine.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

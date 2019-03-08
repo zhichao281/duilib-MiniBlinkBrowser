@@ -47,6 +47,14 @@ void CWebSocketsServer::Start(int nPort)
 					m_event->onError(port);
 				}
 			});
+			hub.onError([&](void *user)
+			{
+				std::cout << "FAILURE: Connection failed! Timeout?" << std::endl;
+				if (m_event)
+				{
+					m_event->onError(user);
+				}
+			});
 
 			hub.onDisconnection([&](uWS::WebSocket<uWS::SERVER> *ws, int code, char *message, size_t length)
 			{		
