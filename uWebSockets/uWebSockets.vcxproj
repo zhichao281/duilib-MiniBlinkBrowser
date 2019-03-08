@@ -164,6 +164,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="define.h" />
     <ClInclude Include="src\Asio.h" />
     <ClInclude Include="src\Backend.h" />
     <ClInclude Include="src\Epoll.h" />
@@ -175,11 +176,12 @@
     <ClInclude Include="src\Networking.h" />
     <ClInclude Include="src\Node.h" />
     <ClInclude Include="src\Socket.h" />
-    <ClInclude Include="src\usclient.h" />
     <ClInclude Include="src\uWS.h" />
     <ClInclude Include="src\WebSocket.h" />
     <ClInclude Include="src\WebSocketProtocol.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="WebSocketClient.h" />
+    <ClInclude Include="WebSocketsServer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Epoll.cpp" />
@@ -190,9 +192,10 @@
     <ClCompile Include="src\Networking.cpp" />
     <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\Socket.cpp" />
-    <ClCompile Include="src\usclient.cpp" />
     <ClCompile Include="src\WebSocket.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="WebSocketClient.cpp" />
+    <ClCompile Include="WebSocketsServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

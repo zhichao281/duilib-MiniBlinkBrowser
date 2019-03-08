@@ -1,26 +1,14 @@
 #pragma once
-#include <string>
-#include <mutex>
-#include <map>
-#ifdef   UWBESOCKET_EXPORT
-#define UWBESOCKET_EXPORTIMPL __declspec(dllexport)
-#else
-#define UWBESOCKET_EXPORTIMPL __declspec(dllimport)
-#endif 
+
+#include "define.h"
 
 class UWebSocketsClientEvent;
-enum OpCode : unsigned char {
-	TEXT = 1,
-	BINARY = 2,
-	CLOSE = 8,
-	PING = 9,
-	PONG = 10
-};
-class UWBESOCKET_EXPORTIMPL UWebSocketsClient
-{   
+
+class UWBESOCKET_EXPORTIMPL CWebSocketClient
+{
 public:
-	UWebSocketsClient();
-	~UWebSocketsClient();
+	CWebSocketClient();
+	~CWebSocketClient();
 	void sendTextMessage(std::string, OpCode);
 	void Start(std::string url);
 	void StartTimeEvent(int nMiliseconds);
@@ -29,14 +17,15 @@ public:
 	void SetEvent(UWebSocketsClientEvent*);
 	void onTimeEvent();
 	void SetExtraHeaders(std::map<std::string, std::string>& extraHeaders);
-private:	
+private:
 	std::string m_url;
 	void* m_pus = NULL;
 	UWebSocketsClientEvent* m_event;
-	std::shared_ptr<bool> m_bStop;
+
 	int m_timerid;
 	std::recursive_mutex m_asyncMutex;
 	std::map<std::string, std::string> m_extraHeaders;
+	std::atomic<bool>    m_bRun;
 };
 class UWBESOCKET_EXPORTIMPL UWebSocketsClientEvent
 {
@@ -49,8 +38,9 @@ public:
 	{
 
 	}
+
 	virtual void onConnection() = 0;
 	virtual void onDisconnection() = 0;
-	virtual void OnMessage(std::string message, UWebSocketsClient* client) = 0;
+	virtual void OnMessage(std::string message, CWebSocketClient* client) = 0;
 	virtual void onTimeEvent() = 0;
 };

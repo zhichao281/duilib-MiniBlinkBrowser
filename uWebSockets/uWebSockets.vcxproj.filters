@@ -54,9 +54,6 @@
     <ClInclude Include="src\Socket.h">
       <Filter>3rd</Filter>
     </ClInclude>
-    <ClInclude Include="src\usclient.h">
-      <Filter>3rd</Filter>
-    </ClInclude>
     <ClInclude Include="src\uWS.h">
       <Filter>3rd</Filter>
     </ClInclude>
@@ -65,6 +62,15 @@
     </ClInclude>
     <ClInclude Include="src\WebSocketProtocol.h">
       <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="WebSocketsServer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WebSocketClient.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -92,13 +98,16 @@
     <ClCompile Include="src\Socket.cpp">
       <Filter>3rd</Filter>
     </ClCompile>
-    <ClCompile Include="src\usclient.cpp">
-      <Filter>3rd</Filter>
-    </ClCompile>
     <ClCompile Include="src\WebSocket.cpp">
       <Filter>3rd</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WebSocketsServer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WebSocketClient.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
