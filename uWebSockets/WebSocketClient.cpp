@@ -117,7 +117,7 @@ void CWebSocketClient::Start(std::string url)
 					break;
 				default:
 					std::cout << "FAILURE: " << ws->getUserData() << " should not connect!" << std::endl;
-					exit(-1);
+					break;
 				}
 				if (pevent)
 				{

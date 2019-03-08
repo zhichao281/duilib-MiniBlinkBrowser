@@ -16,7 +16,7 @@ public:
 	//启动ws服务器
 	void Start(int nPort);
 
-	void sendTextMessage(std::string, OpCode opCode= TEXT);
+	void sendTextMessage(std::string text, OpCode opCode= TEXT);
 
 	//关闭ws服务器
 	void Stop();

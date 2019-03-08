@@ -9,7 +9,7 @@ class UWBESOCKET_EXPORTIMPL CWebSocketClient
 public:
 	CWebSocketClient();
 	~CWebSocketClient();
-	void sendTextMessage(std::string, OpCode);
+	void sendTextMessage(std::string, OpCode opCode = TEXT);
 	void Start(std::string url);
 	void StartTimeEvent(int nMiliseconds);
 	void StopTimeEvent();
