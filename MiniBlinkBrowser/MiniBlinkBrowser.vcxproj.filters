@@ -49,6 +49,15 @@
     <Filter Include="Common\FileManager">
       <UniqueIdentifier>{ba1fed6a-14ba-4176-8ad0-87a7950e44ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Json">
+      <UniqueIdentifier>{44a7a867-ff44-4fc9-9faf-82ce55297df5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Json\head">
+      <UniqueIdentifier>{0129c8ee-2758-4cda-8ed7-94cd5ce18933}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Json\src">
+      <UniqueIdentifier>{15dcacee-f1a2-4e4e-b5aa-1041809d781f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helpers.h">
@@ -111,6 +120,36 @@
     <ClInclude Include="Aria2cEngine.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\Json\Src\json_batchallocator.h">
+      <Filter>Common\Json\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Json\Header\autolink.h">
+      <Filter>Common\Json\head</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Json\Header\config.h">
+      <Filter>Common\Json\head</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Json\Header\features.h">
+      <Filter>Common\Json\head</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Json\Header\forwards.h">
+      <Filter>Common\Json\head</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Json\Header\json.h">
+      <Filter>Common\Json\head</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Json\Header\NSJson.h">
+      <Filter>Common\Json\head</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Json\Header\reader.h">
+      <Filter>Common\Json\head</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Json\Header\value.h">
+      <Filter>Common\Json\head</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Json\Header\writer.h">
+      <Filter>Common\Json\head</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MiniBlinkBrowser.rc">
@@ -157,6 +196,18 @@
     <ClCompile Include="Aria2cEngine.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\Common\Json\Src\json_reader.cpp">
+      <Filter>Common\Json\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Json\Src\json_value.cpp">
+      <Filter>Common\Json\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Json\Src\json_writer.cpp">
+      <Filter>Common\Json\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Json\Src\NSJson.cpp">
+      <Filter>Common\Json\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\bin\Skin\main.xml">
@@ -188,5 +239,19 @@
     <Image Include="Res\MiniBlinkBrowser.ico">
       <Filter>资源文件</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Common\Json\Src\sconscript">
+      <Filter>Common\Json\src</Filter>
+    </None>
+    <None Include="..\Common\Json\Src\json_internalarray.inl">
+      <Filter>Common\Json\src</Filter>
+    </None>
+    <None Include="..\Common\Json\Src\json_internalmap.inl">
+      <Filter>Common\Json\src</Filter>
+    </None>
+    <None Include="..\Common\Json\Src\json_valueiterator.inl">
+      <Filter>Common\Json\src</Filter>
+    </None>
   </ItemGroup>
 </Project>

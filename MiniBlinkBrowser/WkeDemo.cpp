@@ -84,7 +84,7 @@ bool isOneInstance()
 
 
 
-#include "Aria2cEngine.h"
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
 
@@ -100,9 +100,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	// 初始化UI管理器
 	CPaintManagerUI::SetInstance(hInstance);
 
-	gblDownloadMgrGet->StartAria2c();
-	Sleep(1000 * 5);
-	gblDownloadMgrGet->shutdown();
+
 	CWkeWebkitUI::InitializeWebkit();
 
 	// 初始化资源

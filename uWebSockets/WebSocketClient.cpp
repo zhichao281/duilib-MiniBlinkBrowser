@@ -194,6 +194,8 @@ void CWebSocketClient::onTimeEvent()
 
 void CWebSocketClient::sendTextMessage(std::string text, OpCode type)
 {
+	OutputDebugStringA(text.c_str());
+	OutputDebugStringA("\r\n");
 	m_asyncMutex.lock();
 	if (m_pus)
 	{

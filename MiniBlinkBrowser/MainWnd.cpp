@@ -3,6 +3,7 @@
 #include <regex>
 #include <ShellAPI.h>
 #include <thread>
+#include "Aria2cEngine.h"
 #include "MainWnd.h"
 #include "resource.h"
 #include "UI/MsgWnd.h"
@@ -72,6 +73,10 @@ CMainWnd::CMainWnd(void)
 			m_pDownloadWnd->UpdateDownloadItem(hTask,stTaskInfo);
 		}
 	}, this);
+
+
+	gblDownloadMgrGet->StartAria2c();
+
 		
 }
 
@@ -330,11 +335,13 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 		 if (pWeb)
 		 {
 			 wkeRect rect = wkeGetCaret(pWeb->GetWebView());
+
 			 COMPOSITIONFORM Composition = { 0 };
 			 Composition.dwStyle = CFS_POINT | CFS_FORCE_POSITION;
 			 Composition.ptCurrentPos.x = rect.x;
-			 Composition.ptCurrentPos.y = rect.y + 120;
+			 Composition.ptCurrentPos.y = rect.y + 120;			
 			 ImmSetCompositionWindow(hImc, &Composition);
+			 ImmReleaseContext(m_hWnd, hImc);	
 		 }
 
 		 bHandled = TRUE;
@@ -585,6 +592,8 @@ LPCTSTR CMainWnd::OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpCo
 bool CMainWnd::OnWkeDownload(CWkeWebkitUI * webView, const char * url)
 {
 
+	gblDownloadMgrGet->StartDownload(url);
+	return true;
 	std::string  strUrl = url;
 	std::smatch results;
 	std::string pattern{ ".+/(.+)$" }; 
