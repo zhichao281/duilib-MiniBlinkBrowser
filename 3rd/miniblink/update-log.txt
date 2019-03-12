@@ -1,10 +1,14 @@
-﻿2019.3.7
+﻿2019.3.12
+    * 支持CSS var
+
+2019.3.8
     * 定制版支持硬盘缓存（diskcache）
     * 修复定制版下载崩溃问题
     * 修复定制版打印frame的问题
     * 增加mbGetPdfPageData，可以获取pdf页面的pdf原始数据
     * 增加window.close关闭当前窗口HWND的功能
     * 增加MB_ENABLE_DISABLE_H5VIDEO宏，可禁用H5video功能
+    * 修复粘贴word文档出现的乱码
 
 2019.2.28
     * 修复https://signin.ebay.com.hk/ws/eBayISAPI.dll?SignIn&ru=https%3A%2F%2Fwww.ebay.com.hk%2F崩溃问题

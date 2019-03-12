@@ -94,22 +94,22 @@ typedef struct {
     char password[50];
 } mbProxy;
 
-enum mbSettingMask {
+typedef enum _mbSettingMask {
     MB_SETTING_PROXY = 1,
     MB_ENABLE_NODEJS = 1 << 3,
     MB_ENABLE_DISABLE_H5VIDEO = 1 << 4,
-};
+} mbSettingMask;
 
 typedef void(MB_CALL_TYPE* mbOnBlinkThreadInitCallback)(void* param);
 
-typedef struct {
+typedef struct _mbSettings {
     mbProxy proxy;
     unsigned int mask;
     mbOnBlinkThreadInitCallback blinkThreadInitCallback;
     void* blinkThreadInitCallbackParam;
 } mbSettings;
 
-typedef struct {
+typedef struct _mbViewSettings {
     int size;
     unsigned int bgColor;
 } mbViewSettings;
@@ -428,7 +428,7 @@ typedef void(MB_CALL_TYPE*mbNetJobDataRecvCallback)(void* ptr, mbNetJob job, con
 typedef void(MB_CALL_TYPE*mbNetJobDataFinishCallback)(void* ptr, mbNetJob job, mbLoadingResult result);
 
 typedef struct _mbNetJobDataBind {
-    void* ptr;
+    void* param;
     mbNetJobDataRecvCallback recvCallback;
     mbNetJobDataFinishCallback finishCallback;
 } mbNetJobDataBind;
@@ -436,7 +436,7 @@ typedef struct _mbNetJobDataBind {
 typedef void(MB_CALL_TYPE*mbPopupDialogSaveNameCallback)(void* ptr, const wchar_t* filePath);
 
 typedef struct _mbDownloadBind {
-    void* ptr;
+    void* param;
     mbNetJobDataRecvCallback recvCallback;
     mbNetJobDataFinishCallback finishCallback;
     mbPopupDialogSaveNameCallback saveNameCallback;
