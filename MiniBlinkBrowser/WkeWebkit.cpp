@@ -102,6 +102,9 @@ void CWkeWebkitUI::DoInit()
 
 	wkeOnPaintUpdated(m_pWebView, OnWkePaintUpdate, this);
 
+	wkeOnAlertBox(m_pWebView, OnWkeAlertBox, this);
+
+
 	// 设置UA
 	wkeSetUserAgent(m_pWebView, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.2228.0 Safari/537.36");
 
@@ -443,6 +446,11 @@ void readJsFile(const wchar_t* path, std::vector<char>* buffer)
 	b = b;
 }
 
+//任何网络请求发起前会触发此回调
+//注意：
+//1，此回调功能强大，在回调里，如果对job设置了wkeNetHookRequest，则表示mb会缓存获取到的网络数据，并在这次网络请求 结束后调用wkeOnLoadUrlEnd设置的回调，同时传递缓存的数据。在此期间，mb不会处理网络数据。
+//2，如果在wkeLoadUrlBeginCallback里没设置wkeNetHookRequest，则不会触发wkeOnLoadUrlEnd回调。
+//3，如果wkeLoadUrlBeginCallback回调里返回true，表示mb不处理此网络请求（既不会发送网络请求）。返回false，表示mb依然会发送网络请求。
 bool  WKE_CALL_TYPE CWkeWebkitUI::onLoadUrlBegin(wkeWebView webView, void* param, const char* url, void *job)
 {
 	const char kPreHead[] = "http://hook.test/";

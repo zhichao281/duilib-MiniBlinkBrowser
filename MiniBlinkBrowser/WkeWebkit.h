@@ -153,7 +153,9 @@ private:
 	// 回调事件
 	static void WKE_CALL_TYPE OnWkeTitleChanged(wkeWebView webView, void* param, wkeString title);
 	static void WKE_CALL_TYPE OnWkeURLChanged(wkeWebView webView, void* param, wkeString url);
+	// 网页调用alert会走到这个接口填入的回调
 	static void WKE_CALL_TYPE OnWkeAlertBox(wkeWebView webView, void* param, wkeString msg);
+
 	static bool WKE_CALL_TYPE OnWkeNavigation(wkeWebView webView, void* param, wkeNavigationType navigationType, wkeString url);
 
 	static wkeWebView(WKE_CALL_TYPE OnWkeCreateView)(wkeWebView webView, void* param, wkeNavigationType navigationType, const wkeString url, const wkeWindowFeatures* windowFeatures);

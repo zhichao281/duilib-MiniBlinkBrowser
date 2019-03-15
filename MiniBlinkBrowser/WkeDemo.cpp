@@ -133,6 +133,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	// ÊÍ·Å×ÊÔ´
 	CResourceManager::GetInstance()->Release();
 
+
+	CWkeWebkitUI::UninitializeWebkit();
+
 	OleUninitialize();
 	::CoUninitialize();
 	return 0;
