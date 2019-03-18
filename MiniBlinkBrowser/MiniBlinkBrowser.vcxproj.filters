@@ -150,6 +150,9 @@
     <ClInclude Include="..\Common\Json\Header\writer.h">
       <Filter>Common\Json\head</Filter>
     </ClInclude>
+    <ClInclude Include="Aria2RPC.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MiniBlinkBrowser.rc">
@@ -207,6 +210,9 @@
     </ClCompile>
     <ClCompile Include="..\Common\Json\Src\NSJson.cpp">
       <Filter>Common\Json\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Aria2RPC.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

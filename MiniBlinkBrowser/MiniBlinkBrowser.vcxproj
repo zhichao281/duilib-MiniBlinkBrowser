@@ -187,6 +187,7 @@
     <ClInclude Include="..\Common\String\NSString.h" />
     <ClInclude Include="..\Common\Url\Url.h" />
     <ClInclude Include="Aria2cEngine.h" />
+    <ClInclude Include="Aria2RPC.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="MainWnd.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="..\Common\String\NSString.cpp" />
     <ClCompile Include="..\Common\Url\Url.cpp" />
     <ClCompile Include="Aria2cEngine.cpp" />
+    <ClCompile Include="Aria2RPC.cpp" />
     <ClCompile Include="MainWnd.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>

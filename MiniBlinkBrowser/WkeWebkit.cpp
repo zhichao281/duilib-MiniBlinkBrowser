@@ -8,8 +8,6 @@
 
 map<wkeWebView, CWkeWebkitUI*> CWkeWebkitUI::m_mapWke2UI;
 
-
-
 LPCTSTR wkeGetStringT(wkeString str)
 {
 #ifdef _UNICODE

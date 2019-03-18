@@ -139,6 +139,8 @@ public:
 	//设置页面焦点
 	void SetPageFocus();
 
+
+	
 public:
 	//设置监听对象
 	void SetListenObj(void *pListenObj);

@@ -692,6 +692,16 @@ void NSJsonArray::Add(NSJsonObject JsonObj)
 	m_Obj.append(JsonObj.Value);
 }
 
+void NSJsonArray::Add(NSJsonArray JsonObj)
+{
+	if (!m_Obj.isArray())
+	{
+		return;
+	}
+
+	m_Obj.append(JsonObj.Value);
+}
+
 void NSJsonArray::AddInt(int nValue)
 {
 	m_Obj.append(nValue);
