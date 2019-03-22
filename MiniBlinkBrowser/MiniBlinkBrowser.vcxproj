@@ -36,7 +36,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
@@ -184,6 +184,10 @@
     <ClInclude Include="..\Common\Json\Header\value.h" />
     <ClInclude Include="..\Common\Json\Header\writer.h" />
     <ClInclude Include="..\Common\Json\Src\json_batchallocator.h" />
+    <ClInclude Include="..\Common\Libcurl.h" />
+    <ClInclude Include="..\Common\Log\Logger.h" />
+    <ClInclude Include="..\Common\Log\LogManager.h" />
+    <ClInclude Include="..\Common\Log\log_deffine.h" />
     <ClInclude Include="..\Common\String\NSString.h" />
     <ClInclude Include="..\Common\Url\Url.h" />
     <ClInclude Include="Aria2cEngine.h" />
@@ -211,6 +215,10 @@
     <ClCompile Include="..\Common\Json\Src\json_value.cpp" />
     <ClCompile Include="..\Common\Json\Src\json_writer.cpp" />
     <ClCompile Include="..\Common\Json\Src\NSJson.cpp" />
+    <ClCompile Include="..\Common\Libcurl.cpp" />
+    <ClCompile Include="..\Common\Log\Logger.cpp" />
+    <ClCompile Include="..\Common\Log\LogManager.cpp" />
+    <ClCompile Include="..\Common\Log\log_deffine.cpp" />
     <ClCompile Include="..\Common\String\NSString.cpp" />
     <ClCompile Include="..\Common\Url\Url.cpp" />
     <ClCompile Include="Aria2cEngine.cpp" />

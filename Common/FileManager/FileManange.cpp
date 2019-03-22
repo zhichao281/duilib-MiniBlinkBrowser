@@ -5,19 +5,18 @@
 #include <string>
 #include <sys/stat.h>
 
-using namespace WisdomUtils;
 using namespace std;
 
-CFileManange::CFileManange(void)
+NFile::NFile(void)
 {
 }
 
 
-CFileManange::~CFileManange(void)
+NFile::~NFile(void)
 {
 }
 
-std::string WisdomUtils::CFileManange::LoadFile( const char* pFilePath )
+std::string NFile::LoadFile( const char* pFilePath )
 {
 	FILE* pFile = fopen(pFilePath, "rb");
 	std::string strData;
@@ -40,7 +39,7 @@ std::string WisdomUtils::CFileManange::LoadFile( const char* pFilePath )
 	return strData;
 }
 
-int WisdomUtils::CFileManange::WriteFile( const char* pFilePath, std::string strData, bool bAppend )
+int NFile::WriteFile( const char* pFilePath, std::string strData, bool bAppend )
 {
 	FILE* pFile = fopen(pFilePath, bAppend ? "a" : "w");
 	if (pFile)
@@ -52,12 +51,12 @@ int WisdomUtils::CFileManange::WriteFile( const char* pFilePath, std::string str
 	return GetLastError();
 }
 
-int WisdomUtils::CFileManange::DelFile( const char* pFilePath )
+int NFile::DelFile( const char* pFilePath )
 {
 	return remove(pFilePath);
 }
 
-int WisdomUtils::CFileManange::CpyFile( const char* pSrcFilePath, const char* pDescFilePath, bool bFailIfExist )
+int NFile::CpyFile( const char* pSrcFilePath, const char* pDescFilePath, bool bFailIfExist )
 {
 	return CopyFileA(pSrcFilePath, pDescFilePath, bFailIfExist);
 }
@@ -79,7 +78,7 @@ DWORD CALLBACK CopyProgressRoutine(
 		return pFun(TotalFileSize.QuadPart, TotalBytesTransferred.QuadPart);
 };
 
-int WisdomUtils::CFileManange::CpyFileEx( const char* pSrcFilePath, const char* pDescFilePath, bool bFailIfExist, CopyFileCallbackFunction pFunc )
+int NFile::CpyFileEx( const char* pSrcFilePath, const char* pDescFilePath, bool bFailIfExist, CopyFileCallbackFunction pFunc )
 {
 	if (pFunc == nullptr)
 	{
@@ -88,7 +87,7 @@ int WisdomUtils::CFileManange::CpyFileEx( const char* pSrcFilePath, const char* 
 	return CopyFileExA(pSrcFilePath, pDescFilePath, CopyProgressRoutine, pFunc, 0, 0);
 }
 
-int WisdomUtils::CFileManange::CreateDir( const char* pDir )
+int NFile::CreateDir( const char* pDir )
 {
 	int nLen = strlen(pDir);
 	std::string strPath;
@@ -110,7 +109,7 @@ int WisdomUtils::CFileManange::CreateDir( const char* pDir )
 	return 0;
 }
 
-std::list<std::pair<std::string, bool>> WisdomUtils::CFileManange::GetDirFiles( const char* pDir )
+std::list<std::pair<std::string, bool>> NFile::GetDirFiles( const char* pDir )
 {
 	list<pair<string, bool>> lstFileInfo;
 	WIN32_FIND_DATAA fd;
@@ -147,7 +146,7 @@ std::list<std::pair<std::string, bool>> WisdomUtils::CFileManange::GetDirFiles( 
 	return lstFileInfo;
 }
 
-bool WisdomUtils::CFileManange::CheckFileExist( const char* pFile )
+bool NFile::CheckFileExist( const char* pFile )
 {
 	if (_access(pFile, 0) != 0){
 		return false;
@@ -155,7 +154,7 @@ bool WisdomUtils::CFileManange::CheckFileExist( const char* pFile )
 	return true;
 }
 
-int WisdomUtils::CFileManange::DeleteDir( const char* pDir )
+int NFile::DeleteDir( const char* pDir )
 {
 	char szPath[1024] = "";
 	int nLen = strlen(pDir);
@@ -187,7 +186,7 @@ int WisdomUtils::CFileManange::DeleteDir( const char* pDir )
 	return _rmdir(pDir);
 }
 
-long WisdomUtils::CFileManange::GetFileSize( const char* pFile )
+long NFile::GetFileSize( const char* pFile )
 {
 	struct _stat info;
 	_stat((char*)pFile, &info);
@@ -195,7 +194,7 @@ long WisdomUtils::CFileManange::GetFileSize( const char* pFile )
 }
 
 //描述：获取当前程序所在路径
-void WisdomUtils::CFileManange::GetRootDirectoryA(LPSTR pszRootDir)
+void NFile::GetRootDirectoryA(LPSTR pszRootDir)
 {
 	if(NULL != pszRootDir)
 	{
@@ -220,7 +219,7 @@ void WisdomUtils::CFileManange::GetRootDirectoryA(LPSTR pszRootDir)
 
 
 //描述：获取当前程序所在路径
-void  WisdomUtils::CFileManange::GetRootDirectoryW(LPTSTR pszRootDir)
+void  NFile::GetRootDirectoryW(LPTSTR pszRootDir)
 {
 	if(NULL != pszRootDir)
 	{
@@ -243,7 +242,7 @@ void  WisdomUtils::CFileManange::GetRootDirectoryW(LPTSTR pszRootDir)
 	}
 }
 
-std::wstring CFileManange::GetFileInModulePathW(std::wstring strFileName /* = L"" */, HMODULE hModule /* = NULL */)
+std::wstring NFile::GetFileInModulePathW(std::wstring strFileName /* = L"" */, HMODULE hModule /* = NULL */)
 {
 	wchar_t				szModulePath[1024] = { 0 };
 	unsigned long		ulSize = 0;
@@ -278,7 +277,7 @@ std::wstring CFileManange::GetFileInModulePathW(std::wstring strFileName /* = L"
 	return strReturn;
 }
 
-BOOL WisdomUtils::CFileManange::GetFilePathInModule(TCHAR *pFilePath, TCHAR *pFileName, HMODULE hMod)
+BOOL NFile::GetFilePathInModule(TCHAR *pFilePath, TCHAR *pFileName, HMODULE hMod)
 {
 	TCHAR	szModPath[MAX_PATH];
 	TCHAR*	pFind;
@@ -301,7 +300,7 @@ BOOL WisdomUtils::CFileManange::GetFilePathInModule(TCHAR *pFilePath, TCHAR *pFi
 	return TRUE;
 }
 
-string WisdomUtils::CFileManange::GetImageHead(wstring wstrPath)
+string NFile::GetImageHead(wstring wstrPath)
 {
 	string strFomat="";
 	char pfile[4096];
@@ -353,7 +352,7 @@ string WisdomUtils::CFileManange::GetImageHead(wstring wstrPath)
  *	Input:			hModule		模块
  *	Return:			程序运行路径
  */
-std::string CFileManange::GetModulePath(HMODULE hModule /* = NULL */)
+std::string NFile::GetModulePath(HMODULE hModule /* = NULL */)
 {
 	char				szModulePath[1024] = { 0 };
 	unsigned long		ulSize = 0;
@@ -368,7 +367,7 @@ std::string CFileManange::GetModulePath(HMODULE hModule /* = NULL */)
 	return szModulePath;
 }
 
-std::wstring CFileManange::GetModulePathW(HMODULE hModule /* = NULL */)
+std::wstring NFile::GetModulePathW(HMODULE hModule /* = NULL */)
 {
 
 	TCHAR	szModPath[MAX_PATH];
@@ -386,4 +385,33 @@ std::wstring CFileManange::GetModulePathW(HMODULE hModule /* = NULL */)
 	_tcscpy_s(pFilePath, MAX_PATH, szModPath);
 	pFilePath[pFind - szModPath + 1] = 0;
 	return pFilePath;
+}
+
+
+
+BOOL NFile::IsDirectory(LPCTSTR lpDir)
+{
+	DWORD		dwAttr;
+
+	dwAttr = GetFileAttributes(lpDir);
+	if (dwAttr == INVALID_FILE_ATTRIBUTES)
+		return FALSE;
+
+	if (dwAttr & FILE_ATTRIBUTE_DIRECTORY)
+		return TRUE;
+
+	return FALSE;
+}
+BOOL NFile::IsDirectory(LPCSTR pDir)
+{
+	DWORD		dwAttr;
+
+	dwAttr = GetFileAttributesA(pDir);
+	if (dwAttr == INVALID_FILE_ATTRIBUTES)
+		return FALSE;
+
+	if (dwAttr & FILE_ATTRIBUTE_DIRECTORY)
+		return TRUE;
+
+	return FALSE;
 }

@@ -208,7 +208,7 @@ public:
 	// Ìí¼Ó
 	void				Add(NSJsonObject JsonObj);
 
-	void				Add(NSJsonArray JsonObj);
+	void				AddArray(NSJsonArray JsonObj);
 
 	void				AddInt(int nValue);
 

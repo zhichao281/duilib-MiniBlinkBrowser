@@ -167,8 +167,8 @@ void CWkeWebkitUI::InitializeWebkit()
 {
 	// 加载mb的资源
 	CDuiString strResourcePath = CPaintManagerUI::GetInstancePath();
-	CDuiString mbPath = strResourcePath + L"node.dll";
-	//CDuiString mbPath = strResourcePath + L"node_v8_4_8.dll";
+	//CDuiString mbPath = strResourcePath + L"node.dll";
+	CDuiString mbPath = strResourcePath + L"node_v8_4_8.dll";
 	if (!::PathFileExists(mbPath))
 	{
 		::MessageBoxW(NULL, L"请把node.dll放exe目录下", L"错误", MB_OK);

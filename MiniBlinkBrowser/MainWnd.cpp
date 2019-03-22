@@ -53,11 +53,11 @@ DUI_BEGIN_MESSAGE_MAP(CMainWnd, WindowImplBase)
 DUI_END_MESSAGE_MAP()
 
 
-
+#include "Aria2RPC.h"
 
 CMainWnd::CMainWnd(void)
 {
-
+	gblAria2RPCGet->addUri("", "");
 	m_pDownloader = new XLDownloader;
 	m_pDownloader->initXunLei();
 
@@ -592,8 +592,8 @@ LPCTSTR CMainWnd::OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpCo
 bool CMainWnd::OnWkeDownload(CWkeWebkitUI * webView, const char * url)
 {
 
-	gblDownloadMgrGet->StartDownload(url);
-	return true;
+	//gblDownloadMgrGet->StartDownload(url);
+	//return true;
 	std::string  strUrl = url;
 	std::smatch results;
 	std::string pattern{ ".+/(.+)$" }; 
@@ -606,7 +606,7 @@ bool CMainWnd::OnWkeDownload(CWkeWebkitUI * webView, const char * url)
 	
 		if (m_pDownloadWnd->GetDownloadPath().size()<1)
 		{
-			strdownPath = WisdomUtils::CFileManange::GetModulePathW();
+			strdownPath = NFile::GetModulePathW();
 			strdownPath = strdownPath + _T("down\\");
 		}
 		else

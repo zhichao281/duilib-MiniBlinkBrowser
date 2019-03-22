@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title>网络错误</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css" media="all" />
+    <script type="text/javascript">
+        window.loadminisite = function(jsonstr) {
+            var json = JSON.parse(jsonstr);
+            var now = new Date();
+            window.location.href = json.host + '/config/wps/jump/index.html?_t='+ (now.getFullYear() + '' + (now.getMonth() + 1) + '' + now.getDate() + '' + now.getHours()) +'#mini_type=' + json.minitype + '&hdid=' + json.hdid + '&version=' + json.wpsversion + '&disnum=' + json.distsrc + '&mini_new=1&mini_version=3.1.0';
+        };
+    </script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="topbar">
+            <a id="close" href="javascript:void(0)" class="close" title="关闭">X</a>
+            <div class="logo"></div>
+            <div id="top_move" class="top_move"></div>
+        </div>
+
+        <div class="network_error" style="display: block;">
+            <h3>无法访问网络！</h3>
+            <p>请检查网络链接，或<a id="refresh" hidefocus="true" href="javascript:void(0)" class="refresh">刷新</a>试试...</p>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var jsAsynCall = function(data) {
+            if (window.cefQuery) {
+                window.cefQuery({
+                    request: 'jsAsynCall("' + JSON.stringify(data) + '")',
+                    persistent: false
+                })
+            } else {
+                window.qtWebkitQuery.jsAsynCall(JSON.stringify(data));
+            }
+        };
+	
+        document.getElementById("refresh").onclick = function() {
+		eMsg("refresh");
+            jsAsynCall({
+                'method': 'RefreshMinisite'
+            })
+        };
+
+        document.getElementById("close").onclick = function(event) {
+		eMsg("close");
+            jsAsynCall({
+                'method': 'ClickNotify',
+                'type': 'clickclosebtn'
+            })
+        };
+        document.getElementById("top_move").onmousedown = function()
+		{
+			eMsg("move");        
+        };
+    </script>
+</body>
+
+</html>

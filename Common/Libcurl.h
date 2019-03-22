@@ -294,11 +294,7 @@ protected:
 
 	void UpdateState(int nStates);
 
-	// 创建目录
-	bool		CreateDirTree(std::string strFolder);
 
-	// 获取所在目录路径
-	std::string	GetDir(std::string strPath);
 
 protected:
 	CURL* m_pCurl;									//< libcurl句柄

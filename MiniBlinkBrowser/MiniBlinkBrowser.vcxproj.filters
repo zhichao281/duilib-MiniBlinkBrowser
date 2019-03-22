@@ -58,6 +58,12 @@
     <Filter Include="Common\Json\src">
       <UniqueIdentifier>{15dcacee-f1a2-4e4e-b5aa-1041809d781f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\libcurl">
+      <UniqueIdentifier>{fc66a10c-6e8d-427d-8e20-906c5c9aa4e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Log">
+      <UniqueIdentifier>{1b823881-12a1-40f1-92a5-361f81d7a8af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helpers.h">
@@ -153,6 +159,18 @@
     <ClInclude Include="Aria2RPC.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\Libcurl.h">
+      <Filter>Common\libcurl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Log\log_deffine.h">
+      <Filter>Common\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Log\Logger.h">
+      <Filter>Common\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Log\LogManager.h">
+      <Filter>Common\Log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MiniBlinkBrowser.rc">
@@ -213,6 +231,18 @@
     </ClCompile>
     <ClCompile Include="Aria2RPC.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Libcurl.cpp">
+      <Filter>Common\libcurl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Log\log_deffine.cpp">
+      <Filter>Common\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Log\Logger.cpp">
+      <Filter>Common\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Log\LogManager.cpp">
+      <Filter>Common\Log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

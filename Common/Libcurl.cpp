@@ -1,14 +1,14 @@
 ﻿
 #include "libcurl.h"
-//#ifdef _WIN64   
-//#pragma comment(lib, "../BasisComponents/curl/lib/libcurl_a.lib")
-//#else
-//#pragma comment(lib, "../BasisComponents/curl/libx86/libcurl_a.lib")
-//#endif
+#ifdef _WIN64   
+#pragma comment(lib, "../BasisComponents/curl/lib/libcurl_a.lib")
+#else
+#pragma comment(lib, "../Lib/libcurl.lib")
+#endif
 #include <string>
 #include <assert.h>
 #include <iostream>
-#include "NFile.h"
+#include "FileManager/FileManange.h"
 #include "log/log_deffine.h"
 #pragma comment(lib, "ws2_32")
 #pragma comment(lib, "Iphlpapi")
@@ -1098,7 +1098,7 @@ void CDownloader::SetCache(const char * pCachePath)
 	m_strCachePath = pCachePath;
 	if (!NFile::IsDirectory(m_strCachePath.c_str()))
 	{
-		NFile::CreateDirTree(m_strCachePath.c_str());
+		NFile::CreateDir(m_strCachePath.c_str());
 	}
 
 }
