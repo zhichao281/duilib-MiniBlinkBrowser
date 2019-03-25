@@ -714,6 +714,8 @@ ITERATOR2(void, mbSetCookieEnabled, mbWebView webView, BOOL enable, "") \
 ITERATOR2(void, mbSetCookieJarPath, mbWebView webView, const WCHAR* path, "") \
 ITERATOR2(void, mbSetCookieJarFullPath, mbWebView webView, const WCHAR* path, "") \
 ITERATOR2(void, mbSetLocalStorageFullPath, mbWebView webView, const WCHAR* path, "") \
+ITERATOR1(const utf8*, mbGetTitle, mbWebView webView, "") \
+ITERATOR1(const utf8*, mbGetUrl, mbWebView webView, "") \
 ITERATOR2(void, mbAddPluginDirectory, mbWebView webView, const WCHAR* path, "") \
 ITERATOR2(void, mbSetUserAgent, mbWebView webView, const utf8* userAgent, "") \
 ITERATOR2(void, mbSetZoomFactor, mbWebView webView, float factor, "") \
@@ -730,6 +732,7 @@ ITERATOR1(const utf8*, mbGetCookieOnBlinkThread, mbWebView webView, "") \
 ITERATOR3(void, mbResize, mbWebView webView, int w, int h, "") \
 \
 ITERATOR3(void, mbOnNavigation, mbWebView webView, mbNavigationCallback callback, void* param, "") \
+ITERATOR3(void, mbOnNavigationSync, mbWebView webView, mbNavigationCallback callback, void* param, "") \
 ITERATOR3(void, mbOnCreateView, mbWebView webView, mbCreateViewCallback callback, void* param, "") \
 ITERATOR3(void, mbOnDocumentReady, mbWebView webView, mbDocumentReadyCallback callback, void* param, "") \
 ITERATOR3(void, mbOnPaintUpdated, mbWebView webView, mbPaintUpdatedCallback callback, void* callbackParam, "") \

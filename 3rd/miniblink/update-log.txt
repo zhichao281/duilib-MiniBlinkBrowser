@@ -1,5 +1,24 @@
-﻿2019.3.12
+﻿2019.3.25
+    * 修复https://www.layui.com/admin/std/dist/views/显示icon问题
+    * 修复https://www.zhihu.com/topic/19639196/hot断言问题
+    * 修复键盘消息中event.location值不对的问题
+    * 定制版增加mbGetTitle、mbGetUrl接口
+    * 兼容www.ihg.com
+
+2019.3.19
+    * 修复某些xp下的崩溃
+
+2019.3.17
+    * 修复http://www.xinchen6.com/test/websocket.html卡死问题
+    * 字体调整
+    * 修复PromptBox崩溃的问题
+
+2019.3.14
+    * 修复MHTML文件包含@font-face显示不出文字的问题
+
+2019.3.12
     * 支持CSS var
+    * 修复粘贴QQ对话出现的乱码
 
 2019.3.8
     * 定制版支持硬盘缓存（diskcache）

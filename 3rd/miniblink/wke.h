@@ -484,7 +484,7 @@ typedef void(WKE_CALL_TYPE*wkeNetJobDataRecvCallback)(void* ptr, wkeNetJob job, 
 typedef void(WKE_CALL_TYPE*wkeNetJobDataFinishCallback)(void* ptr, wkeNetJob job, wkeLoadingResult result);
 
 typedef struct _wkeNetJobDataBind {
-    void* ptr;
+    void* param;
     wkeNetJobDataRecvCallback recvCallback;
     wkeNetJobDataFinishCallback finishCallback;
 }wkeNetJobDataBind;
