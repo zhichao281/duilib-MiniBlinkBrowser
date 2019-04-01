@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<Window >
+<Window size="1000,700" sizebox="4,4,6,6" caption="0,0,0,50" mininfo="800,600" roundcorner="5,5">
   <VerticalLayout name="root" bkimage="file='imgs/main/bg.jpg'" bkcolor="#FF006EDF">
     <HorizontalLayout name="header" height="64" bkcolor="#FF006EDF">
       <Container width="64" height="64" bkimage="imgs/logo.png" />
