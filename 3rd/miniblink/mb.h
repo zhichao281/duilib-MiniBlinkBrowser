@@ -340,6 +340,8 @@ typedef long long int64_t;
 typedef int64_t mbJsValue;
 typedef void* mbJsExecState;
 
+typedef void(MB_CALL_TYPE *mbOnGetPdfPageDataCallback)(mbWebView webView, void* param, void* data, size_t size);
+
 typedef void(MB_CALL_TYPE *mbRunJsCallback)(mbWebView webView, void* param, mbJsExecState es, mbJsValue v);
 typedef void(MB_CALL_TYPE* mbJsQueryCallback)(mbWebView webView, void* param, mbJsExecState es, int64_t queryId, int customMsg, const utf8* request);
 
@@ -817,7 +819,7 @@ ITERATOR9(mbDownloadOpt, mbPopupDialogAndDownload, mbWebView webView, void* para
 ITERATOR10(mbDownloadOpt, mbDownloadByPath, mbWebView webView, void* param, const WCHAR* path, size_t contentLength, const char* url, \
     const char* mime, const char* disposition, mbNetJob job, mbNetJobDataBind* dataBind, mbDownloadBind* callbackBind, "") \
 \
-ITERATOR1(mbMemBuf*, mbGetPdfPageData, mbWebView webView, "使用完毕，记得用mbFreeMemBuf销毁内存") \
+ITERATOR3(void, mbGetPdfPageData, mbWebView webView, mbOnGetPdfPageDataCallback callback, void* param, "") \
 \
 ITERATOR1(void, mbFreeMemBuf, mbMemBuf* buf, "") \
 

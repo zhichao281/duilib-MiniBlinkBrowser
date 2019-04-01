@@ -1,4 +1,18 @@
-﻿2019.3.25
+﻿2019.3.28
+    * 修复alibaba相关站点验证码点击问题
+
+2019.3.27
+    * 修复VIP版本拖拽图片时的断言错误
+    * 修复ev.dataTransfer.setData不能设置除text外的其他参数的问题
+    * 增加wkeSetCursorInfoType
+    * 修复netResponseCallback参数不对的问题
+    * 修复渲染位置如果不在窗口原点导致的鼠标问题
+    * mbGetPdfPageData的类型更改
+
+2019.3.25
+    * 修复某些xp下的崩溃
+
+2019.3.23
     * 修复https://www.layui.com/admin/std/dist/views/显示icon问题
     * 修复https://www.zhihu.com/topic/19639196/hot断言问题
     * 修复键盘消息中event.location值不对的问题

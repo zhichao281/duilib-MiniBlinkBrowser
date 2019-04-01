@@ -263,7 +263,7 @@ typedef struct {
     size_t length;
 } wkeMemBuf;
 
-typedef struct {
+typedef struct _wkeWebDragData {
     struct Item {
         enum wkeStorageType {
             // String data with an associated MIME type. Depending on the MIME type, there may be
@@ -1053,6 +1053,7 @@ public:
     ITERATOR2(void*, wkeGetUserKeyValue, wkeWebView webView, const char* key, "") \
     \
     ITERATOR1(int, wkeGetCursorInfoType, wkeWebView webView, "") \
+    ITERATOR2(void, wkeSetCursorInfoType, wkeWebView webView, int type, "") \
     ITERATOR5(void, wkeSetDragFiles, wkeWebView webView, const POINT* clintPos, const POINT* screenPos, wkeString files[], int filesCount, "") \
     \
     ITERATOR5(void, wkeSetDeviceParameter, wkeWebView webView, const char* device, const char* paramStr, int paramInt, float paramFloat, "") \
