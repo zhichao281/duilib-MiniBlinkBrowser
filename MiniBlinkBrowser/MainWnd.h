@@ -12,7 +12,9 @@ typedef struct _tagTabInfo
 	TCHAR szTitle[256];
 	TCHAR szFavUrl[2048];
 	TCHAR szFavName[256];
-	CBrowserTab* pTab;
+	CHorizontalLayoutUI* pTab;
+	CButtonUI* pCloseBtn;
+	COptionUI* pNewOption;
 	CWkeWebkitUI* pWebBrowser;
 }TabInfo;
 
@@ -92,7 +94,7 @@ private:
 	CButtonUI* m_pMenuBtn;
 	CEditUI* m_pAddressEdit;
 	CEditUI* m_pSearchEdit;
-	CBrowserTabBar* m_pBrowserTabBar;
+	
 	CTabLayoutUI* m_pBrowserTabBody;
 
 	CTabLayoutUI* m_pModeMainTab;
@@ -104,7 +106,7 @@ private:
 	CDownloadWnd  *m_pDownloadWnd;
 
 	XLDownloader    *m_pDownloader;
-	CHorizontalLayoutUI* pContainer;
+	CHorizontalLayoutUI* m_pBrowserTabBar;
 
 
 

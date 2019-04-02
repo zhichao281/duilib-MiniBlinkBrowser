@@ -7,7 +7,7 @@
 
       <VerticalLayout inset="6,0,6,0"  >
         <HorizontalLayout name="title_bar" height="24" >
-          <Label name="title" width="300" font="1" text="浏览器（miniblink版） v1.0 alpha" textcolor="#FFEFEFEF"/>
+          <Label name="title" width="300" font="1" text="浏览器（miniblink版） v2.0 alpha" textcolor="#FFEFEFEF"/>
         </HorizontalLayout>
 
         <HorizontalLayout float="0,0,1,0" inset="0,-1,0,0" height="20">
@@ -23,19 +23,13 @@
         <HorizontalLayout name="browser_tools" inset="0,0,0,0"  height="28" float="false" childpadding="5">
           <HorizontalLayout  height="26">
             <Button name="back_btn"  tooltip="后退" autocalcwidth="true" float="false" width="36" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file='imgs/backward.png' dest='0,0,36,26' source='0,0,36,26'" hotimage="file='imgs/backward.png' dest='0,0,36,26' source='36,0,72,26'" pushedimage="file='imgs/backward.png' dest='0,0,36,26' source='72,0,108,26'" disabledimage="file='imgs/backward.png' dest='0,0,36,26' source='108,0,144,26'" />
-            <Button name="forward_btn"  tooltip="前进" autocalcwidth="true" float="false" width="36" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file='imgs/go.png' dest='0,0,34,30' source='0,0,34,30'" hotimage="file='imgs/go.png' dest='0,0,34,30' source='34,0,68,30'" pushedimage="file='imgs/go.png' dest='0,0,34,30' source='68,0,102,30'" disabledimage="imgs/go.png' dest='0,0,34,30' source='102,0,136,30'" />
+            <Button name="forward_btn"  tooltip="前进" autocalcwidth="true" float="false" width="36" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file='imgs/go.png' dest='0,0,36,26' source='108,0,144,26'" hotimage="file='imgs/go.png' dest='0,0,36,26' source='72,0,108,26'" pushedimage="file='imgs/go.png' dest='0,0,36,26' source='36,0,72,26'" disabledimage="file='imgs/go.png' dest='0,0,36,26' source='0,0,36,26'" />
             <Button name="refresh_btn" tooltip="刷新" float="false" autocalcwidth="true" width="26" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file='imgs/refresh.png' dest='0,0,26,26' source='0,0,26,26'" hotimage="file='imgs/refresh.png' dest='0,0,26,26' source='26,0,52,26'" pushedimage="file='imgs/refresh.png' dest='0,0,26,26' source='52,0,78,26'" />
-            <Button name="home_go" tooltip="主页" float="false" autocalcwidth="true" width="32" height="34" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file='imgs/home.png' dest='0,0,32,34' source='0,0,32,34'" hotimage="file='imgs/home.png' dest='0,0,32,34' source='32,0,64,34'" pushedimage="file='imgs/home.png' dest='0,0,32,34' source='64,0,96,34'" />
           </HorizontalLayout>
 
-          <HorizontalLayout name="address_bar" bordersize="1" bordercolor="#FFAAAAAA" inset="1,1,1,1" >
-            <Edit name="address_edit" float="false" tipvalue="请输入网址" tooltip="地址栏" />
-            <Button name="address_go" float="false" tooltip="打开" autocalcwidth="true" width="32" height="34" normalimage="file='imgs/tabbar/NoTraceBtn_Down.png' dest='0,0,32,34' source='0,0,32,34'" hotimage="file='imgs/tabbar/NoTraceBtn_Down.png' dest='0,0,32,34' source='32,0,64,34'" pushedimage="file='imgs/tabbar/NoTraceBtn_Down.png' dest='0,0,32,34' source='64,0,96,34'" disabledimage="file='imgs/tabbar/NoTraceBtn_Down.png' dest='0,0,32,34' source='64,0,96,34"  />
-          </HorizontalLayout>
-
-          <HorizontalLayout name="search_bar" width="180" minwidth="160" bordersize="1" bordercolor="#FFAAAAAA" inset="1,1,1,1">
-            <Edit name="search_edit" tipvalue="请输入要搜索的关键词" tooltip="搜索栏" />
-            <Button name="search_go" tooltip="搜索" float="false" autocalcwidth="true" width="20" height="34" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file='imgs/tabbar/btn_search.png' dest='0,3,18,21' source='0,0,18,18'" hotimage="file='imgs/tabbar/btn_search.png' dest='0,3,18,21' source='18,0,36,18'" pushedimage="file='imgs/tabbar/btn_search.png' dest='0,3,18,21' source='36,0,54,18'" disabledimage="file='imgs/tabbar/btn_search.png' dest='0,3,18,21' source='54,0,72,18" />
+          <HorizontalLayout name="address_bar" bordersize="1" width="420" bordercolor="#FFAAAAAA" inset="1,1,1,1" >
+            <Edit name="address_edit" float="false"  tipvalue="请输入网址" tooltip="地址栏" />       
+          
           </HorizontalLayout>
 
           <Button float="false" autocalcwidth="true" width="3" height="28" bkimage="file='imgs/tool_sep.png' dest='0,0,3,28' source='0,0,3,28'" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
@@ -60,8 +54,8 @@
       <HorizontalLayout name="HorizontalLayoutUI10"  float="false">
         <HorizontalLayout name="IContainer" float="false" height="32">    
           <HorizontalLayout  name="browser_tabbar" maxwidth="174" >
-            <Option  float="false" name="browsertab" text="首页"  align="center" height="30"  maxwidth="174" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA"  textalign="center" normalimage="file=&apos;imgs/tabitem.png&apos; source=&apos;0,0,174,32&apos;" hotimage="file=&apos;imgs/tabitem.png&apos; source=&apos;174,0,348,32&apos;" pushedimage="file=&apos;imgs/tabitem.png&apos; source=&apos;348,0,522,32&apos;" selected="true" selectedimage="file=&apos;imgs/tabitem.png&apos; source=&apos;348,0,522,32&apos;" group="group1" />
-            <Button  float="true" pos="-24,12,-12,24" name="btn_tab" normalimage="file='imgs/tab_close.png' source='0,0,12,12'" hotimage="file='imgs/tab_close.png' source='12,0,24,12'" pushedimage="file='imgs/tab_close.png' source='24,0,36,12'"/>
+            <Option  float="false" name="browsertab" text="新标签页"  align="center" height="30"  maxwidth="174" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA"  textalign="center" normalimage="file=&apos;imgs/tabitem.png&apos; source=&apos;0,0,174,32&apos;" hotimage="file=&apos;imgs/tabitem.png&apos; source=&apos;174,0,348,32&apos;" pushedimage="file=&apos;imgs/tabitem.png&apos; source=&apos;348,0,522,32&apos;" selected="true" selectedimage="file=&apos;imgs/tabitem.png&apos; source=&apos;348,0,522,32&apos;" group="group1" />
+            <Button  float="true" pos="150,12,172,24" name="btn_tabclose" normalimage="file='imgs/tab_close.png' dest='0,0,12,12' source='0,0,12,12'" hotimage="file='imgs/tab_close.png' dest='0,0,12,12' source='12,0,24,12'" pushedimage="file='imgs/tab_close.png' dest='0,0,12,12' source='24,0,36,12'"/>
           </HorizontalLayout>  
           <Button name="newtab" float="false" pos="0,0,30,30" width="30" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;imgs/tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;0,0,21,28&apos;" hotimage="file=&apos;imgs/tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;21,0,42,28&apos;" pushedimage="file=&apos;imgs/tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;42,0,63,28&apos;" />
         </HorizontalLayout>

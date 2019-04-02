@@ -19,13 +19,13 @@
 class tab_finder  
 {  
 public:  
-    tab_finder(CBrowserTab* pTab) :m_pTab(pTab){}  
+    tab_finder(CHorizontalLayoutUI* pTab) :m_pTab(pTab){}
     bool operator ()( vector<struct _tagTabInfo*>::value_type &value)  
     {  
         return (m_pTab == value->pTab);  
     }
 private:  
-    CBrowserTab* m_pTab;
+	CHorizontalLayoutUI* m_pTab;
 };
 
 class web_finder  
@@ -101,7 +101,7 @@ void CMainWnd::InitWindow()
 	m_pMenuBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("menubtn")));
 	m_pAddressEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("address_edit")));
 	m_pSearchEdit = static_cast<CEditUI*>(m_pm.FindControl(_T("search_edit")));
-	m_pBrowserTabBar = static_cast<CBrowserTabBar*>(m_pm.FindControl(_T("browser_tabbar")));
+	m_pBrowserTabBar = static_cast<CHorizontalLayoutUI*>(m_pm.FindControl(_T("browser_tabbar")));
 	m_pBrowserTabBody = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("browser_tabbody")));
 	m_pModeMainTab = static_cast<CTabLayoutUI*>(m_pm.FindControl(_T("tabModeMain")));
 	if (m_pModeMainTab)
@@ -173,9 +173,42 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 	else if(sName.CompareNoCase(_T("newtab")) == 0)
 	{
 		CreateNewTabAndGo(NULL);
+	}
+	else if (sName.CompareNoCase(_T("btn_tabclose")) == 0)
+	{
 
+		CHorizontalLayoutUI* pTab = (CHorizontalLayoutUI*)msg.pSender->GetParent();
+		vector<TabInfo*>::iterator it = find_if(m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
+		if (it != m_vTabs.end()) {
+			TabInfo* pInfo = *it;
+			if (pInfo != NULL) {
+				if (m_vTabs.size() > 1)
+				{
+					m_pBrowserTabBody->Remove(pInfo->pWebBrowser);
+					delete pInfo;
+					pInfo = NULL;
+					m_vTabs.erase(it);
+					m_pBrowserTabBar->Remove(pTab);
+
+				}
+				else {
+					lstrcpy(pInfo->szUrl, sHomePage);
+					lstrcpy(pInfo->szTitle, sHomePage);
+					pInfo->pWebBrowser->Navigate(sHomePage);
+				}
+			}
+		}
 
 	}
+	
+
+
+
+
+
+
+
+
 	else if(sName.CompareNoCase(_T("address_go")) == 0)
 	{
 		AddressGo();
@@ -200,8 +233,7 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 		// 演示使用hook的方式加载资源
 		CDuiString sUrl = L"http://hook.test/resources/view/index.html";
 		CWkeWebkitUI* pWeb = GetCurWeb();
-		pWeb->Navigate(sUrl);
-	
+		pWeb->Navigate(sUrl);	
 	}
 	else if (sName.CompareNoCase(_T("skinbtn")) == 0) 
 	{
@@ -238,8 +270,8 @@ void CMainWnd::OnSelectChanged( TNotifyUI &msg )
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
 	if(sName.CompareNoCase(_T("browsertab")) == 0) {
-		CBrowserTab* pTab = (CBrowserTab*)msg.pSender;
-		int nIndex = m_pBrowserTabBar->GetItemIndex(msg.pSender);
+		CHorizontalLayoutUI* pTab = (CHorizontalLayoutUI*)msg.pSender->GetParent();
+		int nIndex = m_pBrowserTabBar->GetItemIndex(msg.pSender->GetParent());
 		m_pBrowserTabBody->SelectItem(nIndex);
 		vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
 		if(it != m_vTabs.end()) {
@@ -274,7 +306,7 @@ void CMainWnd::OnTabClosed( TNotifyUI &msg )
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
 	if(sName.CompareNoCase(_T("browsertab")) == 0) {
-		CBrowserTab* pTab = (CBrowserTab*)msg.pSender;
+		CHorizontalLayoutUI* pTab = (CHorizontalLayoutUI*)msg.pSender;
 		vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
 		if(it != m_vTabs.end()) {
 			TabInfo* pInfo = *it;
@@ -284,7 +316,8 @@ void CMainWnd::OnTabClosed( TNotifyUI &msg )
 					delete pInfo;
 					pInfo = NULL;
 					m_vTabs.erase(it);
-					m_pBrowserTabBar->CloseTab(pTab);
+					m_pBrowserTabBar->Remove(pTab);
+			
 				}
 				else {
 					lstrcpy(pInfo->szUrl, sHomePage);
@@ -396,35 +429,27 @@ LRESULT CMainWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 {
 
-	//by csk
-
-			//MessageBox(NULL,"kj","jj",MB_OK);
-
-			//标签栏区域
-	pContainer = static_cast<CHorizontalLayoutUI*>(m_pm.FindControl(_T("IContainer")));
+	m_pBrowserTabBar = static_cast<CHorizontalLayoutUI*>(m_pm.FindControl(_T("IContainer")));
 	//OptionUI
 	COptionUI* pNewOption = new COptionUI;
 	pNewOption->ApplyAttributeList(_T(" float=\"false\" ")\
-		_T("group=\"group1\" height=\"30\" maxwidth=\"174\" normalimage=\"file=\'imgs/tabitem.png\' source=\'0,0,174,32\'\" hotimage=\"file=\'imgs/tabitem.png\' source=\'174,0,348,32\'\" pushedimage=\"file=\'imgs/tabitem.png\' source=\'348,0,522,32\'\" selectedimage=\"file=\'imgs/tabitem.png\' source=\'348,0,522,32\'\" textalign=\"center\" "));
+		_T("group=\"group1\"  name=\"browsertab\" text=\"新标签页\"  height=\"30\" maxwidth=\"174\" normalimage=\"file=\'imgs/tabitem.png\' source=\'0,0,174,32\'\" hotimage=\"file=\'imgs/tabitem.png\' source=\'174,0,348,32\'\" pushedimage=\"file=\'imgs/tabitem.png\' source=\'348,0,522,32\'\" selectedimage=\"file=\'imgs/tabitem.png\' source=\'348,0,522,32\'\" textalign=\"center\" "));
+	pNewOption->SetAttribute(L"name", L"browsertab");
+
 	//关闭按钮
 	CButtonUI* pCloseBtn = new CButtonUI;
-	pCloseBtn->ApplyAttributeList(_T("name=\"CloseTabBtn\" float=\"true\" normalimage=\"imgs/tab_close_Crop1.png\" hotimage=\"imgs/tab_close_Crop1.png\" pushedimage=\"tab_close_Crop3.png\" bordersize=\"0\" pos=\"-24,12,-12,24\" bordercolor=\"#FF000000\" width=\"12\" height=\"12\""));
+	pCloseBtn->ApplyAttributeList(_T("float=\"true\" pos=\"150, 12, 172, 24\" name=\"btn_tabclose\" normalimage=\"file = \'imgs/tab_close.png\' dest = \'0,0,12,12\' source = \'0,0,12,12\'\" hotimage=\"file = \'imgs/tab_close.png\' dest = \'0,0,12,12\' source = \'12,0,24,12\'\" pushedimage=\"file =\'imgs/tab_close.png\' dest = \'0,0,12,12\' source = \'24,0,36,12\'\""));
 
 	//标签HorLayout  ==  OptionUI + 关闭按钮
-	CHorizontalLayoutUI* pNewHorLayout = new CHorizontalLayoutUI;
-	pNewHorLayout->ApplyAttributeList(_T("maxwidth=\"174\" "));
-
+	CHorizontalLayoutUI* pTab = new CHorizontalLayoutUI;
+	pTab->ApplyAttributeList(_T("maxwidth=\"174\" name=\"browser_tabbar\" "));
 	//在标签HorLayout上增加 OptionUI 和 关闭按钮
-	pNewHorLayout->Add(pNewOption);
-	pNewHorLayout->Add(pCloseBtn);
-
-
+	pTab->Add(pNewOption);
+	pTab->Add(pCloseBtn);
+	
 	UINT nNewItemBtn = m_pm.FindControl(_T("newtab"))->GetTag();
-	pContainer->AddAt(pNewHorLayout, nNewItemBtn);
-
-
-
-
+	m_pBrowserTabBar->AddAt(pTab, nNewItemBtn);
+	   	 
 
 
 	TabInfo* pInfo = new TabInfo();
@@ -437,23 +462,25 @@ int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 
 	CWkeWebkitUI* pWeb = new CWkeWebkitUI();
 	m_pBrowserTabBody->AddAt(pWeb, nIndex);
-	//pWeb->SetHomePage(_T("about:blank"));
+	pWeb->SetHomePage(_T("about:blank"));
 	pWeb->SetWkeCallback(this);
 	pWeb->NavigateHomePage();
-	if(pstrUrl == NULL) {
+	if(pstrUrl == NULL)
+	{
 	
-		//lstrcpy(pInfo->szUrl, _T("about:blank"));
-		//lstrcpy(pInfo->szTitle, _T("空白页"));
-		//pTab->SetText(_T("空白页"));
+		lstrcpy(pInfo->szUrl, _T("about:blank"));
+		lstrcpy(pInfo->szTitle, _T("空白页"));
+		pNewOption->SetText(_T("空白页"));
 	}
 	else {
 		lstrcpy(pInfo->szUrl, pstrUrl);
 		lstrcpy(pInfo->szTitle, pstrUrl);
-		//pTab->SetText(pstrUrl);
+		pNewOption->SetText(pstrUrl);
 		pWeb->Navigate(pstrUrl);
 	}
-
-	//pInfo->pTab = pTab;
+	pInfo->pCloseBtn = pCloseBtn;
+	pInfo->pNewOption = pNewOption;
+	pInfo->pTab = pTab;
 	pInfo->pWebBrowser = pWeb;
 
 	m_vTabs.push_back(pInfo);
@@ -466,7 +493,9 @@ int CMainWnd::CreateNewTabAndGo(LPCTSTR pstrUrl)
 	if (m_pBrowserTabBody)
 	{
 		int nIndex = CreateNewTab(m_pBrowserTabBody->GetCurSel() + 1, pstrUrl);
-		m_pBrowserTabBar->SelectTab(nIndex);
+		CControlUI *p1= m_pBrowserTabBar->GetItemAt(nIndex);
+		p1->SetFocus();
+
 		if (pstrUrl == NULL) {
 			::SetTimer(m_hWnd, 1001, 100, NULL);
 		}
@@ -527,12 +556,14 @@ void CMainWnd::Refresh()
 void CMainWnd::OnWkeTitleChanged(CWkeWebkitUI* webView, LPCTSTR title)
 {
 	vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), web_finder(webView));
-	if(it != m_vTabs.end()) {
+	if(it != m_vTabs.end()) 
+	{
 		TabInfo* pInfo = *it;
-		if(pInfo != NULL) {
+		if(pInfo != NULL) 
+		{
 			lstrcpy(pInfo->szTitle, title);
-			//pInfo->pTab->SetText(title);
-			//pInfo->pTab->SetToolTip(title);
+			pInfo->pNewOption->SetText(title);
+			pInfo->pNewOption->SetToolTip(title);
 		}
 	}
 }
@@ -567,7 +598,10 @@ wkeWebView CMainWnd::OnWkeCreateView(CWkeWebkitUI* webView, wkeNavigationType na
 	if(navigationType == WKE_NAVIGATION_TYPE_LINKCLICK || navigationType == WKE_NAVIGATION_TYPE_OTHER) 
 	{
 		int nIndex = CreateNewTab(m_pBrowserTabBody->GetCurSel() + 1, wkeGetStringW(url));
-		m_pBrowserTabBar->SelectTab(nIndex);
+		CControlUI *ptab=m_pBrowserTabBar->GetItemAt(nIndex);
+		ptab->SetFocus();
+
+
 		CWkeWebkitUI* pWeb = (CWkeWebkitUI*)m_pBrowserTabBody->GetItemAt(nIndex);
 		if(pWeb != NULL) {
 			return pWeb->GetWebView();
