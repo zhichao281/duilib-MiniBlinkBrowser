@@ -9,6 +9,7 @@ CAria2RPC::CAria2RPC()
 
 CAria2RPC::~CAria2RPC()
 {
+
 }
 
 

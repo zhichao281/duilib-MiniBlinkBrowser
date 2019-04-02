@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="1000,700" sizebox="4,4,6,6" caption="0,0,0,50" mininfo="800,600" roundcorner="5,5">
+    <VerticalLayout name="VerticalLayoutUI1" float="false" bkimage="file=&apos;border.png&apos; corner=&apos;5,5,5,5&apos; hole=&apos;true&apos;">
+        <VerticalLayout name="VerticalLayoutUI2" float="false" height="50" bkimage="titlebar.png">
+            <HorizontalLayout name="HorizontalLayoutUI1" float="false" height="20">
+                <HorizontalLayout name="HorizontalLayoutUI6" float="false" height="20">
+                    <Control name="ControlUI1" float="true" pos="9,1,0,0" width="20" height="20" bkimage="theworld.png" />
+                    <Label name="LabelUI1" text="MulTab" float="true" pos="36,2,0,0" width="200" height="18" textcolor="#00FFFFFF" disabledtextcolor="#FFA7A6AA" />
+                </HorizontalLayout>
+                <HorizontalLayout name="HorizontalLayoutUI8" float="false" width="200" height="20">
+                    <Button name="ButtonUI1" float="true" pos="13,0,0,0" width="33" height="20" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;fullscreen.png&apos; dest=&apos;0,0,33,20&apos; source=&apos;0,0,33,20&apos;" hotimage="file=&apos;fullscreen.png&apos; dest=&apos;0,0,33,20&apos; source=&apos;33,0,66,20&apos;" pushedimage="file=&apos;fullscreen.png&apos; dest=&apos;0,0,33,20&apos; source=&apos;66,0,99,20&apos;" />
+                    <Button name="ButtonUI2" float="true" pos="46,0,0,0" width="26" height="20" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;title_cus.png&apos; dest=&apos;0,0,26,20&apos; source=&apos;0,0,26,20&apos;" hotimage="file=&apos;title_cus.png&apos; dest=&apos;0,0,26,20&apos; source=&apos;26,0,52,20&apos;" pushedimage="file=&apos;title_cus.png&apos; dest=&apos;0,0,26,20&apos; source=&apos;52,0,78,20&apos;" />
+                    <Button name="ButtonUI3" float="true" pos="72,0,0,0" width="32" height="19" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;title_setting.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;0,0,32,20&apos;" hotimage="file=&apos;title_setting.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;32,0,64,20&apos;" pushedimage="file=&apos;title_setting.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;64,0,96,20&apos;" />
+                    <Button name="minbtn" float="true" pos="104,0,0,0" width="32" height="19" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;title_min.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;0,0,32,20&apos;" hotimage="file=&apos;title_min.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;32,0,64,20&apos;" pushedimage="file=&apos;title_min.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;64,0,96,20&apos;" />
+                    <Button name="maxbtn" float="true" pos="136,0,0,0" width="32" height="20" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;title_max.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;0,0,32,20&apos;" hotimage="file=&apos;title_max.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;32,0,64,20&apos;" pushedimage="file=&apos;title_max.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;64,0,96,20&apos;" />
+                    <Button name="closebtn" float="true" pos="168,0,0,0" width="32" height="21" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;title_close.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;0,0,32,20&apos;" hotimage="file=&apos;title_close.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;32,0,64,20&apos;" pushedimage="file=&apos;title_close.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;64,0,96,20&apos;" />
+                    <Button name="restorebtn" visible="false" float="true" pos="136,0,0,0" width="32" height="20" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;title_max2.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;0,0,32,20&apos;" hotimage="file=&apos;title_max2.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;32,0,64,20&apos;" pushedimage="file=&apos;title_max2.png&apos; dest=&apos;0,0,32,20&apos; source=&apos;64,0,96,20&apos;" />
+                </HorizontalLayout>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI2" float="false">
+                <Button name="ButtonUI7" float="true" pos="2,3,0,0" width="36" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;backward.png&apos; dest=&apos;0,0,36,26&apos; source=&apos;0,0,36,26&apos;" hotimage="file=&apos;backward.png&apos; dest=&apos;0,0,36,26&apos; source=&apos;36,0,72,26&apos;" pushedimage="file=&apos;backward.png&apos; dest=&apos;0,0,36,26&apos; source=&apos;72,0,108,26&apos;" disabledimage="file=&apos;backward.png&apos; dest=&apos;0,0,36,26&apos; source=&apos;108,0,144,26&apos;" />
+                <Button name="ButtonUI8" float="true" pos="43,9,0,0" width="14" height="14" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;tabbutton.png&apos; dest=&apos;0,0,14,14&apos; source=&apos;0,0,14,14&apos;" hotimage="file=&apos;tabbutton.png&apos; dest=&apos;0,0,14,14&apos; source=&apos;14,0,28,14&apos;" pushedimage="file=&apos;tabbutton.png&apos; dest=&apos;0,0,14,14&apos; source=&apos;28,0,42,14&apos;" disabledimage="file=&apos;tabbutton.png&apos; dest=&apos;0,0,14,14&apos; source=&apos;42,0,56,14&apos;" />
+                <Button name="ButtonUI9" float="true" pos="62,3,0,0" width="26" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;refresh.png&apos; dest=&apos;0,0,26,26&apos; source=&apos;0,0,26,26&apos;" hotimage="file=&apos;refresh.png&apos; dest=&apos;0,0,26,26&apos; source=&apos;26,0,52,26&apos;" pushedimage="file=&apos;refresh.png&apos; dest=&apos;0,0,26,26&apos; source=&apos;52,0,78,26&apos;" />
+                <Button name="ButtonUI10" float="true" pos="93,3,0,0" width="3" height="28" bkimage="file=&apos;tool_sep.png&apos; dest=&apos;0,0,3,28&apos; source=&apos;0,0,3,28&apos;" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+                <Button name="ButtonUI11" float="true" pos="100,3,0,0" width="76" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;ext_gamehall.png&apos; dest=&apos;0,0,76,26&apos; source=&apos;0,0,76,26&apos;" hotimage="file=&apos;ext_gamehall.png&apos; dest=&apos;0,0,76,26&apos; source=&apos;76,0,152,26&apos;" pushedimage="file=&apos;ext_gamehall.png&apos; dest=&apos;0,0,76,26&apos; source=&apos;152,0,228,26&apos;" />
+                <Button name="ButtonUI12" float="true" pos="183,3,0,0" width="77" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;ext_gameyouxi.png&apos; dest=&apos;0,0,77,26&apos; source=&apos;0,0,77,26&apos;" hotimage="file=&apos;ext_gameyouxi.png&apos; dest=&apos;0,0,77,26&apos; source=&apos;77,0,154,26&apos;" pushedimage="file=&apos;ext_gameyouxi.png&apos; dest=&apos;0,0,77,26&apos; source=&apos;154,0,231,26&apos;" />
+                <Button name="ButtonUI13" float="true" pos="264,3,0,0" width="63" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;ext_smallgame.png&apos; dest=&apos;0,0,63,26&apos; source=&apos;0,0,63,26&apos;" hotimage="file=&apos;ext_smallgame.png&apos; dest=&apos;0,0,63,26&apos; source=&apos;63,0,126,26&apos;" pushedimage="file=&apos;ext_smallgame.png&apos; dest=&apos;0,0,63,26&apos; source=&apos;126,0,189,26&apos;" />
+                <Button name="ButtonUI14" float="true" pos="332,3,0,0" width="51" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;ext_gamescreen.png&apos; dest=&apos;0,0,51,26&apos; source=&apos;0,0,51,26&apos;" hotimage="file=&apos;ext_gamescreen.png&apos; dest=&apos;0,0,51,26&apos; source=&apos;51,0,102,26&apos;" pushedimage="file=&apos;ext_gamescreen.png&apos; dest=&apos;0,0,51,26&apos; source=&apos;102,0,153,26&apos;" />
+                <Button name="ButtonUI15" float="true" pos="388,3,0,0" width="50" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;ext_gametool.png&apos; dest=&apos;0,0,50,26&apos; source=&apos;0,0,50,26&apos;" hotimage="file=&apos;ext_gametool.png&apos; dest=&apos;0,0,50,26&apos; source=&apos;50,0,100,26&apos;" pushedimage="file=&apos;ext_gametool.png&apos; dest=&apos;0,0,50,26&apos; source=&apos;100,0,150,26&apos;" />
+                <Button name="ButtonUI16" float="true" pos="445,3,0,0" width="100" height="28" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;ext_gameswitchnormal.png&apos; dest=&apos;0,0,100,26&apos; source=&apos;0,0,100,26&apos;" hotimage="file=&apos;ext_gameswitchnormal.png&apos; dest=&apos;0,0,100,26&apos; source=&apos;100,0,200,26&apos;" pushedimage="file=&apos;ext_gameswitchnormal.png&apos; dest=&apos;0,0,100,26&apos; source=&apos;200,0,300,26&apos;" />
+            </HorizontalLayout>
+        </VerticalLayout>
+        <HorizontalLayout name="HorizontalLayoutUI3" float="false" height="32" bkimage="tabbar.png">
+		<!-- <Label name="www0" float="false" width="30" text="首页"/> -->
+            <HorizontalLayout name="HorizontalLayoutUI10"  float="false">
+			
+                <HorizontalLayout name="IContainer" float="false" height="32">
+				<!-- <Label name="www0" float="false" width="30" text="首页"/> -->
+                    
+					
+					
+					<!-- tabitem子项目 -->
+					 <HorizontalLayout  name="Item0" maxwidth="174" >
+					   <Option  float="false" text=""  align="center" height="30"  maxwidth="174" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA"  textalign="center" normalimage="file=&apos;tabitem.png&apos; source=&apos;0,0,174,32&apos;" hotimage="file=&apos;tabitem.png&apos; source=&apos;174,0,348,32&apos;" pushedimage="file=&apos;tabitem.png&apos; source=&apos;348,0,522,32&apos;" selected="true" selectedimage="file=&apos;tabitem.png&apos; source=&apos;348,0,522,32&apos;" group="group1" />
+					
+					   <Button  float="true" pos="-24,12,-12,24" normalimage="file='tab_close.png' source='0,0,12,12'" hotimage="file='tab_close.png' source='12,0,24,12'" pushedimage="file='tab_close.png' source='24,0,36,12'"/>
+						 <!-- <Button name="NewItemBtn" float="true" pos="0,0,30,30" width="30" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;0,0,21,28&apos;" hotimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;21,0,42,28&apos;" pushedimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;42,0,63,28&apos;" /> -->
+					</HorizontalLayout> 
+				    <!-- tabitem子项目 -->
+				
+						<Button name="NewItemBtn" float="false" pos="0,0,30,30" width="30" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;0,0,21,28&apos;" hotimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;21,0,42,28&apos;" pushedimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;42,0,63,28&apos;" />
+				
+				</HorizontalLayout>
+				
+				
+                <!-- <Button name="NewItemBtn" float="false" width="30" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;0,0,21,28&apos;" hotimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;21,0,42,28&apos;" pushedimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;42,0,63,28&apos;" /> -->
+				
+				
+				<!--  <HorizontalLayout>
+				
+				<Button name="NewItemBtn" float="false" width="30" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;0,0,21,28&apos;" hotimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;21,0,42,28&apos;" pushedimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;42,0,63,28&apos;" />
+			    <Cntrol />
+				
+				</HorizontalLayout> -->
+				 
+				 
+				 <!-- <Button name="NewItemBtn" float="false" pos="0,0,30,30" width="30" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;0,0,21,28&apos;" hotimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;21,0,42,28&apos;" pushedimage="file=&apos;tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;42,0,63,28&apos;" /> -->
+				 
+				 
+				 
+				
+				
+				
+            <HorizontalLayout name="HorizontalLayoutUI17" float="false" width="50" height="32">
+                <Button name="GoLeftBtn" float="true" pos="1,0,0,0" width="19" height="31" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;tabscrollleft.png&apos; dest=&apos;0,0,19,30&apos; source=&apos;0,0,19,30&apos;" hotimage="file=&apos;tabscrollleft.png&apos; dest=&apos;0,0,19,30&apos; source=&apos;19,0,38,30&apos;" pushedimage="file=&apos;tabscrollleft.png&apos; dest=&apos;0,0,19,30&apos; source=&apos;38,0,57,30&apos;" disabledimage="file=&apos;tabscrollleft.png&apos; dest=&apos;0,0,19,30&apos; source=&apos;57,0,76,30&apos;" />
+                <Button name="GoRightBtn" float="true" pos="24,0,0,0" width="19" height="31" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;tabscrollright.png&apos; dest=&apos;0,0,19,30&apos; source=&apos;0,0,19,30&apos;" hotimage="file=&apos;tabscrollright.png&apos; dest=&apos;0,0,19,30&apos; source=&apos;19,0,38,30&apos;" pushedimage="file=&apos;tabscrollright.png&apos; dest=&apos;0,0,19,30&apos; source=&apos;38,0,57,30&apos;" disabledimage="file=&apos;tabscrollright.png&apos; dest=&apos;0,0,19,30&apos; source=&apos;57,0,76,30&apos;" />
+            </HorizontalLayout> 
+        </HorizontalLayout>
+</HorizontalLayout>
+        <HorizontalLayout name="HorizontalLayoutUI4" float="false">
+            <HorizontalLayout name="HorizontalLayoutUI11" float="false" width="2" bkimage="borderleft.png" />
+            <HorizontalLayout name="HorizontalLayoutUI12" float="false">
+                <TabLayout name="TabLayoutUI1" float="false">
+                    <ActiveX name="ie" float="false" clsid="{8856F961-340A-11D0-A96B-00C04FD705A2}" delaycreate="false" />
+                </TabLayout>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI13" float="false" width="2" bkimage="borderright.png" />
+        </HorizontalLayout>
+        <HorizontalLayout name="HorizontalLayoutUI5" float="false" height="22" bkimage="statusbar.png">
+            <HorizontalLayout name="HorizontalLayoutUI14" float="false">
+                <Label name="LabelUI2" text="完成" float="true" pos="0,0,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI15" float="false" width="150" height="22">
+                <Progress name="ProgressUI1" float="true" pos="14,8,0,0" width="121" height="8" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" min="0" max="100" value="0" hor="true" />
+            </HorizontalLayout>
+             <HorizontalLayout name="HorizontalLayoutUI16" float="false" width="450" height="22">
+                <Button name="ButtonUI19" float="true" pos="0,0,0,0" width="108" height="22" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;status_bosskey.png&apos; dest=&apos;0,0,108,22&apos; source=&apos;0,0,108,22&apos;" hotimage="file=&apos;status_bosskey.png&apos; dest=&apos;0,0,108,22&apos; source=&apos;108,0,216,22&apos;" pushedimage="file=&apos;status_bosskey.png&apos; dest=&apos;0,0,108,22&apos; source=&apos;216,0,324,22&apos;" />
+                <Button name="ButtonUI20" float="true" pos="108,0,0,0" width="74" height="22" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;status_repair.png&apos; dest=&apos;0,0,74,22&apos; source=&apos;0,0,74,22&apos;" hotimage="file=&apos;status_repair.png&apos; dest=&apos;0,0,74,22&apos; source=&apos;74,0,148,22&apos;" pushedimage="file=&apos;status_repair.png&apos; dest=&apos;0,0,74,22&apos; source=&apos;148,0,222,22&apos;" />
+                <Button name="ButtonUI21" float="true" pos="182,0,0,0" width="74" height="22" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;status_clean.png&apos; dest=&apos;0,0,74,22&apos; source=&apos;0,0,74,22&apos;" hotimage="file=&apos;status_clean.png&apos; dest=&apos;0,0,74,22&apos; source=&apos;74,0,148,22&apos;" pushedimage="file=&apos;status_clean.png&apos; dest=&apos;0,0,74,22&apos; source=&apos;148,0,222,22&apos;" />
+                <Button name="ButtonUI22" float="true" pos="256,0,0,0" width="49" height="22" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;status_substitute.png&apos; dest=&apos;0,0,49,22&apos; source=&apos;0,0,49,22&apos;" hotimage="file=&apos;status_substitute.png&apos; dest=&apos;0,0,49,22&apos; source=&apos;49,0,98,22&apos;" pushedimage="file=&apos;status_substitute.png&apos; dest=&apos;0,0,49,22&apos; source=&apos;98,0,147,22&apos;" />
+                <Button name="ButtonUI23" float="true" pos="305,0,0,0" width="49" height="22" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;status_clock.png&apos; dest=&apos;0,0,49,22&apos; source=&apos;0,0,49,22&apos;" hotimage="file=&apos;status_clock.png&apos; dest=&apos;0,0,49,22&apos; source=&apos;49,0,98,22&apos;" pushedimage="file=&apos;status_clock.png&apos; dest=&apos;0,0,49,22&apos; source=&apos;98,0,147,22&apos;" />
+                <Button name="ButtonUI24" float="true" pos="354,0,0,0" width="49" height="22" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;status_sound.png&apos; dest=&apos;0,0,49,22&apos; source=&apos;0,0,49,22&apos;" hotimage="file=&apos;status_sound.png&apos; dest=&apos;0,0,49,22&apos; source=&apos;49,0,98,22&apos;" pushedimage="file=&apos;status_sound.png&apos; dest=&apos;0,0,49,22&apos; source=&apos;98,0,147,22&apos;" />
+                <Control name="ControlUI2" float="true" pos="435,7,0,0" width="15" height="15" bkimage="sizestatus.png" />
+            </HorizontalLayout> 
+        </HorizontalLayout>
+    </VerticalLayout>
+</Window>

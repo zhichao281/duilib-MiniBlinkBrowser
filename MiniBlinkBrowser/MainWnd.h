@@ -104,7 +104,7 @@ private:
 	CDownloadWnd  *m_pDownloadWnd;
 
 	XLDownloader    *m_pDownloader;
-
+	CHorizontalLayoutUI* pContainer;
 
 
 
