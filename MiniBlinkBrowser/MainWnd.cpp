@@ -77,6 +77,7 @@ CMainWnd::CMainWnd(void)
 
 	gblDownloadMgrGet->StartAria2c();
 
+	m_nTabID = 0;
 		
 }
 
@@ -449,7 +450,7 @@ int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 	
 	UINT nNewItemBtn = m_pm.FindControl(_T("newtab"))->GetTag();
 	m_pBrowserTabBar->AddAt(pTab, nNewItemBtn);
-	   	 
+	m_pm.FindControl(_T("newtab"))->SetTag(nNewItemBtn++);
 
 
 	TabInfo* pInfo = new TabInfo();

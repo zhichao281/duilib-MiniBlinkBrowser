@@ -198,6 +198,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="SqliteDB\SqliteDB.h" />
     <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="TagControl.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TroyControls.h" />
     <ClInclude Include="UI\DownloadWnd.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TagControl.cpp" />
     <ClCompile Include="UI\DownloadWnd.cpp" />
     <ClCompile Include="UI\MiniControls.cpp" />
     <ClCompile Include="UI\MsgWnd.cpp" />

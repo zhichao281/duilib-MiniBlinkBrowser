@@ -171,6 +171,9 @@
     <ClInclude Include="..\Common\Log\LogManager.h">
       <Filter>Common\Log</Filter>
     </ClInclude>
+    <ClInclude Include="TagControl.h">
+      <Filter>头文件\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MiniBlinkBrowser.rc">
@@ -243,6 +246,9 @@
     </ClCompile>
     <ClCompile Include="..\Common\Log\LogManager.cpp">
       <Filter>Common\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="TagControl.cpp">
+      <Filter>头文件\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
