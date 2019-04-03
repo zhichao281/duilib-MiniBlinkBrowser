@@ -5,4 +5,4 @@ MiniBlinkBrowser-demo
 里面的程序可以直接运行
 如果有任何问题可以加我 QQ:125388771
 
-![Image text](https://raw.githubusercontent.com/zhichao281/duilib-MiniBlinkBrowser/master/bin/%E7%95%8C%E9%9D%A2%E6%88%AA%E5%9B%BE.png)
+![Image text](https://raw.githubusercontent.com/zhichao281/duilib-MiniBlinkBrowser/master/bin/demo.png)
