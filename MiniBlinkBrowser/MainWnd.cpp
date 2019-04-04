@@ -148,6 +148,10 @@ CControlUI* CMainWnd::CreateControl(LPCTSTR pstrClass)
 		CControlUI* pUI = new CIconUI();
 		return pUI;
 	}
+
+
+
+
 }
 
 void CMainWnd::OnClick( TNotifyUI &msg )
@@ -202,12 +206,6 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 		}
 
 	}
-	
-
-
-
-
-
 
 
 
@@ -267,7 +265,7 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 
 void CMainWnd::OnSelectChanged( TNotifyUI &msg )
 {
-	CDuiString sName = msg.pSender->GetParent()->GetName();
+	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
 	if(sName.CompareNoCase(_T("browsertab")) == 0) {
 		CBrowserTabUI* pTab = (CBrowserTabUI*)msg.pSender->GetParent();
@@ -433,9 +431,14 @@ int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 	m_pBrowserTabBar = static_cast<CHorizontalLayoutUI*>(m_pm.FindControl(_T("IContainer")));
 
 	//±êÇ©HorLayout  ==  OptionUI + ¹Ø±Õ°´Å¥
-	CBrowserTabUI* pTab = new CBrowserTabUI;
+	//CBrowserTabUI* pTab = new CBrowserTabUI;
+	CDialogBuilder builder1;
+	CBrowserTabUI* pTab = (CBrowserTabUI*)builder1.Create(_T("browseritem.xml"), NULL, this, &m_pm, NULL);
 
-	pTab->SetAttribute(L"name", L"browsertab");
+
+
+
+	//pTab->SetAttribute(L"name", L"browsertab");
 
 	//UINT nNewItemBtn = m_pm.FindControl(_T("newtab"))->GetTag();
 	m_pBrowserTabBar->AddAt(pTab, nIndex);

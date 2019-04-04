@@ -244,6 +244,7 @@
     <ClCompile Include="xldownloader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="..\bin\Skin\browseritem.xml" />
     <Xml Include="..\bin\Skin\Default.xml" />
     <Xml Include="..\bin\Skin\downitem.xml" />
     <Xml Include="..\bin\Skin\DownloadFrame.xml" />

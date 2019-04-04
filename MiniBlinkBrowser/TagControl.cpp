@@ -27,31 +27,9 @@ CBrowserTabBarUI::CBrowserTabBarUI()
 
 	void CBrowserTabUI::DoInit()
 	{
-	
-		//OptionUI
-		m_pOption = new CBrowserOptionUI;
-		//关闭按钮
-		m_pCloseBtn = new CButtonUI;
-		//图标
-		m_pIcon = new CContainerUI;		
-		//标签HorLayout  ==  OptionUI + 关闭按钮	
-		this->ApplyAttributeList(_T("maxwidth=\"174\" name=\"browser_tabbar\" "));
-		
-		//在标签HorLayout上增加 OptionUI 和 关闭按钮
-		this->Add(m_pOption);
-		this->Add(m_pCloseBtn);
-		this->Add(m_pIcon);
-		m_pOption->ApplyAttributeList(_T(" float=\"true\" ")\
-			_T("group=\"group1\" text=\"新标签页\" name=\"browseroption\" pos=\"0,0,174,32\" endellipsis=\"true\" textpadding=\"50,0,50,0\"  text=\"新标签页\" maxwidth=\"174\" height=\"30\" maxwidth=\"174\" normalimage=\"file=\'imgs/tabitem.png\' dest = \'0,0,174,32\' source=\'0,0,174,32\'\" hotimage=\"file=\'imgs/tabitem.png\' source=\'174,0,348,32\'\" pushedimage=\"file=\'imgs/tabitem.png\' source=\'348,0,522,32\'\" selectedimage=\"file=\'imgs/tabitem.png\' source=\'348,0,522,32\'\" align=\"center\" "));
-
-		m_pCloseBtn->ApplyAttributeList(_T("float=\"true\" pos=\"150, 12, 172, 24\" name=\"btn_tabclose\" normalimage=\"file = \'imgs/tab_close.png\' dest = \'0,0,12,12\' source = \'0,0,12,12\'\" hotimage=\"file = \'imgs/tab_close.png\' dest = \'0,0,12,12\' source = \'12,0,24,12\'\" pushedimage=\"file =\'imgs/tab_close.png\' dest = \'0,0,12,12\' source = \'24,0,36,12\'\""));
-		m_pIcon->SetAttribute(L"pos", L"0,0,50,32");
-		m_pIcon->ApplyAttributeList(_T(" float=\"true\" mouse=\"false\" pos=\"0,2,50,32\" bkimage=\"file = \'imgs/logo.png\' dest = \'0,0,30,30\' source = \'0,0,30,30\'\""));
-
-	
-		this->SetAttribute(L"name", L"browsertab");
-
-
+		m_pOption= static_cast<CBrowserOptionUI*>(this->FindSubControl(_T("browsertab")));
+		m_pCloseBtn = static_cast<CButtonUI*>(this->FindSubControl(_T("btn_tabclose")));
+		m_pIcon = static_cast<CContainerUI*>(this->FindSubControl(_T("browser_icon")));
 
 	}
 
