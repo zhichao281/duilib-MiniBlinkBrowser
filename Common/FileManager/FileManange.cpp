@@ -341,6 +341,7 @@ string NFile::GetImageHead(wstring wstrPath)
 		}
 
 	}
+	fclose(file);
 	return strFomat;
 }
 
@@ -389,6 +390,7 @@ std::wstring NFile::GetModulePathW(HMODULE hModule /* = NULL */)
 
 
 
+
 BOOL NFile::IsDirectory(LPCTSTR lpDir)
 {
 	DWORD		dwAttr;
@@ -414,4 +416,51 @@ BOOL NFile::IsDirectory(LPCSTR pDir)
 		return TRUE;
 
 	return FALSE;
+}
+
+std::string NFile::GetRootDirectoryA()
+{
+	std::string strCurrentDir;
+	char szModuleFileName[MAX_PATH] = "";
+	GetModuleFileNameA(NULL, szModuleFileName, MAX_PATH);
+
+	char* pRchr = strrchr(szModuleFileName, '\\');
+	if (NULL == pRchr)
+	{
+		pRchr = strrchr(szModuleFileName, '/');
+	}
+
+	if (NULL != pRchr)
+	{
+		pRchr++;
+		*pRchr = '\0';
+	}
+	strCurrentDir = szModuleFileName;
+	return strCurrentDir;
+
+}
+
+
+std::wstring NFile::GetRootDirectoryW()
+{
+
+	std::wstring strCurrentDir;
+	TCHAR szModuleFileName[MAX_PATH] = _T("");
+	GetModuleFileName(NULL, szModuleFileName, MAX_PATH);
+
+	TCHAR* pRchr = wcsrchr(szModuleFileName, '\\');
+	if (NULL == pRchr)
+	{
+		pRchr = wcsrchr(szModuleFileName, '/');
+	}
+
+	if (NULL != pRchr)
+	{
+		pRchr++;
+		*pRchr = '\0';
+	}
+
+	strCurrentDir = szModuleFileName;
+	return strCurrentDir;
+
 }

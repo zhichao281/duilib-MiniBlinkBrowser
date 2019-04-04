@@ -4,6 +4,7 @@
 ///
 #include "TroyControls.h"
 #include "WkeWebkit.h"
+#include "TagControl.h"
 
 typedef struct _tagTabInfo
 {
@@ -12,7 +13,7 @@ typedef struct _tagTabInfo
 	TCHAR szTitle[256];
 	TCHAR szFavUrl[2048];
 	TCHAR szFavName[256];
-	CHorizontalLayoutUI* pTab;
+	CBrowserTabUI* pTab;
 	CButtonUI* pCloseBtn;
 	COptionUI* pNewOption;
 	CWkeWebkitUI* pWebBrowser;
@@ -85,6 +86,12 @@ public:
 
 	//页面下载事件回调。点击某些链接，触发下载会调用
 	virtual bool  OnWkeDownload(CWkeWebkitUI* webView, const char* url);
+
+	//获取favicon。
+	virtual void  OnWkeNetGetFavicon(CWkeWebkitUI *webView, const char*  url, wkeMemBuf* buf);
+
+
+
 
 private:
 	CButtonUI* m_pCloseBtn;

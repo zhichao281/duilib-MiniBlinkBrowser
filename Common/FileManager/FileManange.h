@@ -99,10 +99,20 @@ public:
 	/************************/
 	static void GetRootDirectoryA(LPSTR pszRootDir);
 
-	/************************/
+
+
+
+
 	//描述：获取当前程序所在路径
-	/************************/
+
 	static void GetRootDirectoryW(LPTSTR pszRootDir);
+
+	static std::string GetRootDirectoryA();
+
+	//描述：获取当前程序所在路径
+	static std::wstring GetRootDirectoryW();
+
+
 
 	// 获取路径
 	static std::wstring	GetFileInModulePathW(std::wstring strFileName = L"", HMODULE hModule = NULL);
@@ -110,7 +120,10 @@ public:
 	/************************/
 	//描述：获取图片的类型
 	/************************/
-	string GetImageHead(wstring strPath);
+	static string GetImageHead(wstring strPath);
+
+
+
 
 	// 判断指定目录是否存在
 	static BOOL	IsDirectory(LPCTSTR lpDir);

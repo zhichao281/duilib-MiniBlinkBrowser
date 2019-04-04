@@ -9,6 +9,7 @@
 #include "UI/MsgWnd.h"
 #include "UI/DownloadWnd.h"
 #include "UI/MiniControls.h"
+
 #include "xldownloader.h"
 #include "../Common/Url/Url.h"
 #include "../Common/String/NSString.h"
@@ -19,13 +20,13 @@
 class tab_finder  
 {  
 public:  
-    tab_finder(CHorizontalLayoutUI* pTab) :m_pTab(pTab){}
+    tab_finder(CBrowserTabUI* pTab) :m_pTab(pTab){}
     bool operator ()( vector<struct _tagTabInfo*>::value_type &value)  
     {  
         return (m_pTab == value->pTab);  
     }
 private:  
-	CHorizontalLayoutUI* m_pTab;
+	CBrowserTabUI* m_pTab;
 };
 
 class web_finder  
@@ -178,7 +179,7 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 	else if (sName.CompareNoCase(_T("btn_tabclose")) == 0)
 	{
 
-		CHorizontalLayoutUI* pTab = (CHorizontalLayoutUI*)msg.pSender->GetParent();
+		CBrowserTabUI* pTab = (CBrowserTabUI*)msg.pSender->GetParent();
 		vector<TabInfo*>::iterator it = find_if(m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
 		if (it != m_vTabs.end()) {
 			TabInfo* pInfo = *it;
@@ -260,18 +261,16 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 	{
 		CWkeWebkitUI* pWeb = GetCurWeb();
 		pWeb->ExecuteJS(_T("JsFunSub(\"1\",\"2\");"));
-	}
-
-	
+	}	
 	
 }
 
 void CMainWnd::OnSelectChanged( TNotifyUI &msg )
 {
-	CDuiString sName = msg.pSender->GetName();
+	CDuiString sName = msg.pSender->GetParent()->GetName();
 	sName.MakeLower();
 	if(sName.CompareNoCase(_T("browsertab")) == 0) {
-		CHorizontalLayoutUI* pTab = (CHorizontalLayoutUI*)msg.pSender->GetParent();
+		CBrowserTabUI* pTab = (CBrowserTabUI*)msg.pSender->GetParent();
 		int nIndex = m_pBrowserTabBar->GetItemIndex(msg.pSender->GetParent());
 		m_pBrowserTabBody->SelectItem(nIndex);
 		vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
@@ -289,7 +288,8 @@ void CMainWnd::OnTabIndexChanged( TNotifyUI &msg )
 {
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
-	if(sName.CompareNoCase(_T("browsertab")) == 0) {
+	if(sName.CompareNoCase(_T("browsertab")) == 0) 
+	{
 		int nCurIndex = LOWORD(msg.lParam);
 		int nIndex = HIWORD(msg.lParam);
 		m_pBrowserTabBody->SetAutoDestroy(false);
@@ -307,7 +307,7 @@ void CMainWnd::OnTabClosed( TNotifyUI &msg )
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
 	if(sName.CompareNoCase(_T("browsertab")) == 0) {
-		CHorizontalLayoutUI* pTab = (CHorizontalLayoutUI*)msg.pSender;
+		CBrowserTabUI* pTab = (CBrowserTabUI*)msg.pSender;
 		vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
 		if(it != m_vTabs.end()) {
 			TabInfo* pInfo = *it;
@@ -431,26 +431,15 @@ int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 {
 
 	m_pBrowserTabBar = static_cast<CHorizontalLayoutUI*>(m_pm.FindControl(_T("IContainer")));
-	//OptionUI
-	COptionUI* pNewOption = new COptionUI;
-	pNewOption->ApplyAttributeList(_T(" float=\"false\" ")\
-		_T("group=\"group1\"  name=\"browsertab\" text=\"新标签页\"  height=\"30\" maxwidth=\"174\" normalimage=\"file=\'imgs/tabitem.png\' source=\'0,0,174,32\'\" hotimage=\"file=\'imgs/tabitem.png\' source=\'174,0,348,32\'\" pushedimage=\"file=\'imgs/tabitem.png\' source=\'348,0,522,32\'\" selectedimage=\"file=\'imgs/tabitem.png\' source=\'348,0,522,32\'\" textalign=\"center\" "));
-	pNewOption->SetAttribute(L"name", L"browsertab");
-
-	//关闭按钮
-	CButtonUI* pCloseBtn = new CButtonUI;
-	pCloseBtn->ApplyAttributeList(_T("float=\"true\" pos=\"150, 12, 172, 24\" name=\"btn_tabclose\" normalimage=\"file = \'imgs/tab_close.png\' dest = \'0,0,12,12\' source = \'0,0,12,12\'\" hotimage=\"file = \'imgs/tab_close.png\' dest = \'0,0,12,12\' source = \'12,0,24,12\'\" pushedimage=\"file =\'imgs/tab_close.png\' dest = \'0,0,12,12\' source = \'24,0,36,12\'\""));
 
 	//标签HorLayout  ==  OptionUI + 关闭按钮
-	CHorizontalLayoutUI* pTab = new CHorizontalLayoutUI;
-	pTab->ApplyAttributeList(_T("maxwidth=\"174\" name=\"browser_tabbar\" "));
-	//在标签HorLayout上增加 OptionUI 和 关闭按钮
-	pTab->Add(pNewOption);
-	pTab->Add(pCloseBtn);
+	CBrowserTabUI* pTab = new CBrowserTabUI;
+
+	pTab->SetAttribute(L"name", L"browsertab");
+
+	//UINT nNewItemBtn = m_pm.FindControl(_T("newtab"))->GetTag();
+	m_pBrowserTabBar->AddAt(pTab, nIndex);
 	
-	UINT nNewItemBtn = m_pm.FindControl(_T("newtab"))->GetTag();
-	m_pBrowserTabBar->AddAt(pTab, nNewItemBtn);
-	m_pm.FindControl(_T("newtab"))->SetTag(nNewItemBtn++);
 
 
 	TabInfo* pInfo = new TabInfo();
@@ -471,16 +460,14 @@ int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 	
 		lstrcpy(pInfo->szUrl, _T("about:blank"));
 		lstrcpy(pInfo->szTitle, _T("空白页"));
-		pNewOption->SetText(_T("空白页"));
+		pTab->SetText(_T("空白页"));
 	}
 	else {
 		lstrcpy(pInfo->szUrl, pstrUrl);
 		lstrcpy(pInfo->szTitle, pstrUrl);
-		pNewOption->SetText(pstrUrl);
+		pTab->SetText(pstrUrl);
 		pWeb->Navigate(pstrUrl);
 	}
-	pInfo->pCloseBtn = pCloseBtn;
-	pInfo->pNewOption = pNewOption;
 	pInfo->pTab = pTab;
 	pInfo->pWebBrowser = pWeb;
 
@@ -563,8 +550,8 @@ void CMainWnd::OnWkeTitleChanged(CWkeWebkitUI* webView, LPCTSTR title)
 		if(pInfo != NULL) 
 		{
 			lstrcpy(pInfo->szTitle, title);
-			pInfo->pNewOption->SetText(title);
-			pInfo->pNewOption->SetToolTip(title);
+			pInfo->pTab->SetText(title);
+			pInfo->pTab->SetToolTip(title);
 		}
 	}
 }
@@ -693,4 +680,35 @@ bool CMainWnd::OnWkeDownload(CWkeWebkitUI * webView, const char * url)
 		m_pDownloader->downloadWithXL(NStr::StrToWStr(strUrl).c_str(), strdownPath.c_str(), NStr::StrToWStr(strFileName).c_str());
 	}
 	return false;
+}
+
+#include <fstream>////-------------------------------------------   
+
+//获取网页的ico
+void CMainWnd::OnWkeNetGetFavicon(CWkeWebkitUI * webView, const char*  url, wkeMemBuf * buf)
+{
+
+	std::string  strUrl = url;
+	std::smatch results;
+	std::string pattern{ ".+/(.+)$" };
+	std::regex re(pattern);
+	common::Url uri(url);
+
+	bool ret = std::regex_search(strUrl, results, re);
+	if (ret)
+	{
+		std::string  strFileName = results[1]; ;
+		std::string strdownPath = NFile::GetRootDirectoryA()+"favicon\\";
+		NFile::CreateDir(strdownPath.c_str());		
+		strFileName = strdownPath + uri.GetHost()+ strFileName;
+		FILE *file;
+		file = fopen(strFileName.c_str(), "wb");
+		if (file)
+		{
+			fwrite((byte*)buf->data, 1, buf->length, file);
+			fclose(file);
+		}
+	}
+
+
 }

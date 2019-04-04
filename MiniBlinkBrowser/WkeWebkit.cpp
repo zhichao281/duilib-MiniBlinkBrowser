@@ -127,14 +127,6 @@ void CWkeWebkitUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	}
 }
 
-void WKE_CALL_TYPE CWkeWebkitUI::OnWkePaintUpdate(wkeWebView webView, void* param, const HDC hdc, int x, int y, int cx, int cy)
-{
-	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if (!pWkeUI)	return ;
-	pWkeUI->Invalidate();
-
-}
-
 
 
 bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
@@ -358,6 +350,15 @@ void CWkeWebkitUI::SetWkeCallback(IWkeCallback* pWkeCallback)
 	m_pWkeCallback = pWkeCallback;
 }
 
+void WKE_CALL_TYPE CWkeWebkitUI::OnWkePaintUpdate(wkeWebView webView, void* param, const HDC hdc, int x, int y, int cx, int cy)
+{
+	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
+	if (!pWkeUI)	return;
+	pWkeUI->Invalidate();
+
+}
+
+
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeTitleChanged(wkeWebView webView, void* param, wkeString title)
 {
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
@@ -369,11 +370,18 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeTitleChanged(wkeWebView webView, void* par
 
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeURLChanged(wkeWebView webView, void* param, wkeString url)
 {
-	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if (!pWkeUI)	return;
-	if (pWkeUI->m_pWkeCallback) {
-		return pWkeUI->m_pWkeCallback->OnWkeURLChanged(pWkeUI, wkeGetStringT(url));
+	wkeTempCallbackInfo* temInfo = wkeGetTempCallbackInfo(webView);
+	if (::wkeIsMainFrame(webView, temInfo->frame))
+	{
+		CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
+		if (!pWkeUI)	return;
+		if (pWkeUI->m_pWkeCallback)
+		{
+			return pWkeUI->m_pWkeCallback->OnWkeURLChanged(pWkeUI, wkeGetStringT(url));
+		}
 	}
+
+
 }
 
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeAlertBox(wkeWebView webView, void* param, wkeString msg)
@@ -483,6 +491,8 @@ bool  WKE_CALL_TYPE CWkeWebkitUI::onLoadUrlBegin(wkeWebView webView, void* param
 	return false;
 }
 
+
+
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeLoadingFinish(wkeWebView webView, void* param, const wkeString url, wkeLoadingResult result, const wkeString failedReason)
 {
 
@@ -495,11 +505,33 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeLoadingFinish(wkeWebView webView, void* pa
 		pWkeUI->Navigate(pWkeUI->m_chErrUrl);
 	}
 
+
+	wkeTempCallbackInfo* temInfo = wkeGetTempCallbackInfo(webView);
+	if (::wkeIsMainFrame(webView, temInfo->frame)) 
+	{
+		::wkeNetGetFavicon(webView, OnWkeNetGetFavicon, param);
+	}
+
+
 	if (pWkeUI->m_pWkeCallback) 
 	{
 		pWkeUI->m_pWkeCallback->OnWkeLoadingFinish(pWkeUI, wkeGetStringT(url), result, wkeGetStringT(failedReason));
 	}
 }
+void WKE_CALL_TYPE CWkeWebkitUI::OnWkeNetGetFavicon(wkeWebView webView, void * param, const utf8 * url, wkeMemBuf * buf)
+{
+	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
+	if (!pWkeUI)	return;
+
+	if (pWkeUI->m_pWkeCallback && buf!=nullptr &&url!=nullptr)
+	{
+		pWkeUI->m_pWkeCallback->OnWkeNetGetFavicon(pWkeUI, url, buf);
+	}
+
+	return ;
+}
+
+
 
 bool WKE_CALL_TYPE CWkeWebkitUI::OnWkeDownload(wkeWebView webView, void * param, const char * url)
 {

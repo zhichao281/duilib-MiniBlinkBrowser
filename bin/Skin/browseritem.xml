@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window>
+  <ListContainerElement  height="30">
+
+    <Label name="NumberLaber" text="1" textpadding="5,0,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" valign="center" endellipsis="true" />
+    <Label name="downFileNameLabel" text="下载文件名"  textpadding="5,0,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" valign="center" endellipsis="true" />
+    <Container >
+      <Progress name="downprogress" float="true" pos="30,10,180,20"  valign="center" borderround="5,5" textcolor="#00999999"   bkcolor="#FFE4EFF6" forecolor="#FF7FCCF4" value="50" min="0" max="100"/>
+    </Container>
+    <Label name="sizeInfoLabel" text="365M/555M"  textpadding="5,0,0,0" textcolor="#00999999" disabledtextcolor="#FFA7A6AA" font="1" align="center" valign="center" />
+
+    <Label name="leftTimeLabel" text="1.5M/S 00:00:01"  textcolor="#00999999" disabledtextcolor="#FFA7A6AA" font="1" align="center" valign="center" />
+    <Container >
+      <Button  style="btn_style" text="下载失败" font="100"  name="stateLabel"  textcolor="#00FF0000" disabledtextcolor="#FFA7A6AA"  align="center" valign="center" />
+    </Container>
+  </ListContainerElement>
+</Window>

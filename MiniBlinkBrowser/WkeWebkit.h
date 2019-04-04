@@ -60,7 +60,11 @@ public:
 	
 	virtual void OnWkeLoadingFinish(CWkeWebkitUI* webView, const LPCTSTR url, wkeLoadingResult result, LPCTSTR failedReason) {}
 	   
-	virtual LPCTSTR OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpContent, void *pListenObj) { return NULL; }
+	virtual LPCTSTR OnJS2Native(CWkeWebkitUI *webView, LPCTSTR lpMethod, LPCTSTR lpContent, void *pListenObj) { return NULL; }
+
+	virtual void  OnWkeNetGetFavicon(CWkeWebkitUI *webView, const char*  url, wkeMemBuf* buf) {};
+
+
 };
 
 
@@ -179,6 +183,11 @@ private:
 	static jsValue WKE_CALL_TYPE onShellExec(jsExecState es, void* param);
 
 	static void WKE_CALL_TYPE OnWkePaintUpdate(wkeWebView webView, void* param, const HDC hdc, int x, int y, int cx, int cy);
+
+	//ªÒ»°favicon°£
+	static void WKE_CALL_TYPE OnWkeNetGetFavicon(wkeWebView webView, void* param, const utf8* url, wkeMemBuf* buf);
+
+
 
 private:
 	REND_DATA m_RendData;
