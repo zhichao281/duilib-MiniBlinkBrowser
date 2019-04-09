@@ -116,10 +116,15 @@ public:
 
 	// 获取路径
 	static std::wstring	GetFileInModulePathW(std::wstring strFileName = L"", HMODULE hModule = NULL);
+	
+	static BOOL GetFilePathInModule(TCHAR *pFilePath, TCHAR *pFileName, HMODULE hMod);
+	
+	static BOOL GetFilePathInModule(CHAR *pFilePath,CHAR *pFileName, HMODULE hMod);
 
-	/************************/
+
+
 	//描述：获取图片的类型
-	/************************/
+	
 	static string GetImageHead(wstring strPath);
 
 	static HRESULT SaveImage(wstring strLoadPath,wstring strSavePath);
@@ -130,7 +135,7 @@ public:
 	// 判断指定目录是否存在
 	static BOOL	IsDirectory(LPCSTR pDir);
 
-	static BOOL GetFilePathInModule(TCHAR *pFilePath, TCHAR *pFileName, HMODULE hMod);
+
 };
 
 #endif

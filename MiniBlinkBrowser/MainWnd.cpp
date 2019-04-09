@@ -1,12 +1,14 @@
 
 
 #include "StdAfx.h"
-#include "UI/DownloadWnd.h"
-#include "xldownloader.h"
 #include <algorithm>
 #include <regex>
+#include <fstream>
 #include <ShellAPI.h>
 #include <thread>
+
+#include "UI/DownloadWnd.h"
+#include "xldownloader.h"
 #include "Aria2cEngine.h"
 #include "MainWnd.h"
 #include "resource.h"
@@ -60,10 +62,11 @@ DUI_END_MESSAGE_MAP()
 
 CMainWnd::CMainWnd(void)
 {
-	gblAria2RPCGet->addUri("", "");
+	//gblAria2RPCGet->addUri("", "");
+
+	//启动迅雷下载
 	m_pDownloader = new XLDownloader;
 	m_pDownloader->initXunLei();
-
 	m_pDownloader->setCallback([=](void* lpParam, HANDLE hTask, DownTaskInfo & stTaskInfo)
 	{
 		if (stTaskInfo.stat == DOWN_TASK_STATUS::TSC_STARTPENDING)
@@ -76,6 +79,8 @@ CMainWnd::CMainWnd(void)
 			m_pDownloadWnd->UpdateDownloadItem(hTask,stTaskInfo);
 		}
 	}, this);
+
+
 
 
 	gblDownloadMgrGet->StartAria2c();
@@ -704,9 +709,6 @@ bool CMainWnd::OnWkeDownload(CWkeWebkitUI * webView, const char * url)
 	}
 	return false;
 }
-
-#include <fstream>////-------------------------------------------   
-#include<algorithm>
 
 //获取网页的ico
 void CMainWnd::OnWkeNetGetFavicon(CWkeWebkitUI * webView, const char*  url, wkeMemBuf * buf)

@@ -302,6 +302,30 @@ BOOL NFile::GetFilePathInModule(TCHAR *pFilePath, TCHAR *pFileName, HMODULE hMod
 	return TRUE;
 }
 
+
+BOOL NFile::GetFilePathInModule(CHAR *pFilePath, CHAR *pFileName, HMODULE hMod)
+{
+	CHAR	szModPath[MAX_PATH];
+	CHAR*	pFind;
+
+	GetModuleFileNameA(hMod, szModPath, MAX_PATH);
+	pFind = strrchr(szModPath, '\\');
+	if (pFind == NULL)
+	{
+		pFilePath[0] = 0;
+		return FALSE;
+	}
+
+	strcpy_s(pFilePath, MAX_PATH, szModPath);
+	if (pFileName)
+	{
+		pFilePath[pFind - szModPath + 1] = 0;
+		strcat_s(pFilePath, MAX_PATH, pFileName);
+	}
+
+	return TRUE;
+}
+
 string NFile::GetImageHead(wstring wstrPath)
 {
 	string strFomat="";
