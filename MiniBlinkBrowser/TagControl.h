@@ -9,10 +9,6 @@
 
 
 
-
-
-
-
 class  CBrowserOptionUI : public COptionUI
 {
 public:
