@@ -27,37 +27,7 @@
 #include <WinSock2.h>
 #include <Ws2tcpip.h>
 #pragma comment(lib, "ws2_32.lib")
-
 #define SHUT_WR SD_SEND
-
-#define _WS2_32_WINSOCK_SWAP_LONGLONG(l)            \
-            ( ( ((l) >> 56) & 0x00000000000000FFLL ) |       \
-              ( ((l) >> 40) & 0x000000000000FF00LL ) |       \
-              ( ((l) >> 24) & 0x0000000000FF0000LL ) |       \
-              ( ((l) >>  8) & 0x00000000FF000000LL ) |       \
-              ( ((l) <<  8) & 0x000000FF00000000LL ) |       \
-              ( ((l) << 24) & 0x0000FF0000000000LL ) |       \
-              ( ((l) << 40) & 0x00FF000000000000LL ) |       \
-              ( ((l) << 56) & 0xFF00000000000000LL ) )
-
-
-#ifndef htonll
-__inline unsigned __int64 htonll(unsigned __int64 Value)
-{
-	const unsigned __int64 Retval = _WS2_32_WINSOCK_SWAP_LONGLONG(Value);
-	return Retval;
-}
-#endif /* htonll */
-
-#ifndef ntohll
-__inline unsigned __int64 ntohll(unsigned __int64 Value)
-{
-	const unsigned __int64 Retval = _WS2_32_WINSOCK_SWAP_LONGLONG(Value);
-	return Retval;
-}
-#endif /* ntohll */
-
-
 #ifdef __MINGW32__
 // Windows has always been tied to LE
 #define htobe64(x) __builtin_bswap64(x)
@@ -70,8 +40,6 @@ __inline unsigned __int64 ntohll(unsigned __int64 Value)
 #define pthread_self GetCurrentThreadId
 #endif
 #define WIN32_EXPORT __declspec(dllexport)
-
-
 
 inline void close(SOCKET fd) {closesocket(fd);}
 inline int setsockopt(SOCKET fd, int level, int optname, const void *optval, socklen_t optlen) {
@@ -228,7 +196,7 @@ Context WIN32_EXPORT createContext(std::string certChainFileName, std::string ke
 struct Socket;
 
 // NodeData is like a Context, maybe merge them?
-struct  NodeData {
+struct WIN32_EXPORT NodeData {
     char *recvBufferMemoryBlock;
     char *recvBuffer;
     int recvLength;
