@@ -16,27 +16,35 @@ public:
 	//启动ws服务器
 	void Start(int nPort);
 
+	//给所有客户端发送消息
 	void sendTextMessage(std::string text, OpCode opCode= TEXT);
 
 	//关闭ws服务器
 	void Stop();
-
+	//开启心跳
 	void StartTimeEvent(int nMiliseconds);
 
-
+	//停止心跳
 	void StopTimeEvent();
-	
+
+	//设置回调事件
 	void SetEvent(UWebSocketsServerEvent* event);
 
 	void onTimeEvent();	
-private:
 
+private:
 	int   m_nPort;
+
 	void* m_pus = NULL;
+
 	UWebSocketsServerEvent* m_event;
+
 	int m_timerid;
+
 	std::recursive_mutex m_asyncMutex;
+
 	std::map<std::string, std::string> m_extraHeaders;
+
 	std::atomic<bool>    m_bRun;
 };
 
@@ -58,6 +66,7 @@ public:
 	virtual void onTimeEvent() = 0;
 
 	virtual void onError(int port) = 0;
+
 	virtual void onError(void *user) = 0;
 
 };

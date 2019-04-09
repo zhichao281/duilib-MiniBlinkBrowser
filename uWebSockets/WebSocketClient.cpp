@@ -78,7 +78,6 @@ void CWebSocketClient::Start(std::string url)
 
 	std::thread jthread([=]()
 	{
-
 		while (m_bRun.load())
 		{
 			CWebSocketClient* pthis = this;
