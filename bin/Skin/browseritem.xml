@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <Window>
-  <ListContainerElement  height="30">
-
-    <Label name="NumberLaber" text="1" textpadding="5,0,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" valign="center" endellipsis="true" />
-    <Label name="downFileNameLabel" text="下载文件名"  textpadding="5,0,0,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" valign="center" endellipsis="true" />
-    <Container >
-      <Progress name="downprogress" float="true" pos="30,10,180,20"  valign="center" borderround="5,5" textcolor="#00999999"   bkcolor="#FFE4EFF6" forecolor="#FF7FCCF4" value="50" min="0" max="100"/>
-    </Container>
-    <Label name="sizeInfoLabel" text="365M/555M"  textpadding="5,0,0,0" textcolor="#00999999" disabledtextcolor="#FFA7A6AA" font="1" align="center" valign="center" />
-
-    <Label name="leftTimeLabel" text="1.5M/S 00:00:01"  textcolor="#00999999" disabledtextcolor="#FFA7A6AA" font="1" align="center" valign="center" />
-    <Container >
-      <Button  style="btn_style" text="下载失败" font="100"  name="stateLabel"  textcolor="#00FF0000" disabledtextcolor="#FFA7A6AA"  align="center" valign="center" />
-    </Container>
-  </ListContainerElement>
+  <Container  name="browser_tabbar" maxwidth="174" >
+    <Option  float="true" pos="0,0,174,30" name="browsertab" text="新标签页"  align="center" height="30"  maxwidth="174" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA"  textalign="center" normalimage="file=&apos;imgs/tabitem.png&apos; source=&apos;0,0,174,32&apos;" hotimage="file=&apos;imgs/tabitem.png&apos; source=&apos;174,0,348,32&apos;" pushedimage="file=&apos;imgs/tabitem.png&apos; source=&apos;348,0,522,32&apos;" selected="true" selectedimage="file=&apos;imgs/tabitem.png&apos; source=&apos;348,0,522,32&apos;" group="group1" />
+    <Button  float="true" pos="150,12,172,24" name="btn_tabclose" normalimage="file='imgs/tab_close.png' dest='0,0,12,12' source='0,0,12,12'" hotimage="file='imgs/tab_close.png' dest='0,0,12,12' source='12,0,24,12'" pushedimage="file='imgs/tab_close.png' dest='0,0,12,12' source='24,0,36,12'"/>
+    <Container  name="browser_icon" float="true" pos="20,2,50,32"   bkimage="imgs/logo.png" />
+  </Container>
 </Window>

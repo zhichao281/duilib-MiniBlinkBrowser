@@ -122,7 +122,7 @@ public:
 	/************************/
 	static string GetImageHead(wstring strPath);
 
-
+	static HRESULT SaveImage(wstring strLoadPath,wstring strSavePath);
 
 
 	// 判断指定目录是否存在

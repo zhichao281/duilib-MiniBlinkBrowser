@@ -4,8 +4,10 @@
 #include <io.h>
 #include <string>
 #include <sys/stat.h>
-
+#include <atlimage.h>
 using namespace std;
+
+
 
 NFile::NFile(void)
 {
@@ -343,6 +345,18 @@ string NFile::GetImageHead(wstring wstrPath)
 	}
 	fclose(file);
 	return strFomat;
+}
+
+HRESULT NFile::SaveImage(wstring strLoadPath, wstring strSavePath)
+{
+	CImage image;
+	HRESULT hResult = image.Load(strLoadPath.c_str());
+	if (hResult == S_OK)
+	{
+		hResult = image.Save(strSavePath.c_str());
+	}
+	return hResult;
+	//HRESULT hResult = image.Save(strPath.c_str());
 }
 
 

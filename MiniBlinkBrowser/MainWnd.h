@@ -14,8 +14,7 @@ typedef struct _tagTabInfo
 	TCHAR szFavUrl[2048];
 	TCHAR szFavName[256];
 	CBrowserTabUI* pTab;
-	CButtonUI* pCloseBtn;
-	COptionUI* pNewOption;
+
 	CWkeWebkitUI* pWebBrowser;
 }TabInfo;
 

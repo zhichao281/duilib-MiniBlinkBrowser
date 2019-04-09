@@ -1,4 +1,8 @@
+
+
 #include "StdAfx.h"
+#include "UI/DownloadWnd.h"
+#include "xldownloader.h"
 #include <algorithm>
 #include <regex>
 #include <ShellAPI.h>
@@ -7,10 +11,8 @@
 #include "MainWnd.h"
 #include "resource.h"
 #include "UI/MsgWnd.h"
-#include "UI/DownloadWnd.h"
 #include "UI/MiniControls.h"
 
-#include "xldownloader.h"
 #include "../Common/Url/Url.h"
 #include "../Common/String/NSString.h"
 #include "../Common/FileManager/FileManange.h"
@@ -20,13 +22,13 @@
 class tab_finder  
 {  
 public:  
-    tab_finder(CBrowserTabUI* pTab) :m_pTab(pTab){}
+    tab_finder(CControlUI* pTab) :m_pTab(pTab){}
     bool operator ()( vector<struct _tagTabInfo*>::value_type &value)  
     {  
         return (m_pTab == value->pTab);  
     }
 private:  
-	CBrowserTabUI* m_pTab;
+	CControlUI* m_pTab;
 };
 
 class web_finder  
@@ -183,7 +185,7 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 	else if (sName.CompareNoCase(_T("btn_tabclose")) == 0)
 	{
 
-		CBrowserTabUI* pTab = (CBrowserTabUI*)msg.pSender->GetParent();
+		CControlUI* pTab = (CControlUI*)msg.pSender->GetParent();
 		vector<TabInfo*>::iterator it = find_if(m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
 		if (it != m_vTabs.end()) {
 			TabInfo* pInfo = *it;
@@ -267,8 +269,9 @@ void CMainWnd::OnSelectChanged( TNotifyUI &msg )
 {
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
-	if(sName.CompareNoCase(_T("browsertab")) == 0) {
-		CBrowserTabUI* pTab = (CBrowserTabUI*)msg.pSender->GetParent();
+	if(sName.CompareNoCase(_T("browseroption")) == 0) 
+	{
+		CControlUI* pTab = (CControlUI*)msg.pSender->GetParent();
 		int nIndex = m_pBrowserTabBar->GetItemIndex(msg.pSender->GetParent());
 		m_pBrowserTabBody->SelectItem(nIndex);
 		vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
@@ -286,18 +289,34 @@ void CMainWnd::OnTabIndexChanged( TNotifyUI &msg )
 {
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
-	if(sName.CompareNoCase(_T("browsertab")) == 0) 
+	if (sName.CompareNoCase(_T("browseroption")) == 0)
 	{
-		int nCurIndex = LOWORD(msg.lParam);
-		int nIndex = HIWORD(msg.lParam);
-		m_pBrowserTabBody->SetAutoDestroy(false);
-		CControlUI* pWeb = m_pBrowserTabBody->GetItemAt(nCurIndex);
-		m_pBrowserTabBody->Remove(pWeb);
-		m_pBrowserTabBody->AddAt(pWeb, nIndex);
-		m_pBrowserTabBody->SetAutoDestroy(true);
-		m_pBrowserTabBody->SelectItem(pWeb);
-		pWeb->SetFocus();
+		CControlUI* pTab = (CControlUI*)msg.pSender->GetParent();
+		int nIndex = m_pBrowserTabBar->GetItemIndex(msg.pSender->GetParent());
+		m_pBrowserTabBody->SelectItem(nIndex);
+		vector<TabInfo*>::iterator it = find_if(m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
+		if (it != m_vTabs.end()) {
+			TabInfo* pInfo = *it;
+			if (pInfo != NULL) {
+				m_pAddressEdit->SetText(pInfo->szUrl);
+				pInfo->pWebBrowser->SetFocus();
+			}
+		}
 	}
+
+
+	////if (sName.CompareNoCase(_T("browsertab")) == 0)
+	////{
+	////	int nCurIndex = LOWORD(msg.lParam);
+	////	int nIndex = HIWORD(msg.lParam);
+	////	m_pBrowserTabBody->SetAutoDestroy(false);
+	////	CControlUI* pWeb = m_pBrowserTabBody->GetItemAt(nCurIndex);
+	////	m_pBrowserTabBody->Remove(pWeb);
+	////	m_pBrowserTabBody->AddAt(pWeb, nIndex);
+	////	m_pBrowserTabBody->SetAutoDestroy(true);
+	////	m_pBrowserTabBody->SelectItem(pWeb);
+	////	pWeb->SetFocus();
+	////}
 }
 
 void CMainWnd::OnTabClosed( TNotifyUI &msg )
@@ -305,7 +324,7 @@ void CMainWnd::OnTabClosed( TNotifyUI &msg )
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
 	if(sName.CompareNoCase(_T("browsertab")) == 0) {
-		CBrowserTabUI* pTab = (CBrowserTabUI*)msg.pSender;
+		CControlUI* pTab = (CControlUI*)msg.pSender;
 		vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
 		if(it != m_vTabs.end()) {
 			TabInfo* pInfo = *it;
@@ -431,14 +450,15 @@ int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 	m_pBrowserTabBar = static_cast<CHorizontalLayoutUI*>(m_pm.FindControl(_T("IContainer")));
 
 	//标签HorLayout  ==  OptionUI + 关闭按钮
-	//CBrowserTabUI* pTab = new CBrowserTabUI;
-	CDialogBuilder builder1;
-	CBrowserTabUI* pTab = (CBrowserTabUI*)builder1.Create(_T("browseritem.xml"), NULL, this, &m_pm, NULL);
+	//CControlUI* pTab = new CControlUI;
+	//CDialogBuilder builder1;
+	//CControlUI* pTab = (CControlUI*)builder1.Create(_T("browseritem.xml"), NULL, this, &m_pm, NULL);
 
 
-
-
+	CBrowserTabUI* pTab = new CBrowserTabUI;
+	//pTab->AddNode();
 	//pTab->SetAttribute(L"name", L"browsertab");
+
 
 	//UINT nNewItemBtn = m_pm.FindControl(_T("newtab"))->GetTag();
 	m_pBrowserTabBar->AddAt(pTab, nIndex);
@@ -686,6 +706,7 @@ bool CMainWnd::OnWkeDownload(CWkeWebkitUI * webView, const char * url)
 }
 
 #include <fstream>////-------------------------------------------   
+#include<algorithm>
 
 //获取网页的ico
 void CMainWnd::OnWkeNetGetFavicon(CWkeWebkitUI * webView, const char*  url, wkeMemBuf * buf)
@@ -696,7 +717,6 @@ void CMainWnd::OnWkeNetGetFavicon(CWkeWebkitUI * webView, const char*  url, wkeM
 	std::string pattern{ ".+/(.+)$" };
 	std::regex re(pattern);
 	common::Url uri(url);
-
 	bool ret = std::regex_search(strUrl, results, re);
 	if (ret)
 	{
@@ -711,6 +731,24 @@ void CMainWnd::OnWkeNetGetFavicon(CWkeWebkitUI * webView, const char*  url, wkeM
 			fwrite((byte*)buf->data, 1, buf->length, file);
 			fclose(file);
 		}
+		std::string strPngName = strFileName;
+		NStr::ReplaceStr(strPngName, ".ico", "");
+		NStr::ReplaceStr(strPngName, ".", "");
+		strPngName = strPngName +".png";
+		NFile::SaveImage(NStr::StrToWStr(strFileName), NStr::StrToWStr(strPngName));
+		vector<TabInfo*>::iterator it = find_if(m_vTabs.begin(), m_vTabs.end(), web_finder(webView));
+		if (it != m_vTabs.end())
+		{
+			TabInfo* pInfo = *it;
+			if (pInfo != NULL)
+			{			
+				pInfo->pTab->SetTabImage(NStr::StrToWStr(strPngName).c_str());
+			
+			}
+		}
+
+
+	
 	}
 
 

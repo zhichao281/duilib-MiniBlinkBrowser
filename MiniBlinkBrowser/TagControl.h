@@ -34,11 +34,10 @@ public:
 	virtual void DoEvent(TEventUI& event)
 	{
 
-		if (event.Type == UIEVENT_BUTTONDOWN)
-		{
-			
+	/*	if (event.Type == UIEVENT_BUTTONDOWN)
+		{			
 			m_pManager->SendNotify(this, DUI_MSGTYPE_TABINDEXCHANGED, event.wParam, event.lParam);
-		}
+		}*/
 		COptionUI::DoEvent(event);
 	}
 };
@@ -63,6 +62,10 @@ public:
 	}
 
 	
+public:
+
+	void SetTabImage(LPCTSTR pStrImage);
+
 	void UpdateOldRect() { m_rcOldRect = m_rcItem; }
 	void SetOldRect(RECT rect) { m_rcOldRect = rect; }
 	RECT GetOldRect() { return m_rcOldRect; }
@@ -114,7 +117,7 @@ protected:
 	CBrowserOptionUI* m_pOption;
 
 	CButtonUI* m_pCloseBtn;
-	CContainerUI *m_pIcon;
+	CButtonUI *m_pIcon;
 private:
 	int m_nStartTab;
 	int m_nSelectedTab;

@@ -3,7 +3,7 @@
   <VerticalLayout name="root" bkimage="file='imgs/main/bg.jpg'" bkcolor="#FF006EDF">
 
     <HorizontalLayout name="header" height="50" float="false" bkcolor="#FF006EDF"  bkimage="imgs/titlebar.png">
-      <MenuElement width="50" height="50" icon="E:/study/MiniBlinkBrowser/bin/favicon/favicon.ico" />
+      <Container width="50" height="50" bkimage="imgs/logo.png" />
 
       <VerticalLayout inset="6,0,6,0"  >
         <HorizontalLayout name="title_bar" height="24" >
@@ -50,11 +50,7 @@
     <HorizontalLayout name="HorizontalLayoutUI3" float="false" height="32" bkimage="imgs/tabbar.png">
       <HorizontalLayout name="HorizontalLayoutUI10"  float="false">
         <HorizontalLayout name="IContainer" float="false" height="32">    
-          <Container  name="browser_tabbar" maxwidth="174" >        
-            <Option  float="true" pos="0,0,174,30" name="browsertab" text="新标签页"  align="center" height="30"  maxwidth="174" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA"  textalign="center" normalimage="file=&apos;imgs/tabitem.png&apos; source=&apos;0,0,174,32&apos;" hotimage="file=&apos;imgs/tabitem.png&apos; source=&apos;174,0,348,32&apos;" pushedimage="file=&apos;imgs/tabitem.png&apos; source=&apos;348,0,522,32&apos;" selected="true" selectedimage="file=&apos;imgs/tabitem.png&apos; source=&apos;348,0,522,32&apos;" group="group1" />
-            <Button  float="true" pos="150,12,172,24" name="btn_tabclose" normalimage="file='imgs/tab_close.png' dest='0,0,12,12' source='0,0,12,12'" hotimage="file='imgs/tab_close.png' dest='0,0,12,12' source='12,0,24,12'" pushedimage="file='imgs/tab_close.png' dest='0,0,12,12' source='24,0,36,12'"/>
-          <Container  float="true" pos="0,0,50,32"   bkimage="file='E:/study/bin/favicon/favicon.ico' dest='0,0,30,30' source='0,0,64,64'" />
-          </Container>  
+    
           <Button name="newtab" float="false" pos="0,0,30,30" width="30" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;imgs/tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;0,0,21,28&apos;" hotimage="file=&apos;imgs/tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;21,0,42,28&apos;" pushedimage="file=&apos;imgs/tab_new.png&apos; dest=&apos;0,0,21,28&apos; source=&apos;42,0,63,28&apos;" />
         </HorizontalLayout>
         <HorizontalLayout name="HorizontalLayoutUI17" float="false" width="50" height="32">
