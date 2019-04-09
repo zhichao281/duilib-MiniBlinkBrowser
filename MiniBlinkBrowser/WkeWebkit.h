@@ -127,11 +127,11 @@ public:
 
 	//页面操作：后退、前进、停止、刷新
 	void Back();
-
+	//页面前进
 	void Forward();
-
+	//停止加载
 	void Stop();
-
+	//页面操作：刷新
 	void Reload();
 
 	//设置主页
@@ -156,23 +156,28 @@ public:
 	void SetErrorInfoPageUrl(LPCTSTR lpErrUrl);
 
 private:
-	// 回调事件
+	// 设置标题变化的通知回调
 	static void WKE_CALL_TYPE OnWkeTitleChanged(wkeWebView webView, void* param, wkeString title);
+	
+	//url改变回调
 	static void WKE_CALL_TYPE OnWkeURLChanged(wkeWebView webView, void* param, wkeString url);
+	
 	// 网页调用alert会走到这个接口填入的回调
 	static void WKE_CALL_TYPE OnWkeAlertBox(wkeWebView webView, void* param, wkeString msg);
 
+	//wkeNavigationCallback回调的返回值，如果是true，表示可以继续进行浏览，false表示阻止本次浏览。
 	static bool WKE_CALL_TYPE OnWkeNavigation(wkeWebView webView, void* param, wkeNavigationType navigationType, wkeString url);
-
+	
+	//网页点击a标签创建新窗口时将触发回调
 	static wkeWebView(WKE_CALL_TYPE OnWkeCreateView)(wkeWebView webView, void* param, wkeNavigationType navigationType, const wkeString url, const wkeWindowFeatures* windowFeatures);
 
 	static void WKE_CALL_TYPE OnWkeDocumentReady(wkeWebView webView, void* param);
-
+	//任何网络请求发起前会触发此回调
 	static bool WKE_CALL_TYPE onLoadUrlBegin(wkeWebView webView, void* param, const char* url, void *job);
-	
+	//加载完成回调
 	static void WKE_CALL_TYPE OnWkeLoadingFinish(wkeWebView webView, void* param, const wkeString url, wkeLoadingResult result, const wkeString failedReason);
 	
-
+	//页面下载事件回调。点击某些链接，触发下载会调用
 	static bool  WKE_CALL_TYPE  OnWkeDownload(wkeWebView webView, void* param, const char* url);
 	
 	//内置一个js与本地的函数映射

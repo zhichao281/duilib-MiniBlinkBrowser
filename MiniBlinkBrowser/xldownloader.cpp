@@ -50,6 +50,11 @@ bool XLDownloader::initXunLei()
 	TCHAR dlldir[MAX_PATH] = { 0 };
 	GetFilePathInModule(dlldir,_T("xldl.dll"),NULL);
 	pDllloader = new CDllLoader(dlldir);   //声明所用到的dll文件	
+	if (pDllloader == nullptr)
+	{
+		::MessageBoxW(NULL, L"请把xldl.dll放exe目录下", L"错误", MB_OK);
+		return false;
+	}
 	if (pDllloader->LoadResult())
 	{
 		XL_Init = pDllloader->GetFunction<BOOL()>("XL_Init");

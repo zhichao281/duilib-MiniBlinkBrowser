@@ -27,11 +27,11 @@ using namespace DuiLib;
 #else
 #   ifdef _UNICODE
 #       pragma comment(lib, "..\\lib\\DuiLib.lib")
-#       pragma comment(lib, "..\\lib\\TroyControls.lib")
+//#       pragma comment(lib, "..\\lib\\TroyControls.lib")
 #       pragma comment(lib, "..\\lib\\uWebSockets.lib")
 #   else
 #       pragma comment(lib, "..\\lib\\DuiLibA.lib")
-#       pragma comment(lib, "..\\lib\\TroyControls.lib")
+//#       pragma comment(lib, "..\\lib\\TroyControls.lib")
 #   endif
 #endif
 
