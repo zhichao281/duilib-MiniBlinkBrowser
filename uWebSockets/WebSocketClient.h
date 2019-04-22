@@ -33,13 +33,16 @@ public:
 	void SetExtraHeaders(std::map<std::string, std::string>& extraHeaders);
 private:
 	std::string m_url;
-	void* m_pus = NULL;
+	void* m_pus ;
 	UWebSocketsClientEvent* m_event;
 
 	int m_timerid;
 	std::recursive_mutex m_asyncMutex;
 	std::map<std::string, std::string> m_extraHeaders;
 	std::atomic<bool>    m_bRun;
+
+
+
 };
 
 //回调类
@@ -55,7 +58,7 @@ public:
 
 	}
 	//连接成功回调
-	virtual void onConnection() = 0;
+	virtual void onConnection(bool bSuccess) = 0;
 	
 	virtual void onDisconnection() = 0;
 	

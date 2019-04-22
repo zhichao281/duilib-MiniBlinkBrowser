@@ -11,7 +11,11 @@
 #include <memory>
 #include <crtdbg.h>
 
-std::unique_ptr<NLogger> g_plogger;
+#include <winsock2.h>   
+#pragma comment(lib,"ws2_32.lib")  
+
+
+
 // 
 #ifdef _WIN32  
 #include <direct.h>  
@@ -38,7 +42,6 @@ int CreatDir(char *pDir)
 	{
 		return 0;
 	}
-
 	strcpy(pszDir, pDir);
 	iLen = strlen(pszDir);
 
@@ -67,8 +70,31 @@ int CreatDir(char *pDir)
 	iRet = MKDIR(pszDir);
 	return iRet;
 }
+std::string  GetExeName()
+{
+	//获取应用程序目录
+	char szapipath[MAX_PATH];//（D:\Documents\Downloads\TEST.exe）
+	memset(szapipath, 0, MAX_PATH);
+	GetModuleFileNameA(NULL, szapipath, MAX_PATH);
 
-NLogger::NLogger(int log_level_,const char * strLogPath,const char* pStrFileName)
+	//获取应用程序名称
+	char szExe[MAX_PATH] = "";//（TEST.exe）
+	char *pbuf = NULL;
+	char* szLine = strtok_s(szapipath, "\\", &pbuf);
+	while (NULL != szLine)
+	{
+		strcpy_s(szExe, szLine);
+		szLine = strtok_s(NULL, "\\", &pbuf);
+	}
+
+	//删除.exe
+	strncpy_s(szapipath, szExe, strlen(szExe) - 4);
+	return szapipath;
+
+}
+
+Logger* Logger::s_plogPtr = nullptr;
+Logger::Logger(int log_level_,const char * strLogPath,const char* pStrFileName)
 {
 	m_pFileStream = NULL;
 	char scurdir[1024];
@@ -77,13 +103,13 @@ NLogger::NLogger(int log_level_,const char * strLogPath,const char* pStrFileName
 	sprintf(sBuf,"%s/%s",scurdir,strLogPath);
 	printf("LogPath:%s\n",sBuf);
 	m_strLogPath = sBuf;
-	m_strCurLogName = pStrFileName;
+	m_strCurLogName = GetExeName().c_str();
 	m_nCurrentDay = 0;
 	m_log_level_ = log_level_;
 	CreateLogPath();
 	GenerateLogName();
-	m_bRunning.store(true);
-	CLoggerManager::GetInstance()->AddLog(this);
+	
+	CLogManager::GetInstance()->AddLog(this);
 }
 int gettimeofday(struct timeval *tp, void *tzp)
 {
@@ -103,6 +129,7 @@ int gettimeofday(struct timeval *tp, void *tzp)
 	tp->tv_usec = wtm.wMilliseconds * 1000;
 	return (0);
 }
+
 std::string GetWsCurrentTime()
 {
 	struct timeval tv;
@@ -115,34 +142,15 @@ std::string GetWsCurrentTime()
 	std::string pTemp = temp;
 	return pTemp;
 }
-NLogger::~NLogger()
+Logger::~Logger()
 {
 	// 
-
-	if (m_pFileStream)
-	{
+	if(m_pFileStream)
 		fclose(m_pFileStream);
-		m_pFileStream = NULL;
-	}
-	m_bRunning.store(false);
-
-}
-bool  NLogger::isRun()
-{
-	return m_bRunning.load();
 }
 
-void  NLogger::Stop()
+void Logger::Write2Caching(int log_level_,const char * strInfo, ...)
 {
-	m_bRunning.store(false);
-	return;
-}
-void NLogger::Write2Caching(int log_level_,const char * strInfo, ...)
-{
-	if (m_bRunning.load() == false)
-	{
-		return;
-	}
 	if (log_level_  < m_log_level_)
 	{
 		printf("return log_level_ < m_log_level_");
@@ -162,23 +170,19 @@ void NLogger::Write2Caching(int log_level_,const char * strInfo, ...)
 	vsprintf(pTemp + strlen(pTemp), strInfo, arg_ptr);
 	va_end(arg_ptr);
 	OutputDebugStringA(pTemp);
-	{
-		std::unique_lock<std::mutex> _lock(mutex_);
-		m_vcStrList.push_back(pTemp);
-	}
-	
+	mutex_.lock();
+	m_vcStrList.push_back(pTemp);
+	mutex_.unlock();
 }
-void NLogger::Write2Caching(const char * strInfo)
+void Logger::Write2Caching(const char * strInfo)
 {
-	if (m_bRunning.load() == false)
-	{
-		return;
-	}
-	std::unique_lock<std::mutex> _lock(mutex_);
+	mutex_.lock();
 	m_vcStrList.push_back(strInfo);
+	mutex_.unlock();
+
 }
 
-const char* NLogger::logLevelToString(int l) {
+const char* Logger::logLevelToString(int l) {
 	switch ( l ) {
 			case LogLevelTrace:
 				return "TRACE";
@@ -197,7 +201,7 @@ const char* NLogger::logLevelToString(int l) {
 
 
 
-std::string NLogger::Time2String(time_t time_t_)
+std::string Logger::Time2String(time_t time_t_)
 {
 	if (time_t_ == 0)
 	{
@@ -212,27 +216,19 @@ std::string NLogger::Time2String(time_t time_t_)
 }
 
 // DoWriteLog
-void NLogger::DoWriteLog()
+void Logger::DoWriteLog()
 {
 	if (!m_pFileStream)
 	{
 		printf("m_pFileStream NULL");
 		return;
 	}
-
-	if (m_bRunning.load() == false)
-	{
-		return;
-	}
 	std::vector<std::string> vcStrlist;
-
-	{
-		std::unique_lock<std::mutex> _lock(mutex_);
-		vcStrlist = m_vcStrList;
-		m_vcStrList.clear();
-	}
-
-	for (size_t i = 0;i<vcStrlist.size();i++)
+	mutex_.lock();
+	vcStrlist = m_vcStrList;
+	m_vcStrList.clear();
+	mutex_.unlock();
+	for (int i = 0;i<vcStrlist.size();i++)
 	{
 		fprintf(m_pFileStream, "%s", vcStrlist[i].c_str());
 	    printf("%s",vcStrlist[i].c_str());
@@ -241,12 +237,12 @@ void NLogger::DoWriteLog()
 	GenerateLogName();	
 }
 
-void  NLogger::SetLogLevel(int log_level_)
+void  Logger::SetLogLevel(int log_level_)
 {
 	m_log_level_ = log_level_;
 
 }
-void  NLogger::SetLogFileName(const char * pStrFileName)
+void  Logger::SetLogFileName(const char * pStrFileName)
 {
 	if (m_strCurLogName != pStrFileName)
 	{
@@ -279,13 +275,21 @@ void  NLogger::SetLogFileName(const char * pStrFileName)
 	}
 ;
 }
-//������־�ļ������
-void NLogger::GenerateLogName()
+Logger * Logger::GetInstance()
 {
-	if (m_bRunning.load() == false)
+	if (NULL != s_plogPtr)
 	{
-		return;
+		return s_plogPtr;
 	}
+
+	s_plogPtr = new Logger();
+	
+	//atexit(Destory);
+	return s_plogPtr;
+}
+//������־�ļ������
+void Logger::GenerateLogName()
+{
 	time_t curTime = time(NULL);
 	curTime = curTime/(3600*24);
 	if (curTime > m_nCurrentDay)
@@ -316,7 +320,7 @@ void NLogger::GenerateLogName()
 	}
 	
 }
-void NLogger::CreateLogPath()
+void Logger::CreateLogPath()
 {
 	CreatDir((char*)m_strLogPath.c_str());
 }

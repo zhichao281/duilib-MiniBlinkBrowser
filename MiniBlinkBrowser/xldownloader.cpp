@@ -46,6 +46,10 @@ BOOL GetFilePathInModule(TCHAR *pFilePath, TCHAR *pFileName, HMODULE hMod)
 }
 bool XLDownloader::initXunLei()
 {
+	if (pDllloader!=nullptr)
+	{
+		return false;
+	}
 	TCHAR modulePath[MAX_PATH] = { 0 };
 	TCHAR dlldir[MAX_PATH] = { 0 };
 	GetFilePathInModule(dlldir,_T("xldl.dll"),NULL);

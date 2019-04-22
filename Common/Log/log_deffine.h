@@ -31,17 +31,6 @@ void  _log_filename(const char *pfilename);
 
 #define LOG_DEBUG(format, ...) _log_write(LogLevelDebug, ": [%s<%04d>] "format"\r\n", __FUNCTION__, __LINE__, ## __VA_ARGS__)
 
-//#define  LOG_FUN ": [%s<%04d>] "
-//#define DEBUG_FORMAT(format,...) if(1) { printf(": [%s<%04d>] "format"\r\n",__FUNCTION__, __LINE__, ##__VA_ARGS__);}
-//#define LOG_ERROR(format,...)  if(g_logPtr) { g_logPtr->Write2Caching(LoglevelError,   ": [%s<%04d>] "format"\r\n",__FUNCTION__, __LINE__, ##__VA_ARGS__);}
-//
-//#define LOG_INFO(format, ...)  if(g_logPtr) { g_logPtr->Write2Caching(LogLevelInfo,   ": [%s<%04d>] "format"\r\n",__FUNCTION__, __LINE__, ##__VA_ARGS__);}
-//
-//#define LOG_DEBUG(format, ...)  if(g_logPtr) { g_logPtr->Write2Caching(LogLevelDebug,   ": [%s<%04d>] "format"\r\n",__FUNCTION__, __LINE__, ##__VA_ARGS__);}
-//
-//#define  LOG_WARN(format, ...)  if(g_logPtr) { g_logPtr->Write2Caching(LogLevelWarring, ": [%s<%04d>] "format"\r\n",__FUNCTION__, __LINE__, ##__VA_ARGS__);}
-
-
 
 #define  WRITE_FILE(filename,buf,size) { FILE* file = fopen(filename,"ab+"); fwrite(buf,1,size,file);fclose(file);}
 #endif

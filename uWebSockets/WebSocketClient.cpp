@@ -9,6 +9,7 @@ CWebSocketClient::CWebSocketClient()
 	m_extraHeaders = {};
 	m_event = NULL;
 	m_timerid = -1;
+	m_pus = nullptr;
 }
 CWebSocketClient::~CWebSocketClient()
 {
@@ -104,46 +105,46 @@ void CWebSocketClient::Start(std::string url)
 			int length = 0;
 			h.onConnection([&h, &pthis, &pevent](uWS::WebSocket<uWS::CLIENT> *ws, uWS::HttpRequest req)
 			{
-				switch ((long)ws->getUserData()) 
-				{
-				case 8:
-					std::cout << "Client established a remote connection over non-SSL" << std::endl;
-					ws->close(1000);
-					break;
-				case 9:
-					std::cout << "Client established a remote connection over SSL" << std::endl;
-					ws->close(1000);
-					break;
-				default:
-					std::cout << "FAILURE: " << ws->getUserData() << " should not connect!" << std::endl;
-					break;
-				}
+				bool bSuccess = true;
+				/*			switch ((long)ws->getUserData())
+							{
+							case 8:
+								std::cout << "Client established a remote connection over non-SSL" << std::endl;
+								bSuccess = false;
+								ws->close(1000);
+								break;
+							case 9:
+								std::cout << "Client established a remote connection over SSL" << std::endl;
+								bSuccess = false;
+
+								ws->close(1000);
+								break;
+							default:
+								std::cout << "FAILURE: " << ws->getUserData() << " should not connect!" << std::endl;
+								bSuccess = false;
+								break;
+							}*/
 				if (pevent)
 				{
-					pevent->onConnection();
+					pevent->onConnection(bSuccess);
 				}
 			});
 			h.onDisconnection([&h, &pthis, &pevent](uWS::WebSocket<uWS::CLIENT> *ws, int code, char *message, size_t length)
 			{
 				std::cout << "Client got disconnected with data: " << ws->getUserData() << ", code: " << code << ", message: <" << std::string(message, length) << ">" << std::endl;
+				h.getDefaultGroup<uWS::CLIENT>().close();
+				pthis->m_pus = NULL;			
 				if (pevent&&code != 1000)
 				{
 					pevent->onDisconnection();
 				}
+
+
 			});
 			h.connect(m_url, this, m_extraHeaders, 3000);
 			h.run();
 			std::cout << "Falling through testConnections" << std::endl;
-			if (m_bRun.load())
-			{
-				m_asyncMutex.lock();
-				if (m_pus)
-				{
-					((uWS::Hub*)m_pus)->getDefaultGroup<uWS::CLIENT>().close();
-					m_pus = NULL;
-				}
-				m_asyncMutex.unlock();
-			}
+	
 			if (m_bRun.load())
 			{
 				Sleep(300);
@@ -210,6 +211,7 @@ void CWebSocketClient::Stop()
 {
 	m_asyncMutex.lock();
 	m_bRun.store(false);
+	Sleep(1000);
 	if (m_pus)
 	{
 		((uWS::Hub*)m_pus)->getDefaultGroup<uWS::CLIENT>().close();

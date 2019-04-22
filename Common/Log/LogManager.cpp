@@ -1,5 +1,5 @@
 #include "LogManager.h"
-CLoggerManager* CLoggerManager::m_pLogManager = NULL;
+CLogManager* CLogManager::m_gLogManager = NULL;
 
 
 //class WSLogMessageHandler : public rtc::MessageHandler {
@@ -11,73 +11,63 @@ CLoggerManager* CLoggerManager::m_pLogManager = NULL;
 //WSLogMessageHandler WsLogMessageHandler_;
 
 
-CLoggerManager::CLoggerManager()
+CLogManager::CLogManager()
 {
-	m_bRunning.store(false);
+	bclose = false;
 
 }
-CLoggerManager::~CLoggerManager()
+CLogManager::~CLogManager()
 {
-
-	m_bRunning.store(false);
-
-
+	bclose = true;
+	if (thread)
+	{
+		thread->join();
+		thread.reset();
+	}
 
 }
 
-void CLoggerManager::AddLog(NLogger* pLogger)
+void CLogManager::AddLog(Logger* pLogger)
 {
 	m_loggerList.push_back(pLogger);
 }
 
-CLoggerManager* CLoggerManager::GetInstance()
+CLogManager* CLogManager::GetInstance()
 {
-	if (m_pLogManager == NULL)
+	if (m_gLogManager == NULL)
 	{
-		m_pLogManager = new CLoggerManager();
-		//m_pLogManager->StartWriteLogThread();
+		m_gLogManager = new CLogManager();
+		m_gLogManager->StartWriteLogThread();
 	}
-	return m_pLogManager;
+	return m_gLogManager;
 }
-void CLoggerManager::StartWriteLogThread()
+void CLogManager::StartWriteLogThread()
 {
-	if (m_bRunning.load()==true)
+	if (!thread)
 	{
-		return;
+		thread = std::make_unique<std::thread>(std::bind(
+			[=]()
+		{
+			CLogManager::GetInstance()->DoWriteLog();
+		}		
+		));
 	}
-	
-	std::unique_ptr<std::thread> m_thread;
-	m_thread = std::make_unique<std::thread>(std::bind(
-		[=]()
-	{
-		m_bRunning.store(true);
-		DoWriteLog();
-	}
-	));
-	m_thread->detach();
-
 
 }
-void CLoggerManager::DoWriteLog()
+void CLogManager::DoWriteLog()
 {
-	while(m_bRunning.load() == true )
+	while(!bclose)
 	{
  		Sleep(10);
-		std::vector<NLogger*> vcLogList;
+		std::vector<Logger*> vcLogList;
 		vcLogList = m_loggerList;
-		for (size_t i = 0;i<vcLogList.size();i++)
+		for (int i = 0;i<vcLogList.size();i++)
 		{
-			if (vcLogList[i] && vcLogList[i]->isRun() && m_bRunning.load())
+			if (vcLogList[i])
 			{
 				vcLogList[i]->DoWriteLog();
-			}	
-			if (vcLogList[i]->isRun() ==false)
-			{
-				m_bRunning.store(false);
-				return;
 			}
 		}
 	}
-	
-	
+
 }

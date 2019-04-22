@@ -87,7 +87,8 @@ public:
 	{
 
 	}
-	virtual void onConnection();
+	virtual void onConnection(bool bSuccess);
+
 	virtual void onDisconnection();
 
 	virtual void OnMessage(std::string message, CWebSocketClient* client);

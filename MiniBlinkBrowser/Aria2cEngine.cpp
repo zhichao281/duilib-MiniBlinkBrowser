@@ -29,12 +29,12 @@ void CAria2cEngine::StartAria2c()
 
 	szApp.Format(_T("--enable-rpc=true --rpc-allow-origin-all=true --rpc-listen-all=true --dir=%s --conf-path=aria2.conf"), NStr::StrToWStr(szTmpPath).c_str());
 
-	CHAR szAriaPath[MAX_PATH];
-	NFile::GetFilePathInModule(szAriaPath, "aria2c.exe", NULL);
-	GSNUtil::RunProcess4(szAriaPath, NStr::WStrToStr(szApp.GetData()), szPath,false,true);
-
-
-
+	if (!GSNUtil::IsProcExist("aria2c.exe"))
+	{
+		CHAR szAriaPath[MAX_PATH];
+		NFile::GetFilePathInModule(szAriaPath, "aria2c.exe", NULL);
+		GSNUtil::RunProcess4(szAriaPath, NStr::WStrToStr(szApp.GetData()), szPath, false, true);
+	}	   	 
 	client.SetEvent(m_event);
 	client.Start("ws://127.0.0.1:6800/jsonrpc");
 }
@@ -217,7 +217,7 @@ void ServerEvent::onError(void * user)
 
 
 
-void ClientEvent::onConnection()
+void ClientEvent::onConnection(bool bSuccess)
 {
 	
 	std::cout << "onConnection" <<std::endl;

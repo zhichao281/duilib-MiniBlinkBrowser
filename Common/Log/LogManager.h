@@ -1,38 +1,29 @@
 #pragma once
 #include "Logger.h"
+
+
+#define _WINSOCKAPI_
+
 #include <windows.h>
+
 #include <thread>
-#include <atomic>
-#include <mutex>
-
 #define _CRT_SECURE_NO_WARNINGS
-
-class CLoggerManager
+class CLogManager
 {
 private:
-	CLoggerManager();
-
-	~CLoggerManager();
-
-
+	CLogManager();
+	~CLogManager();
+	static CLogManager* m_gLogManager;
+	
+	std::vector<Logger*> m_loggerList;
+	std::unique_ptr<std::thread> thread;
+	bool bclose;
 public:
-	static CLoggerManager* GetInstance();
-
-    void AddLog(NLogger* pLogger);
-
+	static CLogManager* GetInstance();
+    void AddLog(Logger* pLogger);
 	void DoWriteLog();
-
 	void StartWriteLogThread();
 
-
-private:
-	static CLoggerManager* m_pLogManager;
-
-	std::vector<NLogger*> m_loggerList;
-
-	
-
-	std::atomic< bool> m_bRunning; //线程是否在运行
 
 };
 
