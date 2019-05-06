@@ -1,73 +1,88 @@
 #include "LogManager.h"
-CLogManager* CLogManager::m_gLogManager = NULL;
+CLoggerManager* CLoggerManager::s_pLogManager = NULL;
 
+CLoggerManager::GarbageCollector  CLoggerManager::gc; //类的静态成员需要类外部初始化，
 
-//class WSLogMessageHandler : public rtc::MessageHandler {
-//public:
-//	void OnMessage(rtc::Message* msg) override {
-//		CLogManager::GetInstance()->DoWriteLog();
-//	}
-//};
-//WSLogMessageHandler WsLogMessageHandler_;
-
-
-CLogManager::CLogManager()
+CLoggerManager::CLoggerManager()
 {
-	bclose = false;
+	m_bRunning.store(false);
 
 }
-CLogManager::~CLogManager()
+CLoggerManager::~CLoggerManager()
 {
-	bclose = true;
-	if (thread)
+
+	m_bRunning.store(false);
+
+	if (m_thread)
 	{
-		thread->join();
-		thread.reset();
+		m_thread->join();
+		m_thread.reset();
 	}
-
+	m_loggerList.clear();
 }
 
-void CLogManager::AddLog(Logger* pLogger)
+
+void CLoggerManager::AddLog(NLogger* pLogger)
 {
 	m_loggerList.push_back(pLogger);
 }
 
-CLogManager* CLogManager::GetInstance()
+CLoggerManager* CLoggerManager::GetInstance()
 {
-	if (m_gLogManager == NULL)
+	if (s_pLogManager == NULL)
 	{
-		m_gLogManager = new CLogManager();
-		m_gLogManager->StartWriteLogThread();
+		s_pLogManager = new CLoggerManager();
+		s_pLogManager->StartWriteLogThread();
+		//atexit(Destory);
 	}
-	return m_gLogManager;
+	return s_pLogManager;
 }
-void CLogManager::StartWriteLogThread()
+void CLoggerManager::StartWriteLogThread()
 {
-	if (!thread)
+	if (m_bRunning.load() == true)
 	{
-		thread = std::make_unique<std::thread>(std::bind(
-			[=]()
+		return;
+	}
+	if (!m_thread)
+	{
+		m_thread = std::make_unique<std::thread>(std::bind([=]()
 		{
-			CLogManager::GetInstance()->DoWriteLog();
+			m_bRunning.store(true);
+			DoWriteLog();
 		}		
 		));
 	}
 
 }
-void CLogManager::DoWriteLog()
+
+void CLoggerManager::Stop()
 {
-	while(!bclose)
-	{
- 		Sleep(10);
-		std::vector<Logger*> vcLogList;
+	m_bRunning.store(false);
+	
+}
+
+void CLoggerManager::DoWriteLog()
+{
+	while(m_bRunning.load())
+	{ 		
+		std::vector<NLogger*> vcLogList;
 		vcLogList = m_loggerList;
 		for (int i = 0;i<vcLogList.size();i++)
 		{
-			if (vcLogList[i])
+			if (!m_bRunning.load())
+			{
+				return;
+			}
+			if (vcLogList[i] && m_bRunning.load())
 			{
 				vcLogList[i]->DoWriteLog();
 			}
 		}
+		if (!m_bRunning.load())
+		{
+			return;
+		}
+		Sleep(10);
 	}
 
 }

@@ -5,12 +5,11 @@
 #include <string>
 #include <stdio.h>
 #include <stdarg.h>
-
-#include "LogManager.h"
 #include <time.h>
 #include <memory>
 #include <crtdbg.h>
 
+#include "LogManager.h"
 #include <winsock2.h>   
 #pragma comment(lib,"ws2_32.lib")  
 
@@ -93,8 +92,10 @@ std::string  GetExeName()
 
 }
 
-Logger* Logger::s_plogPtr = nullptr;
-Logger::Logger(int log_level_,const char * strLogPath,const char* pStrFileName)
+NLogger* NLogger::s_plogPtr = nullptr;
+NLogger::GarbageCollector  NLogger::gc; //类的静态成员需要类外部初始化，
+
+NLogger::NLogger(int log_level_,const char * strLogPath,const char* pStrFileName)
 {
 	m_pFileStream = NULL;
 	char scurdir[1024];
@@ -108,8 +109,8 @@ Logger::Logger(int log_level_,const char * strLogPath,const char* pStrFileName)
 	m_log_level_ = log_level_;
 	CreateLogPath();
 	GenerateLogName();
-	
-	CLogManager::GetInstance()->AddLog(this);
+	m_bRunning.store(true);
+	CLoggerManager::GetInstance()->AddLog(this);
 }
 int gettimeofday(struct timeval *tp, void *tzp)
 {
@@ -142,15 +143,37 @@ std::string GetWsCurrentTime()
 	std::string pTemp = temp;
 	return pTemp;
 }
-Logger::~Logger()
+NLogger::~NLogger()
 {
-	// 
-	if(m_pFileStream)
+	m_bRunning.store(false);
+ 	if (m_pFileStream)
+	{
 		fclose(m_pFileStream);
+		m_pFileStream = NULL;
+	}
+	m_vcStrList.clear();
+
+
+	
+}
+bool  NLogger::isRun()
+{
+	return m_bRunning.load();
 }
 
-void Logger::Write2Caching(int log_level_,const char * strInfo, ...)
+void  NLogger::Stop()
 {
+	m_bRunning.store(false);
+	return;
+}
+void NLogger::Write2Caching(int log_level_,const char * strInfo, ...)
+{
+
+	if (!m_bRunning.load())
+	{
+		return;
+	}
+
 	if (log_level_  < m_log_level_)
 	{
 		printf("return log_level_ < m_log_level_");
@@ -170,19 +193,25 @@ void Logger::Write2Caching(int log_level_,const char * strInfo, ...)
 	vsprintf(pTemp + strlen(pTemp), strInfo, arg_ptr);
 	va_end(arg_ptr);
 	OutputDebugStringA(pTemp);
-	mutex_.lock();
-	m_vcStrList.push_back(pTemp);
-	mutex_.unlock();
+	{
+		std::unique_lock<std::mutex> _lock(mutex_);
+		m_vcStrList.push_back(pTemp);
+	}
+
+
 }
-void Logger::Write2Caching(const char * strInfo)
+void NLogger::Write2Caching(const char * strInfo)
 {
-	mutex_.lock();
+	if (!m_bRunning.load())
+	{
+		return;
+	}
+	std::unique_lock<std::mutex> _lock(mutex_);
 	m_vcStrList.push_back(strInfo);
-	mutex_.unlock();
 
 }
 
-const char* Logger::logLevelToString(int l) {
+const char* NLogger::logLevelToString(int l) {
 	switch ( l ) {
 			case LogLevelTrace:
 				return "TRACE";
@@ -201,7 +230,7 @@ const char* Logger::logLevelToString(int l) {
 
 
 
-std::string Logger::Time2String(time_t time_t_)
+std::string NLogger::Time2String(time_t time_t_)
 {
 	if (time_t_ == 0)
 	{
@@ -216,9 +245,9 @@ std::string Logger::Time2String(time_t time_t_)
 }
 
 // DoWriteLog
-void Logger::DoWriteLog()
+void NLogger::DoWriteLog()
 {
-	if (!m_pFileStream)
+	if (!m_pFileStream || !m_bRunning.load())
 	{
 		printf("m_pFileStream NULL");
 		return;
@@ -230,6 +259,11 @@ void Logger::DoWriteLog()
 	mutex_.unlock();
 	for (int i = 0;i<vcStrlist.size();i++)
 	{
+		if (!m_pFileStream || !m_bRunning.load())
+		{
+			printf("m_pFileStream NULL");
+			return;
+		}
 		fprintf(m_pFileStream, "%s", vcStrlist[i].c_str());
 	    printf("%s",vcStrlist[i].c_str());
 	}
@@ -237,12 +271,12 @@ void Logger::DoWriteLog()
 	GenerateLogName();	
 }
 
-void  Logger::SetLogLevel(int log_level_)
+void  NLogger::SetLogLevel(int log_level_)
 {
 	m_log_level_ = log_level_;
 
 }
-void  Logger::SetLogFileName(const char * pStrFileName)
+void  NLogger::SetLogFileName(const char * pStrFileName)
 {
 	if (m_strCurLogName != pStrFileName)
 	{
@@ -275,20 +309,20 @@ void  Logger::SetLogFileName(const char * pStrFileName)
 	}
 ;
 }
-Logger * Logger::GetInstance()
+NLogger * NLogger::GetInstance()
 {
 	if (NULL != s_plogPtr)
 	{
 		return s_plogPtr;
 	}
 
-	s_plogPtr = new Logger();
+	s_plogPtr = new NLogger();
 	
 	//atexit(Destory);
 	return s_plogPtr;
 }
 //������־�ļ������
-void Logger::GenerateLogName()
+void NLogger::GenerateLogName()
 {
 	time_t curTime = time(NULL);
 	curTime = curTime/(3600*24);
@@ -320,7 +354,7 @@ void Logger::GenerateLogName()
 	}
 	
 }
-void Logger::CreateLogPath()
+void NLogger::CreateLogPath()
 {
 	CreatDir((char*)m_strLogPath.c_str());
 }

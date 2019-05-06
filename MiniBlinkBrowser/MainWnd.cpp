@@ -387,27 +387,7 @@ LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 		ReleaseCapture();
 		SendMessage(WM_SYSCOMMAND, SC_MOVE + HTCAPTION, 0);*/
 
-	 }
-	 //修改输入法的位置
-	 if (uMsg == WM_IME_STARTCOMPOSITION)
-	 {
-		 HIMC hImc = ImmGetContext(m_hWnd);
-		 CWkeWebkitUI* pWeb = (CWkeWebkitUI*)m_pBrowserTabBody->GetItemAt(m_pBrowserTabBody->GetCurSel());
-		 if (pWeb)
-		 {
-			 wkeRect rect = wkeGetCaret(pWeb->GetWebView());
-
-			 COMPOSITIONFORM Composition = { 0 };
-			 Composition.dwStyle = CFS_POINT | CFS_FORCE_POSITION;
-			 Composition.ptCurrentPos.x = rect.x;
-			 Composition.ptCurrentPos.y = rect.y + 120;			
-			 ImmSetCompositionWindow(hImc, &Composition);
-			 ImmReleaseContext(m_hWnd, hImc);	
-		 }
-
-		 bHandled = TRUE;
-		 return 0;
-	 }
+	 }	
 
 	 bHandled = FALSE;
 	 return 0;
@@ -428,6 +408,8 @@ LRESULT CMainWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 		bHandled = FALSE;
 		return 0;
 	}
+
+
 
 
 	BOOL bZoomed = ::IsZoomed(*this);

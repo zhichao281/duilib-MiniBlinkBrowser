@@ -69,7 +69,7 @@ public:
 
 
 
-class CWkeWebkitUI : public CControlUI
+class CWkeWebkitUI : public CControlUI, public IMessageFilterUI
 {
 public:
 	DECLARE_DUICONTROL(CWkeWebkitUI)
@@ -100,6 +100,8 @@ protected:
 
 	virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
+	LRESULT MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
+
 public:
 
 	//初始化webkit
@@ -110,6 +112,9 @@ public:
 
 	//执行js代码
 	void ExecuteJS(LPCTSTR lpJS);
+
+	//更新鼠标样式
+	void updateCursor();
 
 public:
 
@@ -211,4 +216,6 @@ private:
 	IWkeCallback* m_pWkeCallback;	// 回调接口
 
 	static map<wkeWebView, CWkeWebkitUI*> m_mapWke2UI; //建立Wke核心到WebkitUI的映射关系
+
+	int  m_cursor;
 };

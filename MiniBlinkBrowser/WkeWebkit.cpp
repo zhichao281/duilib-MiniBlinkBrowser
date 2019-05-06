@@ -39,7 +39,8 @@ CWkeWebkitUI::CWkeWebkitUI(void)
 	_tcscpy(m_chErrUrl, L"file:///"), _tcscat(m_chErrUrl, curDir), _tcscat(m_chErrUrl, L"//resources//error//error.html");
 	_tcscpy(m_chHomeUrl, L"file:///"), _tcscat(m_chHomeUrl, curDir), _tcscat(m_chHomeUrl, L"//resources//test.html");
 
-
+	m_cursor = -1;
+	
 
 }
 
@@ -105,7 +106,7 @@ void CWkeWebkitUI::DoInit()
 
 	// 设置UA
 	wkeSetUserAgent(m_pWebView, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.2228.0 Safari/537.36");
-
+	GetManager()->AddMessageFilter(this);
 }
 
 void CWkeWebkitUI::SetPos(RECT rc, bool bNeedUpdate/* = true*/)
@@ -127,7 +128,35 @@ void CWkeWebkitUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 	}
 }
 
-
+LRESULT CWkeWebkitUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool & bHandled)
+{
+	CControlUI *current = GetManager()->FindControl(GetManager()->GetMousePos());
+	if ( current != this)
+	{
+		return S_OK;
+	}
+	if (uMsg == WM_SETCURSOR)
+	{
+		bHandled = true;
+		return S_OK;
+	}
+	//修改输入法的位置
+	else if (uMsg == WM_IME_STARTCOMPOSITION)
+	{
+		const RECT controlPos = this->GetPos();
+		wkeRect rect = wkeGetCaretRect(m_pWebView);
+		HIMC hImc = ::ImmGetContext(GetManager()->GetPaintWindow());
+		COMPOSITIONFORM Composition = { 0 };
+		Composition.dwStyle = CFS_POINT | CFS_FORCE_POSITION;
+		Composition.ptCurrentPos.x = rect.x + controlPos.left;
+		Composition.ptCurrentPos.y = rect.y + controlPos.top;
+		ImmSetCompositionWindow(hImc, &Composition);
+		ImmReleaseContext(GetManager()->GetPaintWindow(), hImc);
+		bHandled = TRUE;
+		return S_OK;
+	}
+	return S_OK;
+}
 
 bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 {
@@ -188,11 +217,87 @@ void CWkeWebkitUI::ExecuteJS(LPCTSTR lpJS)
 	wkeRunJS(m_pWebView, NStr::T2UTF8(lpJS).c_str());
 }
 
+void CWkeWebkitUI::updateCursor()
+{
+
+	int cursorInfo = wkeGetCursorInfoType(m_pWebView);
+	if (m_cursor != cursorInfo) 
+	{
+		m_cursor = cursorInfo;
+		HCURSOR curosr = ::LoadCursor(NULL, IDC_ARROW);
+		switch (cursorInfo)
+		{
+		case WkeCursorInfoPointer:
+			curosr = ::LoadCursor(NULL, IDC_ARROW);
+			break;
+		case WkeCursorInfoCross:
+			curosr = ::LoadCursor(NULL, IDC_CROSS);
+			break;
+		case WkeCursorInfoHand:
+			curosr = ::LoadCursor(NULL, IDC_HAND);
+			break;
+		case WkeCursorInfoIBeam:
+			curosr = ::LoadCursor(NULL, IDC_IBEAM);
+			break;
+		case WkeCursorInfoWait:
+			curosr = ::LoadCursor(NULL, IDC_WAIT);
+			break;
+		case WkeCursorInfoHelp:
+			curosr = ::LoadCursor(NULL, IDC_HELP);
+			break;
+		case WkeCursorInfoEastResize:
+			curosr = ::LoadCursor(NULL, IDC_SIZEWE);
+			break;
+		case WkeCursorInfoNorthResize:
+			curosr = ::LoadCursor(NULL, IDC_SIZENS);
+			break;
+		case WkeCursorInfoNorthEastResize:
+			curosr = ::LoadCursor(NULL, IDC_SIZENESW);
+			break;
+		case WkeCursorInfoNorthWestResize:
+			curosr = ::LoadCursor(NULL, IDC_SIZENWSE);
+			break;
+		case WkeCursorInfoSouthResize:
+			curosr = ::LoadCursor(NULL, IDC_SIZENS);
+			break;
+		case WkeCursorInfoSouthEastResize:
+			curosr = ::LoadCursor(NULL, IDC_SIZENWSE);
+			break;
+		case WkeCursorInfoSouthWestResize:
+			curosr = ::LoadCursor(NULL, IDC_SIZENESW);
+			break;
+		case WkeCursorInfoWestResize:
+			curosr = ::LoadCursor(NULL, IDC_SIZEWE);
+			break;
+		case WkeCursorInfoNorthSouthResize:
+			curosr = ::LoadCursor(NULL, IDC_SIZENS);
+			break;
+		case WkeCursorInfoEastWestResize:
+			curosr = ::LoadCursor(NULL, IDC_SIZEWE);
+			break;
+		case WkeCursorInfoNorthEastSouthWestResize:
+			curosr = ::LoadCursor(NULL, IDC_SIZEALL);
+			break;
+		case WkeCursorInfoNorthWestSouthEastResize:
+			curosr = ::LoadCursor(NULL, IDC_SIZEALL);
+			break;
+		case WkeCursorInfoColumnResize:
+		case WkeCursorInfoRowResize:
+			curosr = ::LoadCursor(NULL, IDC_ARROW);
+			break;
+		default:
+			break;
+		}
+		::SetCursor(curosr);
+	}
+
+}
+
 void CWkeWebkitUI::DoEvent(TEventUI& event)
 {
 	RECT rc = GetPos();
 	POINT pt = { event.ptMouse.x - rc.left, event.ptMouse.y - rc.top };
-
+	static WkeCursorInfoType cursorInfo = WkeCursorInfoType::WkeCursorInfoPointer;
 	switch (event.Type)
 	{
 	case UIEVENT_MOUSEENTER:
@@ -211,6 +316,7 @@ void CWkeWebkitUI::DoEvent(TEventUI& event)
 		if (event.wParam & MK_RBUTTON)
 			flags |= WKE_RBUTTON;
 		wkeFireMouseEvent(m_pWebView, WKE_MSG_MOUSEMOVE, pt.x, pt.y, flags);
+		updateCursor();
 	}
 	break;
 	case UIEVENT_BUTTONDOWN:
