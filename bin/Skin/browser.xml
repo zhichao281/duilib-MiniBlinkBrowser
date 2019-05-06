@@ -24,14 +24,16 @@
           <HorizontalLayout  height="26">
             <Button name="back_btn"  tooltip="后退" autocalcwidth="true" float="false" width="36" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file='imgs/backward.png' dest='0,0,36,26' source='0,0,36,26'" hotimage="file='imgs/backward.png' dest='0,0,36,26' source='36,0,72,26'" pushedimage="file='imgs/backward.png' dest='0,0,36,26' source='72,0,108,26'" disabledimage="file='imgs/backward.png' dest='0,0,36,26' source='108,0,144,26'" />
             <Button name="forward_btn"  tooltip="前进" autocalcwidth="true" float="false" width="36" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file='imgs/go.png' dest='0,0,36,26' source='108,0,144,26'" hotimage="file='imgs/go.png' dest='0,0,36,26' source='72,0,108,26'" pushedimage="file='imgs/go.png' dest='0,0,36,26' source='36,0,72,26'" disabledimage="file='imgs/go.png' dest='0,0,36,26' source='0,0,36,26'" />
+         
             <Button name="refresh_btn" tooltip="刷新" float="false" autocalcwidth="true" width="26" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file='imgs/refresh.png' dest='0,0,26,26' source='0,0,26,26'" hotimage="file='imgs/refresh.png' dest='0,0,26,26' source='26,0,52,26'" pushedimage="file='imgs/refresh.png' dest='0,0,26,26' source='52,0,78,26'" />
+            <VerticalLayout name="address_bar" bordersize="1" bordercolor="#FFAAAAAA" inset="1,1,1,1" >
+              <Edit name="address_edit" float="false" height="26"  tipvalue="请输入网址" tooltip="地址栏" />
+            </VerticalLayout>
+            
           </HorizontalLayout>
 
-          <HorizontalLayout name="address_bar" bordersize="1" width="420" bordercolor="#FFAAAAAA" inset="1,1,1,1" >
-            <Edit name="address_edit" float="false"  tipvalue="请输入网址" tooltip="地址栏" />       
-          
-          </HorizontalLayout>
-
+   
+       
           <Button float="false" autocalcwidth="true" width="3" height="28" bkimage="file='imgs/tool_sep.png' dest='0,0,3,28' source='0,0,3,28'" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
 
           <Button name="js_btn" float="false" autocalcwidth="true" width="77" height="26" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file='imgs/ext_gameyouxi.png' dest='0,0,77,26' source='0,0,77,26'" hotimage="file='imgs/ext_gameyouxi.png' dest='0,0,77,26' source='77,0,154,26'" pushedimage="file='imgs/ext_gameyouxi.png' dest='0,0,77,26' source='154,0,231,26'" />
