@@ -1,4 +1,32 @@
-﻿2019.3.28
+﻿2019.4.28
+    * [定制版]修复打印rbt.guorenpcic.com/ecar，背景没有覆盖整个页面的问题
+    * 修复flexbox的一处崩溃
+    * 修复event.altKey键无效的问题
+
+2019.4.22
+    * 修复https://zm12.sm-tc.cn/rec/person_entity?wd=shenma_query&title=%E7的崩溃问题
+    * 增加navigator.connection.type的设置
+    * 修复http://www.zuanke8.com/zuixin.php点击论坛导航无法返回的问题
+    * 修复MFC拦截键盘消息的问题
+    * 修复打开文件选择框后，窗口下沉到底层的问题
+
+2019.4.18
+    * [定制版]修复打印页面有transition时，display:none无效的问题
+    * [定制版]修复横向打印时高宽不对的问题（测试页面https://rbt.guorenpcic.com/ecar）
+    * [定制版]修复mbResponseQuery不能传递有转义字符的字符串的问题
+    * 右键菜单增加前进后退刷新
+    * 修复打开文件选择框后，窗口下沉到底层的问题
+    * wkeSetDebugConfig(webview, "consoleOutput", "1");可关闭console在dbgview下的输出
+
+2019.4.12
+    * [定制版]修复短于一秒的mp3播放不了的问题
+    * [定制版]mbGetContentAsMarkup
+
+2019.4.10
+    * 修复https://icorepnbs.pingan.com.cn/里使用swfupload上传文件缺少cookie导致失败的问题
+    * [定制版]增加pdf页面打印按钮以及右键打印按钮
+
+2019.3.28
     * 修复alibaba相关站点验证码点击问题
 
 2019.3.27

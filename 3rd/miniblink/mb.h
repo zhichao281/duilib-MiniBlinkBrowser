@@ -403,6 +403,7 @@ typedef void* v8ContextPtr;
 typedef void* v8Isolate;
 
 typedef void(MB_CALL_TYPE* mbGetMHTMLCallback)(mbWebView webView, void* param, const utf8* mhtml);
+typedef void(MB_CALL_TYPE* mbGetContentAsMarkupCallback)(mbWebView webView, void* param, const utf8* content, size_t size);
 
 typedef struct mbWebUrlRequest* mbWebUrlRequestPtr;
 typedef struct mbWebUrlResponse* mbWebUrlResponsePtr;
@@ -711,7 +712,7 @@ ITERATOR1(HWND, mbGetHostHWND, mbWebView webView, "") \
 ITERATOR2(void, mbSetCspCheckEnable, mbWebView webView, BOOL b, "") \
 ITERATOR2(void, mbSetNpapiPluginsEnabled, mbWebView webView, BOOL b, "") \
 ITERATOR2(void, mbSetMemoryCacheEnable, mbWebView webView, BOOL b, "") \
-ITERATOR3(void, mbSetCookie, mbWebView webView, const utf8* url, const utf8* cookie, "cookie格式必须是:Set-cookie: PRODUCTINFO=webxpress; domain=.fidelity.com; path=/; secure") \
+ITERATOR3(void, mbSetCookie, mbWebView webView, const utf8* url, const utf8* cookie, "cookie格式必须是:PRODUCTINFO=webxpress; domain=.fidelity.com; path=/; secure") \
 ITERATOR2(void, mbSetCookieEnabled, mbWebView webView, BOOL enable, "") \
 ITERATOR2(void, mbSetCookieJarPath, mbWebView webView, const WCHAR* path, "") \
 ITERATOR2(void, mbSetCookieJarFullPath, mbWebView webView, const WCHAR* path, "") \
@@ -801,6 +802,7 @@ ITERATOR2(void, mbSetNodeJsEnable, mbWebView webView, BOOL b, "") \
 \
 ITERATOR5(void, mbSetDeviceParameter, mbWebView webView, const char* device, const char* paramStr, int paramInt, float paramFloat, "") \
 \
+ITERATOR4(void, mbGetContentAsMarkup, mbWebView webView, mbGetContentAsMarkupCallback calback, void* param, mbWebFrameHandle frameId, "") \
 ITERATOR3(void, mbUtilSerializeToMHTML, mbWebView webView, mbGetMHTMLCallback calback, void* param, "") \
 ITERATOR1(const char*, mbUtilCreateRequestCode, const char* registerInfo, "") \
 ITERATOR1(BOOL, mbUtilIsRegistered, const wchar_t* defaultPath, "") \
