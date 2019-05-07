@@ -134,7 +134,7 @@ void CMainWnd::InitWindow()
 	m_pDownloadWnd->Create(nullptr, _T("downwnd"), WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW);
 	m_pDownloadWnd->CenterWindow();
 	::PostMessageW(m_pDownloadWnd->GetHWND(), WM_SYSCOMMAND, SC_MINIMIZE, 0);
-
+	
 }
 
 

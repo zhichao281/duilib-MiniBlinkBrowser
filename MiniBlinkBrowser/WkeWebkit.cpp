@@ -52,7 +52,7 @@ CWkeWebkitUI::~CWkeWebkitUI(void)
 		m_mapWke2UI.erase(iter);
 	}
 
-	//m_pManager->KillTimer(this, EVENT_TICK_TIEMER_ID);
+
 	wkeDestroyWebView(m_pWebView);
 }
 
@@ -73,15 +73,18 @@ LPVOID CWkeWebkitUI::GetInterface(LPCTSTR pstrName)
 
 void CWkeWebkitUI::DoInit()
 {
+
 	CControlUI::DoInit();
+	HWND hWnd =m_pManager->GetPaintWindow();
+
+	wkeSetHandle(m_pWebView, hWnd);
 
 	// 设置名称
 	wkeSetName(m_pWebView, NStr::T2ANSI(GetName()).c_str());
-	// 启动定时器
-	//SetTimer(EVENT_TICK_TIEMER_ID, 30);
+
 
 	// 初始化后回调接口
-	wkeSetTransparent(m_pWebView, false);
+	wkeSetTransparent(m_pWebView, false); //通知无窗口模式下，webview开启透明模式。
 
 	wkeOnTitleChanged(m_pWebView, OnWkeTitleChanged, this);
 
@@ -162,26 +165,36 @@ bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopContro
 {
 	CControlUI::DoPaint(hDC, rcPaint, pStopControl);
 
-	if (m_RendData.pixels == NULL) {
-		BITMAPINFO bi;
-		memset(&bi, 0, sizeof(bi));
-		bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-		bi.bmiHeader.biWidth = int(m_RendData.rt.right - m_RendData.rt.left);
-		bi.bmiHeader.biHeight = -int(m_RendData.rt.bottom - m_RendData.rt.top);
-		bi.bmiHeader.biPlanes = 1;
-		bi.bmiHeader.biBitCount = 32;
-		bi.bmiHeader.biCompression = BI_RGB;
-		HBITMAP hbmp = ::CreateDIBSection(0, &bi, DIB_RGB_COLORS, &m_RendData.pixels, NULL, 0);
-		SelectObject(m_RendData.hDC, hbmp);
-		if (m_RendData.hBitmap) {
-			DeleteObject(m_RendData.hBitmap);
-		}
-		m_RendData.hBitmap = hbmp;
-	}
-	wkePaint(m_pWebView, m_RendData.pixels, 0);
-	::BitBlt(hDC, m_RendData.rt.left, m_RendData.rt.top, m_RendData.rt.right - m_RendData.rt.left, m_RendData.rt.bottom - m_RendData.rt.top, m_RendData.hDC, 0, 0, SRCCOPY);
+	//if (m_RendData.pixels == NULL) {
+	//	BITMAPINFO bi;
+	//	memset(&bi, 0, sizeof(bi));
+	//	bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+	//	bi.bmiHeader.biWidth = int(m_RendData.rt.right - m_RendData.rt.left);
+	//	bi.bmiHeader.biHeight = -int(m_RendData.rt.bottom - m_RendData.rt.top);
+	//	bi.bmiHeader.biPlanes = 1;
+	//	bi.bmiHeader.biBitCount = 32;
+	//	bi.bmiHeader.biCompression = BI_RGB;
+	//	HBITMAP hbmp = ::CreateDIBSection(0, &bi, DIB_RGB_COLORS, &m_RendData.pixels, NULL, 0);
+	//	SelectObject(m_RendData.hDC, hbmp);
+	//	if (m_RendData.hBitmap) {
+	//		DeleteObject(m_RendData.hBitmap);
+	//	}
+	//	m_RendData.hBitmap = hbmp;
+	//}
+	//wkePaint(m_pWebView, m_RendData.pixels, 0);
+	//::BitBlt(hDC, m_RendData.rt.left, m_RendData.rt.top, m_RendData.rt.right - m_RendData.rt.left, m_RendData.rt.bottom - m_RendData.rt.top, m_RendData.hDC, 0, 0, SRCCOPY);
+
+
+
+	HDC mb_hdc = wkeGetViewDC(m_pWebView);
+	::BitBlt(hDC, rcPaint.left, rcPaint.top, rcPaint.right - rcPaint.left, rcPaint.bottom - rcPaint.top, mb_hdc, 0, 0, SRCCOPY);
+
+
 
 	return true;
+
+
+
 }
 
 void CWkeWebkitUI::InitializeWebkit()
@@ -366,9 +379,10 @@ void CWkeWebkitUI::DoEvent(TEventUI& event)
 		break;
 	}
 	case UIEVENT_TIMER:
-		if (event.wParam == EVENT_TICK_TIEMER_ID) {
+	/*	if (event.wParam == EVENT_TICK_TIEMER_ID) 
+		{
 			Invalidate();
-		}
+		}*/
 		break;
 	default: break;
 	}

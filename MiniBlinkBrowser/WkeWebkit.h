@@ -8,8 +8,6 @@ using namespace std;
 
 
 
-#define EVENT_TICK_TIEMER_ID	42
-
 
 
 
