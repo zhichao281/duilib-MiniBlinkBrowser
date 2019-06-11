@@ -323,6 +323,20 @@ typedef enum _mbRequestType {
     kMbRequestTypePut,
 } mbRequestType;
 
+typedef enum _mbMenuItemId {
+    kMbMenuSelectedAllId = 1 << 1,
+    kMbMenuSelectedTextId = 1 << 2,
+    kMbMenuUndoId = 1 << 3,
+    kMbMenuCopyImageId = 1 << 4,
+    kMbMenuInspectElementAtId = 1 << 5,
+    kMbMenuCutId = 1 << 6,
+    kMbMenuPasteId = 1 << 7,
+    kMbMenuPrintId = 1 << 8,
+    kMbMenuGoForwardId = 1 << 9,
+    kMbMenuGoBackId = 1 << 10,
+    kMbMenuReloadId = 1 << 11,
+} mbMenuItemId;
+
 //////////////////////////////////////////////////////////////////////////
 
 typedef enum {
@@ -346,6 +360,7 @@ typedef void(MB_CALL_TYPE *mbRunJsCallback)(mbWebView webView, void* param, mbJs
 typedef void(MB_CALL_TYPE* mbJsQueryCallback)(mbWebView webView, void* param, mbJsExecState es, int64_t queryId, int customMsg, const utf8* request);
 
 typedef void(MB_CALL_TYPE *mbTitleChangedCallback)(mbWebView webView, void* param, const utf8* title);
+typedef void(MB_CALL_TYPE *mbMouseOverUrlChangedCallback)(mbWebView webView, void* param, const utf8* url);
 typedef void(MB_CALL_TYPE *mbURLChangedCallback)(mbWebView webView, void* param, const utf8* url, BOOL canGoBack, BOOL canGoForward);
 typedef void(MB_CALL_TYPE *mbURLChangedCallback2)(mbWebView webView, void* param, mbWebFrameHandle frameId, const utf8* url);
 typedef void(MB_CALL_TYPE *mbPaintUpdatedCallback)(mbWebView webView, void* param, const HDC hdc, int x, int y, int cx, int cy);
@@ -690,12 +705,14 @@ ITERATOR3(mbWebUrlRequestPtr, mbNetCreateWebUrlRequest, const utf8* url, const u
 ITERATOR3(void, mbNetAddHTTPHeaderFieldToUrlRequest, mbWebUrlRequestPtr request, const utf8* name, const utf8* value, "")\
 ITERATOR4(int, mbNetStartUrlRequest, mbWebView webView, mbWebUrlRequestPtr request, void* param, const mbUrlRequestCallbacks* callbacks, "")\
 ITERATOR1(int, mbNetGetHttpStatusCode, mbWebUrlResponsePtr response, "")\
+ITERATOR1(mbRequestType, mbNetGetRequestMethod, mbNetJob jobPtr, "")\
 ITERATOR1(__int64, mbNetGetExpectedContentLength, mbWebUrlResponsePtr response, "")\
 ITERATOR1(const utf8*, mbNetGetResponseUrl, mbWebUrlResponsePtr response, "")\
 ITERATOR1(void, mbNetCancelWebUrlRequest, int requestId, "")\
 ITERATOR2(void, mbNetSetMIMEType, mbNetJob jobPtr, const char* type, "") \
 ITERATOR1(const char*, mbNetGetMIMEType, mbNetJob jobPtr, "只能在blink线程调用（非主线程）") \
 ITERATOR3(const utf8*, mbNetGetHTTPHeaderField, mbNetJob job, const char* key, BOOL fromRequestOrResponse, "") \
+ITERATOR4(void, mbNetSetHTTPHeaderField, mbNetJob jobPtr, const wchar_t* key, const wchar_t* value, BOOL response, "") \
 \
 ITERATOR2(void, mbSetMouseEnabled, mbWebView webView, bool b, "") \
 ITERATOR2(void, mbSetTouchEnabled, mbWebView webView, bool b, "") \
@@ -704,6 +721,7 @@ ITERATOR2(void, mbSetNavigationToNewWindowEnable, mbWebView webView, BOOL b, "")
 ITERATOR2(void, mbSetHeadlessEnabled, mbWebView webView, BOOL b, "可以关闭渲染") \
 ITERATOR2(void, mbSetDragDropEnable, mbWebView webView, BOOL b, "可以关闭拖拽文件、文字") \
 ITERATOR2(void, mbSetDragEnable, mbWebView webView, BOOL b, "可关闭自动响应WM_DROPFILES消息让网页加载本地文件") \
+ITERATOR3(void, mbSetContextMenuItemShow, mbWebView webView, mbMenuItemId item, BOOL isShow, "设置某项menu是否显示") \
 \
 ITERATOR2(void, mbSetHandle, mbWebView webView, HWND wnd, "") \
 ITERATOR3(void, mbSetHandleOffset, mbWebView webView, int x, int y, "") \

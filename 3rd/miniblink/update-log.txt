@@ -1,4 +1,36 @@
-﻿2019.4.28
+﻿2019.5.27
+    * [定制版]修复打印排版问题。在position: fixed情况下，如果有div超长，会导致fixed元素右边位置不对
+    * 修复复制粘贴图片不成功问题
+    * 修复没有mouse leave的问题
+    * 修复某些websocket长时间不响应会导致析构而崩溃的问题
+    * 修复on drop无效的问题
+    * [定制版]修复下载文件名不正确的问题
+
+2019.5.22
+    * 修复position: fixed;如果没设置top，不会取父节点的问题
+
+2019.5.20
+    * [定制版]修复<a download>属性不支持下载的问题
+
+2019.5.17
+    * 修复setTitle占用堆栈太大的问题
+    * 修复访问https://pei.yay.com.cn过长出现卡死现象的问题
+    * 修复上个版本崩溃的问题
+
+2019.5.15
+    * 修复delphi报浮点异常的问题
+
+2019.5.13
+    * 修复https://printserver.bpic.com.cn:8080/WebReport/ReportServer?reportlet=toubaodanBBJ.cpt&op=view&p2=5110003602019007069&username=xiaoguan&password=123456的flash打印不了的问题
+    * [定制版]增加打印边距调整功能
+    * 增加wkeSetContextMenuItemShow接口，可以控制是否显示具体某项菜单显示
+
+2019.5.7
+    * 修复event.keyCode没有alt键的问题
+    * 修复上个版本导致的flexbox排版不正确的问题
+    * 修复Intl.NumberFormat没有导致www.linkedin.com打不开的问题
+
+2019.4.28
     * [定制版]修复打印rbt.guorenpcic.com/ecar，背景没有覆盖整个页面的问题
     * 修复flexbox的一处崩溃
     * 修复event.altKey键无效的问题

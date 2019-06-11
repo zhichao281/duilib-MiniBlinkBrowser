@@ -6,13 +6,13 @@ Miniblink只需一个dll，通过导出的纯C的接口，数行代码即可集成到各种软件。
 更多介绍见：http://miniblink.net/
 
 ------------------------------------------------------------------------
-* mb.dll、fast-mb.exe是付费版本，可以使用多线程渲染等功能。如需购买，请联系作者。
+* mb.dll、vip-miniblink.exe是定制版，可以使用多线程渲染等功能。如需购买，请联系作者（http://miniblink.net/pricing/pricing.htm）。
 
 * demo_src是demo的源码。直接打开demo_src\wkexe.sln编译即可运行。
 
 * node.dll是miniblink的主dll，wkexe.exe是测试程序。此dll使用5.7版本v8，且带了nodejs，可以跑起目录里的electron.exe。
 
-* node_v8_4_8.dll是不带node版本的miniblink，并且使用4.8版本v8，不带nodejs。使用体积较小。
+* node_v8_4_8.dll是不带nodejs版本的miniblink，并且使用4.8版本v8。由于v8版本比较老，很多js语法不兼容，不推荐使用。
 
 * MBrowser.exe是网友提供的一个测试程序，如果MBrowser.exe运行有任何问题，请用wkexe.exe再测试。如果wkexe.exe也有问题，请反馈给https://github.com/weolar/miniblink49
 
