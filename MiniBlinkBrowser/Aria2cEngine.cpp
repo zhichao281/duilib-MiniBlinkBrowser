@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <windows.h>
+#include <thread>
 #include "Aria2cEngine.h"
 #include "../Common/Json/Header/NSJson.h"
 #include "../Common/String/NSString.h"
