@@ -1,11 +1,12 @@
 #include "StdAfx.h"
 #include "WkeWebkit.h"
+
 #include <Windows.h>
 #include <shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
 #pragma comment(lib, "imm32.lib")
 #include "../Common/String/NSString.h"
-
+#include "../Common/Url/Url.h"
 map<wkeWebView, CWkeWebkitUI*> CWkeWebkitUI::m_mapWke2UI;
 
 LPCTSTR wkeGetStringT(wkeString str)
@@ -46,14 +47,7 @@ CWkeWebkitUI::CWkeWebkitUI(void)
 
 CWkeWebkitUI::~CWkeWebkitUI(void)
 {
-	map<wkeWebView, CWkeWebkitUI*>::const_iterator iter = m_mapWke2UI.find(m_pWebView);
-	if (iter != m_mapWke2UI.end())
-	{
-		m_mapWke2UI.erase(iter);
-	}
 
-
-	wkeDestroyWebView(m_pWebView);
 }
 
 LPCTSTR CWkeWebkitUI::GetClass() const
@@ -75,8 +69,9 @@ void CWkeWebkitUI::DoInit()
 {
 
 	CControlUI::DoInit();
-	HWND hWnd =m_pManager->GetPaintWindow();
 
+
+	HWND hWnd =m_pManager->GetPaintWindow();
 	wkeSetHandle(m_pWebView, hWnd);
 
 	// 设置名称
@@ -109,13 +104,13 @@ void CWkeWebkitUI::DoInit()
 
 	// 设置UA
 	wkeSetUserAgent(m_pWebView, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.2228.0 Safari/537.36");
-	GetManager()->AddMessageFilter(this);
+	//GetManager()->AddMessageFilter(this);
 }
 
 void CWkeWebkitUI::SetPos(RECT rc, bool bNeedUpdate/* = true*/)
 {
-	m_RendData.rt = rc;
-	m_RendData.pixels = NULL;
+	//m_RendData.rt = rc;
+	//m_RendData.pixels = NULL;
 	// 调整位置和尺寸
 	CControlUI::SetPos(rc, bNeedUpdate);
 	wkeResize(m_pWebView, rc.right - rc.left, rc.bottom - rc.top);
@@ -134,99 +129,99 @@ void CWkeWebkitUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 LRESULT CWkeWebkitUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool & bHandled)
 {
 
-	if (uMsg == GetRunJsMessageId()) 
-	{
-		bHandled = true;
-		JS_ARG *arg = (JS_ARG *)wParam;
-		if (arg->webView == NULL || arg->webView == (wkeWebView)0xcccccccc) return S_OK;
-		jsValue value;
-		jsExecState es;
+	//if (uMsg == GetRunJsMessageId()) 
+	//{
+	//	bHandled = true;
+	//	JS_ARG *arg = (JS_ARG *)wParam;
+	//	if (arg->webView == NULL || arg->webView == (wkeWebView)0xcccccccc) return S_OK;
+	//	jsValue value;
+	//	jsExecState es;
 
-		if (arg->frameId == NULL || arg->frameId == (wkeWebFrameHandle)0xcccccccc) {
-			value = ::wkeRunJS(arg->webView, arg->js);
-			es = ::wkeGlobalExec(arg->webView);
-		}
-		else
-		{
-			value = ::wkeRunJsByFrame(arg->webView, arg->frameId, arg->js, true);
-			es = ::wkeGetGlobalExecByFrame(arg->webView, arg->frameId);
-		}
-		switch (arg->type)
-		{
-		case JS_RESULT_TYPE::JS_INT: {
-			int* ret = (int*)arg->result;
-			*ret = jsToInt(es, value);
-			break;
-		}
-		case JS_RESULT_TYPE::JS_BOOL: {
-			bool* ret = (bool*)arg->result;
-			*ret = jsToBoolean(es, value);
-			break;
-		}
-		case JS_RESULT_TYPE::JS_CHAR:
-		{
-			char* ret = (char*)arg->result;
-			int* maxLength = (int*)arg->param;
-			strcpy_s(ret, *maxLength, jsToString(es, value));
-			break;
-		}
-		case JS_RESULT_TYPE::JS_WCHAR:
-		{
-			WCHAR* ret = (WCHAR*)arg->result;
-			StrCpyW(ret, jsToStringW(es, value));
-			//strcpy_s(ret, (rsize_t)arg->param, jsToStringW(es, value));
-			break;
-		}
-		case JS_RESULT_TYPE::JS_DOUBLE: {
-			double* ret = (double*)arg->result;
-			*ret = jsToDouble(es, value);
-			break;
-		}
-		default:
-			break;
-		}
-		return S_OK;
-	}
-	else if (uMsg == GetActionMessageId()) {
-		bHandled = true;
-		wkeWebView web = (wkeWebView)wParam;
-		MB_ACTION_ITEM *action = (MB_ACTION_ITEM *)lParam;
-		switch (action->sender)
-		{
-		case MB_ACTION_SENDER::KEY:
-		{
-			MB_ACTION_KEY_DATA *data = (MB_ACTION_KEY_DATA *)action->data;
-			if (data->event == MB_ACTION_KEY_EVENT::DOWN) {
-				::wkeFireKeyDownEvent(web, data->code, data->flags, data->flags);
-			}
-			else if (data->event == MB_ACTION_KEY_EVENT::PRESS) {
-				::wkeFireKeyPressEvent(web, data->code, data->flags, data->flags);
-			}
-			else if (data->event == MB_ACTION_KEY_EVENT::UP) {
-				::wkeFireKeyUpEvent(web, data->code, data->flags, data->flags);
-			}
-			break;
-		}
-		case MB_ACTION_SENDER::MENU: {
-			MB_ACTION_MENU_DATA *data = (MB_ACTION_MENU_DATA *)action->data;
-			::wkeFireContextMenuEvent(web, data->x, data->y, data->flags);
-			break;
-		}
-		case MB_ACTION_SENDER::MOUSE: {
-			MB_ACTION_MOUSE_DATA *data = (MB_ACTION_MOUSE_DATA *)action->data;
-			::wkeFireMouseEvent(web, data->message, data->x, data->y, data->flags);
-			break;
-		}
-		case MB_ACTION_SENDER::WHEEL: {
-			MB_ACTION_WHEEL_DATA *data = (MB_ACTION_WHEEL_DATA *)action->data;
-			::wkeFireMouseWheelEvent(web, data->x, data->y, data->delta, data->flags);
-			break;
-		}
-		default:
-			break;
-		}
-		return S_OK;
-	}
+	//	if (arg->frameId == NULL || arg->frameId == (wkeWebFrameHandle)0xcccccccc) {
+	//		value = ::wkeRunJS(arg->webView, arg->js);
+	//		es = ::wkeGlobalExec(arg->webView);
+	//	}
+	//	else
+	//	{
+	//		value = ::wkeRunJsByFrame(arg->webView, arg->frameId, arg->js, true);
+	//		es = ::wkeGetGlobalExecByFrame(arg->webView, arg->frameId);
+	//	}
+	//	switch (arg->type)
+	//	{
+	//	case JS_RESULT_TYPE::JS_INT: {
+	//		int* ret = (int*)arg->result;
+	//		*ret = jsToInt(es, value);
+	//		break;
+	//	}
+	//	case JS_RESULT_TYPE::JS_BOOL: {
+	//		bool* ret = (bool*)arg->result;
+	//		*ret = jsToBoolean(es, value);
+	//		break;
+	//	}
+	//	case JS_RESULT_TYPE::JS_CHAR:
+	//	{
+	//		char* ret = (char*)arg->result;
+	//		int* maxLength = (int*)arg->param;
+	//		strcpy_s(ret, *maxLength, jsToString(es, value));
+	//		break;
+	//	}
+	//	case JS_RESULT_TYPE::JS_WCHAR:
+	//	{
+	//		WCHAR* ret = (WCHAR*)arg->result;
+	//		StrCpyW(ret, jsToStringW(es, value));
+	//		//strcpy_s(ret, (rsize_t)arg->param, jsToStringW(es, value));
+	//		break;
+	//	}
+	//	case JS_RESULT_TYPE::JS_DOUBLE: {
+	//		double* ret = (double*)arg->result;
+	//		*ret = jsToDouble(es, value);
+	//		break;
+	//	}
+	//	default:
+	//		break;
+	//	}
+	//	return S_OK;
+	//}
+	//else if (uMsg == GetActionMessageId()) {
+	//	bHandled = true;
+	//	wkeWebView web = (wkeWebView)wParam;
+	//	MB_ACTION_ITEM *action = (MB_ACTION_ITEM *)lParam;
+	//	switch (action->sender)
+	//	{
+	//	case MB_ACTION_SENDER::KEY:
+	//	{
+	//		MB_ACTION_KEY_DATA *data = (MB_ACTION_KEY_DATA *)action->data;
+	//		if (data->event == MB_ACTION_KEY_EVENT::DOWN) {
+	//			::wkeFireKeyDownEvent(web, data->code, data->flags, data->flags);
+	//		}
+	//		else if (data->event == MB_ACTION_KEY_EVENT::PRESS) {
+	//			::wkeFireKeyPressEvent(web, data->code, data->flags, data->flags);
+	//		}
+	//		else if (data->event == MB_ACTION_KEY_EVENT::UP) {
+	//			::wkeFireKeyUpEvent(web, data->code, data->flags, data->flags);
+	//		}
+	//		break;
+	//	}
+	//	case MB_ACTION_SENDER::MENU: {
+	//		MB_ACTION_MENU_DATA *data = (MB_ACTION_MENU_DATA *)action->data;
+	//		::wkeFireContextMenuEvent(web, data->x, data->y, data->flags);
+	//		break;
+	//	}
+	//	case MB_ACTION_SENDER::MOUSE: {
+	//		MB_ACTION_MOUSE_DATA *data = (MB_ACTION_MOUSE_DATA *)action->data;
+	//		::wkeFireMouseEvent(web, data->message, data->x, data->y, data->flags);
+	//		break;
+	//	}
+	//	case MB_ACTION_SENDER::WHEEL: {
+	//		MB_ACTION_WHEEL_DATA *data = (MB_ACTION_WHEEL_DATA *)action->data;
+	//		::wkeFireMouseWheelEvent(web, data->x, data->y, data->delta, data->flags);
+	//		break;
+	//	}
+	//	default:
+	//		break;
+	//	}
+	//	return S_OK;
+	//}
 	if (GetManager() == nullptr)
 		return S_OK;
 
@@ -282,40 +277,44 @@ bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopContro
 	//}
 	//wkePaint(m_pWebView, m_RendData.pixels, 0);
 	//::BitBlt(hDC, m_RendData.rt.left, m_RendData.rt.top, m_RendData.rt.right - m_RendData.rt.left, m_RendData.rt.bottom - m_RendData.rt.top, m_RendData.hDC, 0, 0, SRCCOPY);
-
-
-
-	HDC mb_hdc = wkeGetViewDC(m_pWebView);
-	::BitBlt(hDC, rcPaint.left, rcPaint.top, rcPaint.right - rcPaint.left, rcPaint.bottom - rcPaint.top, mb_hdc, 0, 0, SRCCOPY);
-
-
-
+	if (hDC != NULL) {
+		HDC mb_hdc = wkeGetViewDC(m_pWebView);
+		if (mb_hdc != NULL) 
+		{
+			::BitBlt(hDC, rcPaint.left, rcPaint.top, rcPaint.right - rcPaint.left, rcPaint.bottom - rcPaint.top, mb_hdc, 0, 0, SRCCOPY);
+			::ReleaseDC(NULL, mb_hdc);
+		}
+	}
+	updateCursor();
 	return true;
-
 
 
 }
 
 void CWkeWebkitUI::InitializeWebkit()
 {
-	// 加载mb的资源
-	CDuiString strResourcePath = CPaintManagerUI::GetInstancePath();
-	//CDuiString mbPath = strResourcePath + L"node.dll";
-	CDuiString mbPath = strResourcePath + L"node_v8_4_8.dll";
-	if (!::PathFileExists(mbPath))
-	{
-		::MessageBoxW(NULL, L"请把node.dll放exe目录下", L"错误", MB_OK);
-		return ;
+	static bool isInitialized = ::wkeIsInitialize == NULL ? false : (::wkeIsInitialize());
+
+	if (!isInitialized) {
+		// 加载mb的资源
+		CDuiString strResourcePath = CPaintManagerUI::GetInstancePath();
+		//CDuiString mbPath = strResourcePath + L"node.dll";
+		CDuiString mbPath = strResourcePath + L"node_v8_4_8.dll";
+		if (!::PathFileExists(mbPath))
+		{
+			::MessageBoxW(NULL, L"请把node.dll放exe目录下", L"错误", MB_OK);
+			return;
+		}
+		wkeSetWkeDllPath(mbPath);
+
+		wkeInitialize();
+
+		//绑定全局函数
+		jsBindFunction("jsToNative", JsToNative, 2);
+
+		wkeJsBindFunction("eMsg", &onMsg, nullptr, 5);
+		wkeJsBindFunction("eShellExec", &onShellExec, nullptr, 3);
 	}
-	wkeSetWkeDllPath(mbPath);
-
-	wkeInitialize();
-
-	//绑定全局函数
-	jsBindFunction("jsToNative", JsToNative, 2);
-
-	wkeJsBindFunction("eMsg", &onMsg, nullptr, 5);
-	wkeJsBindFunction("eShellExec", &onShellExec, nullptr, 3);
 }
 
 void CWkeWebkitUI::UninitializeWebkit()
@@ -407,6 +406,8 @@ void CWkeWebkitUI::updateCursor()
 
 void CWkeWebkitUI::DoEvent(TEventUI& event)
 {
+	if (!this->IsEnabled() || !this->IsVisible()) return;
+
 	RECT rc = GetPos();
 	POINT pt = { event.ptMouse.x - rc.left, event.ptMouse.y - rc.top };
 	static WkeCursorInfoType cursorInfo = WkeCursorInfoType::WkeCursorInfoPointer;
@@ -495,25 +496,61 @@ wkeWebView CWkeWebkitUI::GetWebView()
 
 void CWkeWebkitUI::Navigate(LPCTSTR lpUrl)
 {
-#ifdef _UNICODE
-	wkeLoadW(m_pWebView, lpUrl);
+	
+	common::Url uri(NStr::WStrToStr(lpUrl).c_str());
+	string strscheme= uri.GetScheme();
+	if (_tcslen(lpUrl) >= 8 && strscheme =="http" || strscheme == "https" || StrCmp(lpUrl, L"about:blank") == 0
+		)
+	{
+#ifdef UNICODE
+		::wkeLoadURLW(m_pWebView, lpUrl);
 #else
-	wkeLoad(m_pWebView, lpUrl);
-#endif	
+		::wkeLoadURL(m_pWebView, lpUrl);
+#endif
+	}
+	else
+	{
+#ifdef UNICODE
+		::wkeLoadFileW(m_pWebView, lpUrl);
+#else
+		::wkeLoadFile(m_pWebView, lpUrl);
+#endif
+	}
 }
 
 void CWkeWebkitUI::LoadHtml(LPCTSTR lpHtml)
 {
+
 #ifdef _UNICODE
 	wkeLoadHTMLW(m_pWebView, lpHtml);
 #else
 	wkeLoadHTML(m_pWebView, lpHtml);
 #endif	
+
+
+
 }
 
 void CWkeWebkitUI::Close()
 {
-	wkeDestroyWebView(m_pWebView);
+	m_released = true;
+	map<wkeWebView, CWkeWebkitUI*>::iterator iter = m_mapWke2UI.find(m_pWebView);
+	if (iter != m_mapWke2UI.end())
+	{
+		m_mapWke2UI.erase(iter);
+		if (m_pWebView != NULL) 
+		{
+			wkeDestroyWebView(m_pWebView);
+			m_pWebView = NULL;
+		}
+		GetManager()->RemoveMessageFilter(this);
+	}
+	
+
+	GetManager()->RemoveMessageFilter(this);
+
+
+
 }
 
 void CWkeWebkitUI::Back()
@@ -572,7 +609,7 @@ void CWkeWebkitUI::SetWkeCallback(IWkeCallback* pWkeCallback)
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkePaintUpdate(wkeWebView webView, void* param, const HDC hdc, int x, int y, int cx, int cy)
 {
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if (!pWkeUI)	return;
+	if (!pWkeUI || pWkeUI->m_released)	return;
 	pWkeUI->Invalidate();
 
 }
@@ -581,9 +618,16 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkePaintUpdate(wkeWebView webView, void* para
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeTitleChanged(wkeWebView webView, void* param, wkeString title)
 {
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if (!pWkeUI)	return;
-	if (pWkeUI->m_pWkeCallback) {
+	if (!pWkeUI  || pWkeUI->m_released)	return;
+	if (pWkeUI->m_pWkeCallback) 
+	{
+#ifdef UNICODE
+		return pWkeUI->m_pWkeCallback->OnWkeTitleChanged(pWkeUI, wkeGetStringW(title));
+#else
 		return pWkeUI->m_pWkeCallback->OnWkeTitleChanged(pWkeUI, wkeGetStringT(title));
+#endif // UNICODE	
+
+	
 	}
 }
 
@@ -593,7 +637,7 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeURLChanged(wkeWebView webView, void* param
 	if (::wkeIsMainFrame(webView, temInfo->frame))
 	{
 		CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-		if (!pWkeUI)	return;
+		if (!pWkeUI || pWkeUI->m_released)	return;
 		if (pWkeUI->m_pWkeCallback)
 		{
 			return pWkeUI->m_pWkeCallback->OnWkeURLChanged(pWkeUI, wkeGetStringT(url));
@@ -606,7 +650,7 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeURLChanged(wkeWebView webView, void* param
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeAlertBox(wkeWebView webView, void* param, wkeString msg)
 {
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if (!pWkeUI)	return;
+	if (!pWkeUI || pWkeUI->m_released)	return;
 
 	if (pWkeUI->m_pWkeCallback) {
 		return pWkeUI->m_pWkeCallback->OnWkeAlertBox(pWkeUI, wkeGetStringT(msg));
@@ -616,7 +660,7 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeAlertBox(wkeWebView webView, void* param, 
 bool WKE_CALL_TYPE CWkeWebkitUI::OnWkeNavigation(wkeWebView webView, void* param, wkeNavigationType navigationType, wkeString url)
 {
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if (!pWkeUI)	return true;
+	if (!pWkeUI || pWkeUI->m_released)	return false;
 
 	LPCTSTR pStrUrl = wkeGetStringT(url);
 	if (!_tcsstr(pStrUrl, _T("error.html"))) {
@@ -633,7 +677,7 @@ bool WKE_CALL_TYPE CWkeWebkitUI::OnWkeNavigation(wkeWebView webView, void* param
 wkeWebView WKE_CALL_TYPE CWkeWebkitUI::OnWkeCreateView(wkeWebView webView, void* param, wkeNavigationType navigationType, const wkeString url, const wkeWindowFeatures* windowFeatures)
 {
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if (!pWkeUI)	return NULL;
+	if (!pWkeUI || pWkeUI->m_released)	return NULL;
 
 	if (pWkeUI->m_pWkeCallback)
 	{
@@ -646,8 +690,7 @@ wkeWebView WKE_CALL_TYPE CWkeWebkitUI::OnWkeCreateView(wkeWebView webView, void*
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeDocumentReady(wkeWebView webView, void* param)
 {
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if (!pWkeUI)	return;
-
+	if (!pWkeUI || pWkeUI->m_released)	return;
 	if (pWkeUI->m_pWkeCallback) {
 		return pWkeUI->m_pWkeCallback->OnWkeDocumentReady(pWkeUI);
 	}
@@ -716,7 +759,7 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeLoadingFinish(wkeWebView webView, void* pa
 {
 
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if (!pWkeUI)	return;
+	if (!pWkeUI || pWkeUI->m_released)	return;
 
 	//页面加载失败
 	if (result == WKE_LOADING_FAILED)
@@ -740,7 +783,7 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeLoadingFinish(wkeWebView webView, void* pa
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeNetGetFavicon(wkeWebView webView, void * param, const utf8 * url, wkeMemBuf * buf)
 {
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if (!pWkeUI)	return;
+	if (!pWkeUI || pWkeUI->m_released)	return;
 
 	if (pWkeUI->m_pWkeCallback && buf!=nullptr &&url!=nullptr)
 	{
@@ -754,9 +797,8 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeNetGetFavicon(wkeWebView webView, void * p
 
 bool WKE_CALL_TYPE CWkeWebkitUI::OnWkeDownload(wkeWebView webView, void * param, const char * url)
 {
-	
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if (!pWkeUI)	return false;
+	if (!pWkeUI || pWkeUI->m_released)	return false;
 
 	if (pWkeUI->m_pWkeCallback) {
 		return pWkeUI->m_pWkeCallback->OnWkeDownload(pWkeUI, url);

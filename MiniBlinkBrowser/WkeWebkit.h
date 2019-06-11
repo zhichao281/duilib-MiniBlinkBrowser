@@ -7,7 +7,107 @@ using namespace std;
 
 
 
-
+enum JS_RESULT_TYPE {
+	JS_UNDEFINED,
+	JS_INT,
+	JS_DOUBLE,
+	JS_CHAR,
+	JS_WCHAR,
+	JS_BOOL
+};
+struct JS_ARG {
+	const char* js;
+	void* result;
+	JS_RESULT_TYPE type;
+	void* param;
+	wkeWebFrameHandle frameId;
+	wkeWebView webView;
+};
+enum MB_ACTION_SENDER {
+	MOUSE,
+	MENU,
+	WHEEL,
+	KEY
+};
+struct MB_ACTION_MOUSE_DATA {
+	unsigned message;
+	int x;
+	int y;
+	unsigned flags;
+};
+struct MB_ACTION_MENU_DATA {
+	int x;
+	int y;
+	unsigned flags;
+};
+struct MB_ACTION_WHEEL_DATA {
+	int delta;
+	int x;
+	int y;
+	unsigned flags;
+};
+enum MB_ACTION_KEY_EVENT {
+	UP,
+	DOWN,
+	PRESS
+};
+struct MB_ACTION_KEY_DATA {
+	MB_ACTION_KEY_EVENT event;
+	unsigned code;
+	unsigned flags;
+	bool systemKey;
+};
+struct MB_ACTION_ITEM {
+	MB_ACTION_SENDER sender;
+	void *data = NULL;
+	bool async = false;
+	~MB_ACTION_ITEM() {
+		if (data != NULL) {
+			if (sender == MB_ACTION_SENDER::KEY) {
+				MB_ACTION_KEY_DATA *d = (MB_ACTION_KEY_DATA *)data;
+				delete d;
+				d = NULL;
+				data = NULL;
+			}
+			else if (sender == MB_ACTION_SENDER::MENU)
+			{
+				MB_ACTION_MENU_DATA *d = (MB_ACTION_MENU_DATA *)data;
+				delete d;
+				d = NULL;
+				data = NULL;
+			}
+			else if (sender == MB_ACTION_SENDER::MOUSE)
+			{
+				MB_ACTION_MOUSE_DATA *d = (MB_ACTION_MOUSE_DATA *)data;
+				delete d;
+				d = NULL;
+				data = NULL;
+			}
+			else if (sender == MB_ACTION_SENDER::WHEEL)
+			{
+				MB_ACTION_WHEEL_DATA *d = (MB_ACTION_WHEEL_DATA *)data;
+				delete d;
+				d = NULL;
+				data = NULL;
+			}
+		}
+	}
+};
+struct MB_ACTION {
+	MB_ACTION_ITEM *action = NULL;
+	MB_ACTION *next = NULL;
+	int sleep = 0;
+	~MB_ACTION() {
+		if (action != NULL) {
+			delete action;
+			action = NULL;
+		}
+		if (next != NULL) {
+			delete next;
+			next = NULL;
+		}
+	}
+};
 
 
 
@@ -198,9 +298,9 @@ private:
 
 
 private:
-	REND_DATA m_RendData;
+	//REND_DATA m_RendData;
 
-	wkeWebView	 m_pWebView;
+	wkeWebView	 m_pWebView = NULL;;
 
 	TCHAR m_chHomeUrl[1024]; //主页的url
 
@@ -216,4 +316,5 @@ private:
 	static map<wkeWebView, CWkeWebkitUI*> m_mapWke2UI; //建立Wke核心到WebkitUI的映射关系
 
 	int  m_cursor;
+	bool m_released = false;
 };
