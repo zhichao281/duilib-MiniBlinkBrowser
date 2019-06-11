@@ -104,7 +104,7 @@ void CWkeWebkitUI::DoInit()
 
 	// 设置UA
 	wkeSetUserAgent(m_pWebView, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.2228.0 Safari/537.36");
-	//GetManager()->AddMessageFilter(this);
+	GetManager()->AddMessageFilter(this);
 }
 
 void CWkeWebkitUI::SetPos(RECT rc, bool bNeedUpdate/* = true*/)
@@ -118,118 +118,28 @@ void CWkeWebkitUI::SetPos(RECT rc, bool bNeedUpdate/* = true*/)
 
 void CWkeWebkitUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 {
-	int* pInt = new int[10];
-	CControlUI::SetAttribute(pstrName, pstrValue);
 	if (_tcscmp(pstrName, _T("homepage")) == 0)
 	{
 		SetHomePage(pstrValue);
 	}
+	if (_tcscmp(pstrName, L"url") == 0) {
+		this->Navigate(pstrValue);
+		return;
+	}
+	CControlUI::SetAttribute(pstrName, pstrValue);
 }
 
 LRESULT CWkeWebkitUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool & bHandled)
 {
 
-	//if (uMsg == GetRunJsMessageId()) 
-	//{
-	//	bHandled = true;
-	//	JS_ARG *arg = (JS_ARG *)wParam;
-	//	if (arg->webView == NULL || arg->webView == (wkeWebView)0xcccccccc) return S_OK;
-	//	jsValue value;
-	//	jsExecState es;
-
-	//	if (arg->frameId == NULL || arg->frameId == (wkeWebFrameHandle)0xcccccccc) {
-	//		value = ::wkeRunJS(arg->webView, arg->js);
-	//		es = ::wkeGlobalExec(arg->webView);
-	//	}
-	//	else
-	//	{
-	//		value = ::wkeRunJsByFrame(arg->webView, arg->frameId, arg->js, true);
-	//		es = ::wkeGetGlobalExecByFrame(arg->webView, arg->frameId);
-	//	}
-	//	switch (arg->type)
-	//	{
-	//	case JS_RESULT_TYPE::JS_INT: {
-	//		int* ret = (int*)arg->result;
-	//		*ret = jsToInt(es, value);
-	//		break;
-	//	}
-	//	case JS_RESULT_TYPE::JS_BOOL: {
-	//		bool* ret = (bool*)arg->result;
-	//		*ret = jsToBoolean(es, value);
-	//		break;
-	//	}
-	//	case JS_RESULT_TYPE::JS_CHAR:
-	//	{
-	//		char* ret = (char*)arg->result;
-	//		int* maxLength = (int*)arg->param;
-	//		strcpy_s(ret, *maxLength, jsToString(es, value));
-	//		break;
-	//	}
-	//	case JS_RESULT_TYPE::JS_WCHAR:
-	//	{
-	//		WCHAR* ret = (WCHAR*)arg->result;
-	//		StrCpyW(ret, jsToStringW(es, value));
-	//		//strcpy_s(ret, (rsize_t)arg->param, jsToStringW(es, value));
-	//		break;
-	//	}
-	//	case JS_RESULT_TYPE::JS_DOUBLE: {
-	//		double* ret = (double*)arg->result;
-	//		*ret = jsToDouble(es, value);
-	//		break;
-	//	}
-	//	default:
-	//		break;
-	//	}
-	//	return S_OK;
-	//}
-	//else if (uMsg == GetActionMessageId()) {
-	//	bHandled = true;
-	//	wkeWebView web = (wkeWebView)wParam;
-	//	MB_ACTION_ITEM *action = (MB_ACTION_ITEM *)lParam;
-	//	switch (action->sender)
-	//	{
-	//	case MB_ACTION_SENDER::KEY:
-	//	{
-	//		MB_ACTION_KEY_DATA *data = (MB_ACTION_KEY_DATA *)action->data;
-	//		if (data->event == MB_ACTION_KEY_EVENT::DOWN) {
-	//			::wkeFireKeyDownEvent(web, data->code, data->flags, data->flags);
-	//		}
-	//		else if (data->event == MB_ACTION_KEY_EVENT::PRESS) {
-	//			::wkeFireKeyPressEvent(web, data->code, data->flags, data->flags);
-	//		}
-	//		else if (data->event == MB_ACTION_KEY_EVENT::UP) {
-	//			::wkeFireKeyUpEvent(web, data->code, data->flags, data->flags);
-	//		}
-	//		break;
-	//	}
-	//	case MB_ACTION_SENDER::MENU: {
-	//		MB_ACTION_MENU_DATA *data = (MB_ACTION_MENU_DATA *)action->data;
-	//		::wkeFireContextMenuEvent(web, data->x, data->y, data->flags);
-	//		break;
-	//	}
-	//	case MB_ACTION_SENDER::MOUSE: {
-	//		MB_ACTION_MOUSE_DATA *data = (MB_ACTION_MOUSE_DATA *)action->data;
-	//		::wkeFireMouseEvent(web, data->message, data->x, data->y, data->flags);
-	//		break;
-	//	}
-	//	case MB_ACTION_SENDER::WHEEL: {
-	//		MB_ACTION_WHEEL_DATA *data = (MB_ACTION_WHEEL_DATA *)action->data;
-	//		::wkeFireMouseWheelEvent(web, data->x, data->y, data->delta, data->flags);
-	//		break;
-	//	}
-	//	default:
-	//		break;
-	//	}
-	//	return S_OK;
-	//}
 	if (GetManager() == nullptr)
-		return S_OK;
+		return S_FALSE;
 
 
 	CControlUI *current = GetManager()->FindControl(GetManager()->GetMousePos());
 	if ( current != this)
 	{
-		return S_OK;
+		return S_FALSE;
 	}
 	//修改鼠标指向时候的样式
 	if (uMsg == WM_SETCURSOR)
@@ -499,7 +409,7 @@ void CWkeWebkitUI::Navigate(LPCTSTR lpUrl)
 	
 	common::Url uri(NStr::WStrToStr(lpUrl).c_str());
 	string strscheme= uri.GetScheme();
-	if (_tcslen(lpUrl) >= 8 && strscheme =="http" || strscheme == "https" || StrCmp(lpUrl, L"about:blank") == 0
+	if (_tcslen(lpUrl) >= 8 && (strscheme =="http" || strscheme == "https" || StrCmp(lpUrl, L"about:blank")) == 0
 		)
 	{
 #ifdef UNICODE

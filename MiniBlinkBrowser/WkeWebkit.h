@@ -198,7 +198,7 @@ protected:
 
 	virtual void SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue);
 
-	LRESULT MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
+	virtual LRESULT MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
 
 public:
 

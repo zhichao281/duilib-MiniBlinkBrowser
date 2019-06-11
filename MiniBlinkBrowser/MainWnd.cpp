@@ -201,7 +201,7 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 					delete pInfo;
 					pInfo = NULL;
 					m_vTabs.erase(it);
-				//	m_pBrowserTabBar->Remove(pTab);
+					m_pBrowserTabBar->Remove(pTab);
 
 				}
 				else {
