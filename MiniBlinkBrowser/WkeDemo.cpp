@@ -100,19 +100,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	// 初始化UI管理器
 	CPaintManagerUI::SetInstance(hInstance);
 
-
 	CWkeWebkitUI::InitializeWebkit();
 
 	// 初始化资源
 	InitResource();
 
-	// 加载控件
-#ifndef _DEBUG
-	CPaintManagerUI::LoadPlugin(_T("TroyControls.dll"));
-#else
-	CPaintManagerUI::LoadPlugin(_T("TroyControls_d.dll"));
-#endif
-
+//	// 加载控件
+//#ifndef _DEBUG
+//	CPaintManagerUI::LoadPlugin(_T("TroyControls.dll"));
+//#else
+//	CPaintManagerUI::LoadPlugin(_T("TroyControls_d.dll"));
+//#endif
+//
 
 
 

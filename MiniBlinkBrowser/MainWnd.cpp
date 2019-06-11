@@ -201,7 +201,7 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 					delete pInfo;
 					pInfo = NULL;
 					m_vTabs.erase(it);
-					m_pBrowserTabBar->Remove(pTab);
+				//	m_pBrowserTabBar->Remove(pTab);
 
 				}
 				else {
@@ -331,10 +331,13 @@ void CMainWnd::OnTabClosed( TNotifyUI &msg )
 	if(sName.CompareNoCase(_T("browsertab")) == 0) {
 		CControlUI* pTab = (CControlUI*)msg.pSender;
 		vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
-		if(it != m_vTabs.end()) {
+		if(it != m_vTabs.end()) 
+		{
 			TabInfo* pInfo = *it;
 			if(pInfo != NULL) {
-				if(m_vTabs.size() > 1) {
+				if(m_vTabs.size() > 1)
+				{
+
 					m_pBrowserTabBody->Remove(pInfo->pWebBrowser);
 					delete pInfo;
 					pInfo = NULL;
@@ -342,7 +345,8 @@ void CMainWnd::OnTabClosed( TNotifyUI &msg )
 					m_pBrowserTabBar->Remove(pTab);
 			
 				}
-				else {
+				else
+				{
 					lstrcpy(pInfo->szUrl, sHomePage);
 					lstrcpy(pInfo->szTitle, sHomePage);
 					pInfo->pWebBrowser->Navigate(sHomePage);
@@ -435,31 +439,11 @@ int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 {
 
 	m_pBrowserTabBar = static_cast<CHorizontalLayoutUI*>(m_pm.FindControl(_T("IContainer")));
-
-	//±êÇ©HorLayout  ==  OptionUI + ¹Ø±Õ°´Å¥
-	//CControlUI* pTab = new CControlUI;
-	//CDialogBuilder builder1;
-	//CControlUI* pTab = (CControlUI*)builder1.Create(_T("browseritem.xml"), NULL, this, &m_pm, NULL);
-
-
 	CBrowserTabUI* pTab = new CBrowserTabUI;
-	//pTab->AddNode();
-	//pTab->SetAttribute(L"name", L"browsertab");
-
-
-	//UINT nNewItemBtn = m_pm.FindControl(_T("newtab"))->GetTag();
 	m_pBrowserTabBar->AddAt(pTab, nIndex);
-	
 
 
 	TabInfo* pInfo = new TabInfo();
-	pInfo->nID = m_nTabID++;
-	
-	//CBrowserTab* pTab = new CBrowserTab();
-	//pTab->SetName(_T("browsertab"));
-	//m_pBrowserTabBar->AddAt(pTab, nIndex);
-	//pTab->SetAttribute(_T("style"), _T("tabbtn_style"));
-
 	CWkeWebkitUI* pWeb = new CWkeWebkitUI();
 	m_pBrowserTabBody->AddAt(pWeb, nIndex);
 	pWeb->SetHomePage(_T("about:blank"));
@@ -478,9 +462,12 @@ int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 		pTab->SetText(pstrUrl);
 		pWeb->Navigate(pstrUrl);
 	}
+
+
+	
+	pInfo->nID = m_nTabID++;
 	pInfo->pTab = pTab;
 	pInfo->pWebBrowser = pWeb;
-
 	m_vTabs.push_back(pInfo);
 
 	return nIndex;

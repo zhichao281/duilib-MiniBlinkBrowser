@@ -540,16 +540,11 @@ void CWkeWebkitUI::Close()
 		m_mapWke2UI.erase(iter);
 		if (m_pWebView != NULL) 
 		{
-			wkeDestroyWebView(m_pWebView);
+		//	wkeDestroyWebView(m_pWebView);
 			m_pWebView = NULL;
 		}
 		GetManager()->RemoveMessageFilter(this);
 	}
-	
-
-	GetManager()->RemoveMessageFilter(this);
-
-
 
 }
 

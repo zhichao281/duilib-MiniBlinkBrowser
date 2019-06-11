@@ -16,6 +16,22 @@ typedef struct _tagTabInfo
 	CBrowserTabUI* pTab;
 
 	CWkeWebkitUI* pWebBrowser;
+	~_tagTabInfo()
+	{
+		if (pWebBrowser != NULL)
+		{
+			pWebBrowser->Close();
+			pWebBrowser = NULL;
+	
+		}
+		if (pTab != NULL) {
+			delete pTab;
+			pTab = NULL;
+		}
+	}
+
+
+
 }TabInfo;
 
 
@@ -112,6 +128,8 @@ private:
 	CDownloadWnd  *m_pDownloadWnd;
 
 	XLDownloader    *m_pDownloader;
+
+
 	CHorizontalLayoutUI* m_pBrowserTabBar;
 
 
