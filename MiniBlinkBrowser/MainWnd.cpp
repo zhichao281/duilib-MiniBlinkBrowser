@@ -21,40 +21,40 @@
 //////////////////////////////////////////////////////////////////////////
 ///
 
-class tab_finder  
-{  
-public:  
-    tab_finder(CControlUI* pTab) :m_pTab(pTab){}
-    bool operator ()( vector<struct _tagTabInfo*>::value_type &value)  
-    {  
-        return (m_pTab == value->pTab);  
-    }
-private:  
+class tab_finder
+{
+public:
+	tab_finder(CControlUI* pTab) :m_pTab(pTab) {}
+	bool operator ()(vector<struct _tagTabInfo*>::value_type &value)
+	{
+		return (m_pTab == value->pTab);
+	}
+private:
 	CControlUI* m_pTab;
 };
 
-class web_finder  
-{  
-public:  
-    web_finder(CWkeWebkitUI* pWeb) :m_pWebBrowser(pWeb){}  
-    bool operator ()( vector<struct _tagTabInfo*>::value_type &value)  
-    {  
-		return (m_pWebBrowser == value->pWebBrowser);  
-    }
-private:  
-    CWkeWebkitUI* m_pWebBrowser;
-};  
+class web_finder
+{
+public:
+	web_finder(CWkeWebkitUI* pWeb) :m_pWebBrowser(pWeb) {}
+	bool operator ()(vector<struct _tagTabInfo*>::value_type &value)
+	{
+		return (m_pWebBrowser == value->pWebBrowser);
+	}
+private:
+	CWkeWebkitUI* m_pWebBrowser;
+};
 
 CDuiString sHomePage = _T("http://www.baidu.com");
 //////////////////////////////////////////////////////////////////////////
 ///
 
 DUI_BEGIN_MESSAGE_MAP(CMainWnd, WindowImplBase)
-	DUI_ON_MSGTYPE(DUI_MSGTYPE_CLICK,OnClick)
-	DUI_ON_MSGTYPE(DUI_MSGTYPE_RETURN,OnReturn)
-	DUI_ON_MSGTYPE(DUI_MSGTYPE_SELECTCHANGED,OnSelectChanged)
-	DUI_ON_MSGTYPE(DUI_MSGTYPE_TABINDEXCHANGED,OnTabIndexChanged)
-	DUI_ON_MSGTYPE(DUI_MSGTYPE_TABCLOSED,OnTabClosed)
+DUI_ON_MSGTYPE(DUI_MSGTYPE_CLICK, OnClick)
+DUI_ON_MSGTYPE(DUI_MSGTYPE_RETURN, OnReturn)
+DUI_ON_MSGTYPE(DUI_MSGTYPE_SELECTCHANGED, OnSelectChanged)
+DUI_ON_MSGTYPE(DUI_MSGTYPE_TABINDEXCHANGED, OnTabIndexChanged)
+DUI_ON_MSGTYPE(DUI_MSGTYPE_TABCLOSED, OnTabClosed)
 DUI_END_MESSAGE_MAP()
 
 
@@ -71,12 +71,12 @@ CMainWnd::CMainWnd(void)
 	{
 		if (stTaskInfo.stat == DOWN_TASK_STATUS::TSC_STARTPENDING)
 		{
-			m_pDownloadWnd->AddDownloadItem(hTask,stTaskInfo);
+			m_pDownloadWnd->AddDownloadItem(hTask, stTaskInfo);
 
 		}
 		else
 		{
-			m_pDownloadWnd->UpdateDownloadItem(hTask,stTaskInfo);
+			m_pDownloadWnd->UpdateDownloadItem(hTask, stTaskInfo);
 		}
 	}, this);
 
@@ -86,14 +86,14 @@ CMainWnd::CMainWnd(void)
 	gblDownloadMgrGet->StartAria2c();
 
 	m_nTabID = 0;
-		
+
 }
 
 CMainWnd::~CMainWnd(void)
 {
 }
 
-void CMainWnd::OnFinalMessage( HWND hWnd)
+void CMainWnd::OnFinalMessage(HWND hWnd)
 {
 	__super::OnFinalMessage(hWnd);
 	delete this;
@@ -128,13 +128,13 @@ void CMainWnd::InitWindow()
 			pWeb->Navigate(sUrl);
 			pWeb->SetWkeCallback(this);
 		}
-	
+
 	}
 	m_pDownloadWnd = new CDownloadWnd;
 	m_pDownloadWnd->Create(nullptr, _T("downwnd"), WS_POPUP | WS_VISIBLE, WS_EX_TOOLWINDOW);
 	m_pDownloadWnd->CenterWindow();
 	::PostMessageW(m_pDownloadWnd->GetHWND(), WM_SYSCOMMAND, SC_MINIMIZE, 0);
-	
+
 }
 
 
@@ -143,7 +143,7 @@ DuiLib::CDuiString CMainWnd::GetSkinFile()
 	return _T("XML_MAIN");
 }
 
-LPCTSTR CMainWnd::GetWindowClassName( void ) const
+LPCTSTR CMainWnd::GetWindowClassName(void) const
 {
 	return _T("MainWnd");
 }
@@ -161,29 +161,32 @@ CControlUI* CMainWnd::CreateControl(LPCTSTR pstrClass)
 
 }
 
-void CMainWnd::OnClick( TNotifyUI &msg )
+void CMainWnd::OnClick(TNotifyUI &msg)
 {
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
 
-	if( msg.pSender == m_pCloseBtn )
+	if (msg.pSender == m_pCloseBtn)
 	{
-		int  ret= CMsgWnd::MessageBox(m_hWnd, _T("提示信息"), _T("你确定要退出吗?"));
-	if(ret== MSGID_OK)
+		int  ret = CMsgWnd::MessageBox(m_hWnd, _T("提示信息"), _T("你确定要退出吗?"));
+		if (ret == MSGID_OK)
 		{
 			PostQuitMessage(0);
 		}
-		return; 
+		return;
 	}
-	else if( msg.pSender == m_pMinBtn ) { 
-		SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0); return; }
-	else if( msg.pSender == m_pMaxBtn ) { 
-		SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0); return; }
-	else if( msg.pSender == m_pRestoreBtn ) { 
-		SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); return; }
-	else if( msg.pSender == m_pMenuBtn ) {
+	else if (msg.pSender == m_pMinBtn) {
+		SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0); return;
 	}
-	else if(sName.CompareNoCase(_T("newtab")) == 0)
+	else if (msg.pSender == m_pMaxBtn) {
+		SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0); return;
+	}
+	else if (msg.pSender == m_pRestoreBtn) {
+		SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); return;
+	}
+	else if (msg.pSender == m_pMenuBtn) {
+	}
+	else if (sName.CompareNoCase(_T("newtab")) == 0)
 	{
 		CreateNewTabAndGo(NULL);
 	}
@@ -197,11 +200,11 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 			if (pInfo != NULL) {
 				if (m_vTabs.size() > 1)
 				{
-					m_pBrowserTabBody->Remove(pInfo->pWebBrowser);
-					delete pInfo;
-					pInfo = NULL;
+					m_pBrowserTabBody->Remove(pInfo->pWebBrowser);			
 					m_vTabs.erase(it);
 					m_pBrowserTabBar->Remove(pTab);
+					//delete pInfo;
+					//pInfo = NULL;
 
 				}
 				else {
@@ -216,33 +219,33 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 
 
 
-	else if(sName.CompareNoCase(_T("address_go")) == 0)
+	else if (sName.CompareNoCase(_T("address_go")) == 0)
 	{
 		AddressGo();
 	}
-	else if(sName.CompareNoCase(_T("search_go")) == 0) {
+	else if (sName.CompareNoCase(_T("search_go")) == 0) {
 		SearchGo();
 	}
-	else if(sName.CompareNoCase(_T("back_btn")) == 0) {
+	else if (sName.CompareNoCase(_T("back_btn")) == 0) {
 		Back();
 	}
-	else if(sName.CompareNoCase(_T("forward_btn")) == 0) {
+	else if (sName.CompareNoCase(_T("forward_btn")) == 0) {
 		Forward();
 	}
-	else if(sName.CompareNoCase(_T("refresh_btn")) == 0) {
+	else if (sName.CompareNoCase(_T("refresh_btn")) == 0) {
 		Refresh();
 	}
-	else if(sName.CompareNoCase(_T("home_go")) == 0) {
+	else if (sName.CompareNoCase(_T("home_go")) == 0) {
 		Home();
 	}
-	else if (sName.CompareNoCase(_T("app_btn")) == 0) 
+	else if (sName.CompareNoCase(_T("app_btn")) == 0)
 	{
 		// 演示使用hook的方式加载资源
 		CDuiString sUrl = L"http://hook.test/resources/view/index.html";
 		CWkeWebkitUI* pWeb = GetCurWeb();
-		pWeb->Navigate(sUrl);	
+		pWeb->Navigate(sUrl);
 	}
-	else if (sName.CompareNoCase(_T("skinbtn")) == 0) 
+	else if (sName.CompareNoCase(_T("skinbtn")) == 0)
 	{
 		m_pModeMainTab->SelectItem(1);
 		CWkeWebkitUI *pWeb = static_cast<CWkeWebkitUI*>(m_pm.FindControl(_T("wkeTest")));
@@ -250,39 +253,39 @@ void CMainWnd::OnClick( TNotifyUI &msg )
 		pWeb->Navigate(sUrl);
 		pWeb->SetWkeCallback(this);
 	}
-	else if(sName.CompareNoCase(_T("qq_btn")) == 0)
+	else if (sName.CompareNoCase(_T("qq_btn")) == 0)
 	{
 		ShellExecute(NULL, _T("open"), _T("tencent://Message/?Uin=125388771&Menu=yes"), NULL, NULL, SW_SHOW);
 	}
 
 	else if (sName.CompareNoCase(_T("download_btn")) == 0)
 	{
-		SetWindowPos(m_pDownloadWnd->GetHWND(), HWND_TOP,0, 0, 0, 0, SWP_NOMOVE |SWP_NOSIZE);
+		SetWindowPos(m_pDownloadWnd->GetHWND(), HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 		m_pDownloadWnd->ShowWindow();
-	
+
 	}
 	else if (sName.CompareNoCase(_T("js_btn")) == 0)
 	{
 		CWkeWebkitUI* pWeb = GetCurWeb();
 		pWeb->ExecuteJS(_T("JsFunSub(\"1\",\"2\");"));
-	}	
-	
+	}
+
 }
 
-void CMainWnd::OnSelectChanged( TNotifyUI &msg )
+void CMainWnd::OnSelectChanged(TNotifyUI &msg)
 {
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
-	if(sName.CompareNoCase(_T("browseroption")) == 0) 
+	if (sName.CompareNoCase(_T("browseroption")) == 0)
 	{
 		CControlUI* pTab = (CControlUI*)msg.pSender->GetParent();
 		int nIndex = m_pBrowserTabBar->GetItemIndex(msg.pSender->GetParent());
 		m_pBrowserTabBody->SelectItem(nIndex);
-		vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
-		if(it != m_vTabs.end()) {
+		vector<TabInfo*>::iterator it = find_if(m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
+		if (it != m_vTabs.end()) {
 			TabInfo* pInfo = *it;
-			if(pInfo != NULL) {
+			if (pInfo != NULL) {
 				m_pAddressEdit->SetText(pInfo->szUrl);
 				pInfo->pWebBrowser->SetFocus();
 			}
@@ -290,7 +293,7 @@ void CMainWnd::OnSelectChanged( TNotifyUI &msg )
 	}
 }
 
-void CMainWnd::OnTabIndexChanged( TNotifyUI &msg )
+void CMainWnd::OnTabIndexChanged(TNotifyUI &msg)
 {
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
@@ -324,29 +327,25 @@ void CMainWnd::OnTabIndexChanged( TNotifyUI &msg )
 	////}
 }
 
-void CMainWnd::OnTabClosed( TNotifyUI &msg )
+void CMainWnd::OnTabClosed(TNotifyUI &msg)
 {
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
-	if(sName.CompareNoCase(_T("browsertab")) == 0) {
+	if (sName.CompareNoCase(_T("browsertab")) == 0) {
 		CControlUI* pTab = (CControlUI*)msg.pSender;
-		vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
-		if(it != m_vTabs.end()) 
-		{
+		vector<TabInfo*>::iterator it = find_if(m_vTabs.begin(), m_vTabs.end(), tab_finder(pTab));
+		if (it != m_vTabs.end()) {
 			TabInfo* pInfo = *it;
-			if(pInfo != NULL) {
-				if(m_vTabs.size() > 1)
-				{
-
+			if (pInfo != NULL) {
+				if (m_vTabs.size() > 1) {
 					m_pBrowserTabBody->Remove(pInfo->pWebBrowser);
 					delete pInfo;
 					pInfo = NULL;
 					m_vTabs.erase(it);
 					m_pBrowserTabBar->Remove(pTab);
-			
+
 				}
-				else
-				{
+				else {
 					lstrcpy(pInfo->szUrl, sHomePage);
 					lstrcpy(pInfo->szTitle, sHomePage);
 					pInfo->pWebBrowser->Navigate(sHomePage);
@@ -356,51 +355,71 @@ void CMainWnd::OnTabClosed( TNotifyUI &msg )
 	}
 }
 
-void CMainWnd::OnReturn( TNotifyUI &msg )
+void CMainWnd::OnReturn(TNotifyUI &msg)
 {
 	CDuiString sName = msg.pSender->GetName();
 	sName.MakeLower();
 
-	if(sName.CompareNoCase(_T("address_edit")) == 0) {
+	if (sName.CompareNoCase(_T("address_edit")) == 0) {
 		AddressGo();
 	}
-	else if(sName.CompareNoCase(_T("search_edit")) == 0) {
+	else if (sName.CompareNoCase(_T("search_edit")) == 0) {
 		SearchGo();
 	}
 }
 
 LRESULT CMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
- {
-	 // 关闭窗口，退出程序
-	 if(uMsg == WM_DESTROY)
-	 {
-		 CWkeWebkitUI::UninitializeWebkit();
-		 ::PostQuitMessage(0L);
+{
+	// 关闭窗口，退出程序
+	if (uMsg == WM_DESTROY)
+	{
+		CWkeWebkitUI::UninitializeWebkit();
+		::PostQuitMessage(0L);
 		bHandled = TRUE;
 		return 0;
-	 }
-	 else if(uMsg == WM_TIMER) {
-		 if(wParam == 1001) {
-			 ::KillTimer(m_hWnd, 1001);
-			 m_pAddressEdit->SetFocus();
-		 }
-	 }
-	 else if (uMsg == WM_LBUTTONDOWN)
-	 {
-	/*	 POINT point = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-		ReleaseCapture();
-		SendMessage(WM_SYSCOMMAND, SC_MOVE + HTCAPTION, 0);*/
+	}
+	else if (uMsg == WM_TIMER) {
+		if (wParam == 1001) {
+			::KillTimer(m_hWnd, 1001);
+			m_pAddressEdit->SetFocus();
+		}
+	}
+	else if (uMsg == WM_LBUTTONDOWN)
+	{
+		/*	 POINT point = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+			ReleaseCapture();
+			SendMessage(WM_SYSCOMMAND, SC_MOVE + HTCAPTION, 0);*/
 
-	 }	
+	}
+	//修改输入法的位置
+	if (uMsg == WM_IME_STARTCOMPOSITION)
+	{
+		HIMC hImc = ImmGetContext(m_hWnd);
+		CWkeWebkitUI* pWeb = (CWkeWebkitUI*)m_pBrowserTabBody->GetItemAt(m_pBrowserTabBody->GetCurSel());
+		if (pWeb)
+		{
+			wkeRect rect = wkeGetCaret(pWeb->GetWebView());
 
-	 bHandled = FALSE;
-	 return 0;
- }
+			COMPOSITIONFORM Composition = { 0 };
+			Composition.dwStyle = CFS_POINT | CFS_FORCE_POSITION;
+			Composition.ptCurrentPos.x = rect.x;
+			Composition.ptCurrentPos.y = rect.y + 120;
+			ImmSetCompositionWindow(hImc, &Composition);
+			ImmReleaseContext(m_hWnd, hImc);
+		}
 
-LRESULT CMainWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled )
+		bHandled = TRUE;
+		return 0;
+	}
+
+	bHandled = FALSE;
+	return 0;
+}
+
+LRESULT CMainWnd::OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
 	// 有时会在收到WM_NCDESTROY后收到wParam为SC_CLOSE的WM_SYSCOMMAND
-	if( wParam == SC_CLOSE ) {
+	if (wParam == SC_CLOSE) {
 		::PostQuitMessage(0L);
 		bHandled = TRUE;
 		return 0;
@@ -414,22 +433,20 @@ LRESULT CMainWnd::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 	}
 
 
-
-
 	BOOL bZoomed = ::IsZoomed(*this);
 	LRESULT lRes = CWindowWnd::HandleMessage(uMsg, wParam, lParam);
-	if( ::IsZoomed(*this) != bZoomed ) {
-		if( !bZoomed ) {
+	if (::IsZoomed(*this) != bZoomed) {
+		if (!bZoomed) {
 			CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
-			if( pControl ) pControl->SetVisible(false);
+			if (pControl) pControl->SetVisible(false);
 			pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
-			if( pControl ) pControl->SetVisible(true);
+			if (pControl) pControl->SetVisible(true);
 		}
 		else {
 			CControlUI* pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("maxbtn")));
-			if( pControl ) pControl->SetVisible(true);
+			if (pControl) pControl->SetVisible(true);
 			pControl = static_cast<CControlUI*>(m_pm.FindControl(_T("restorebtn")));
-			if( pControl ) pControl->SetVisible(false);
+			if (pControl) pControl->SetVisible(false);
 		}
 	}
 	return lRes;
@@ -439,19 +456,39 @@ int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 {
 
 	m_pBrowserTabBar = static_cast<CHorizontalLayoutUI*>(m_pm.FindControl(_T("IContainer")));
+
+	//标签HorLayout  ==  OptionUI + 关闭按钮
+	//CControlUI* pTab = new CControlUI;
+	//CDialogBuilder builder1;
+	//CControlUI* pTab = (CControlUI*)builder1.Create(_T("browseritem.xml"), NULL, this, &m_pm, NULL);
+
+
 	CBrowserTabUI* pTab = new CBrowserTabUI;
+	//pTab->AddNode();
+	//pTab->SetAttribute(L"name", L"browsertab");
+
+
+	//UINT nNewItemBtn = m_pm.FindControl(_T("newtab"))->GetTag();
 	m_pBrowserTabBar->AddAt(pTab, nIndex);
 
 
+
 	TabInfo* pInfo = new TabInfo();
+	pInfo->nID = m_nTabID++;
+
+	//CBrowserTab* pTab = new CBrowserTab();
+	//pTab->SetName(_T("browsertab"));
+	//m_pBrowserTabBar->AddAt(pTab, nIndex);
+	//pTab->SetAttribute(_T("style"), _T("tabbtn_style"));
+
 	CWkeWebkitUI* pWeb = new CWkeWebkitUI();
 	m_pBrowserTabBody->AddAt(pWeb, nIndex);
 	pWeb->SetHomePage(_T("about:blank"));
 	pWeb->SetWkeCallback(this);
 	pWeb->NavigateHomePage();
-	if(pstrUrl == NULL)
+	if (pstrUrl == NULL)
 	{
-	
+
 		lstrcpy(pInfo->szUrl, _T("about:blank"));
 		lstrcpy(pInfo->szTitle, _T("空白页"));
 		pTab->SetText(_T("空白页"));
@@ -462,12 +499,9 @@ int CMainWnd::CreateNewTab(int nIndex, LPCTSTR pstrUrl)
 		pTab->SetText(pstrUrl);
 		pWeb->Navigate(pstrUrl);
 	}
-
-
-	
-	pInfo->nID = m_nTabID++;
 	pInfo->pTab = pTab;
 	pInfo->pWebBrowser = pWeb;
+
 	m_vTabs.push_back(pInfo);
 
 	return nIndex;
@@ -478,7 +512,7 @@ int CMainWnd::CreateNewTabAndGo(LPCTSTR pstrUrl)
 	if (m_pBrowserTabBody)
 	{
 		int nIndex = CreateNewTab(m_pBrowserTabBody->GetCurSel() + 1, pstrUrl);
-		CControlUI *p1= m_pBrowserTabBar->GetItemAt(nIndex);
+		CControlUI *p1 = m_pBrowserTabBar->GetItemAt(nIndex);
 		p1->SetFocus();
 
 		if (pstrUrl == NULL) {
@@ -506,7 +540,7 @@ void CMainWnd::AddressGo()
 void CMainWnd::SearchGo()
 {
 	CDuiString sText = m_pSearchEdit->GetText();
-	if(!sText.IsEmpty()) {
+	if (!sText.IsEmpty()) {
 		CDuiString sUrl;
 		sUrl.Format(_T("https://www.baidu.com/s?ie=utf-8&wd=%s"), sText.GetData());
 		CreateNewTabAndGo(sUrl);
@@ -540,11 +574,11 @@ void CMainWnd::Refresh()
 
 void CMainWnd::OnWkeTitleChanged(CWkeWebkitUI* webView, LPCTSTR title)
 {
-	vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), web_finder(webView));
-	if(it != m_vTabs.end()) 
+	vector<TabInfo*>::iterator it = find_if(m_vTabs.begin(), m_vTabs.end(), web_finder(webView));
+	if (it != m_vTabs.end())
 	{
 		TabInfo* pInfo = *it;
-		if(pInfo != NULL) 
+		if (pInfo != NULL)
 		{
 			lstrcpy(pInfo->szTitle, title);
 			pInfo->pTab->SetText(title);
@@ -555,10 +589,10 @@ void CMainWnd::OnWkeTitleChanged(CWkeWebkitUI* webView, LPCTSTR title)
 
 void CMainWnd::OnWkeURLChanged(CWkeWebkitUI* webView, LPCTSTR url)
 {
-	vector<TabInfo*>::iterator it = find_if( m_vTabs.begin(), m_vTabs.end(), web_finder(webView));
-	if(it != m_vTabs.end()) 
+	vector<TabInfo*>::iterator it = find_if(m_vTabs.begin(), m_vTabs.end(), web_finder(webView));
+	if (it != m_vTabs.end())
 	{
-		if(m_pBrowserTabBody->GetItemIndex(webView) == m_pBrowserTabBody->GetCurSel())
+		if (m_pBrowserTabBody->GetItemIndex(webView) == m_pBrowserTabBody->GetCurSel())
 		{
 			lstrcpy((*it)->szUrl, url);
 			m_pAddressEdit->SetText(url);
@@ -573,22 +607,22 @@ void CMainWnd::OnWkeAlertBox(CWkeWebkitUI* webView, LPCTSTR msg)
 
 bool CMainWnd::OnWkeNavigation(CWkeWebkitUI* webView, wkeNavigationType navigationType, LPCTSTR url)
 {
-	
+
 	return true;
 }
 
 wkeWebView CMainWnd::OnWkeCreateView(CWkeWebkitUI* webView, wkeNavigationType navigationType, const wkeString url, const wkeWindowFeatures* windowFeatures)
 {
 
-	if(navigationType == WKE_NAVIGATION_TYPE_LINKCLICK || navigationType == WKE_NAVIGATION_TYPE_OTHER) 
+	if (navigationType == WKE_NAVIGATION_TYPE_LINKCLICK || navigationType == WKE_NAVIGATION_TYPE_OTHER)
 	{
 		int nIndex = CreateNewTab(m_pBrowserTabBody->GetCurSel() + 1, wkeGetStringW(url));
-		CControlUI *ptab=m_pBrowserTabBar->GetItemAt(nIndex);
+		CControlUI *ptab = m_pBrowserTabBar->GetItemAt(nIndex);
 		ptab->SetFocus();
 
 
 		CWkeWebkitUI* pWeb = (CWkeWebkitUI*)m_pBrowserTabBody->GetItemAt(nIndex);
-		if(pWeb != NULL) {
+		if (pWeb != NULL) {
 			return pWeb->GetWebView();
 		}
 	}
@@ -603,7 +637,7 @@ void CMainWnd::OnWkeDocumentReady(CWkeWebkitUI* webView)
 
 bool  CMainWnd::onLoadUrlBegin(CWkeWebkitUI *webView, void* param, const char* url, void *job)
 {
-	 return true;
+	return true;
 
 }
 
@@ -622,7 +656,7 @@ LPCTSTR CMainWnd::OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpCo
 	}
 	else if (strMethod.CompareNoCase(_T("max")) == 0)
 	{
-	//	SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+		//	SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 		static bool isMax = true;
 		if (isMax)
 			::PostMessageW(m_hWnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
@@ -635,7 +669,7 @@ LPCTSTR CMainWnd::OnJS2Native(CWkeWebkitUI *pWeb, LPCTSTR lpMethod, LPCTSTR lpCo
 		SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0);
 	}
 	else if (strMethod.CompareNoCase(_T("move")) == 0)
-	{		
+	{
 		SendMessage(WM_SYSCOMMAND, SC_MOVE | HTCAPTION, 0);
 		//::PostMessage(m_hWnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, 0);
 	}
@@ -657,15 +691,15 @@ bool CMainWnd::OnWkeDownload(CWkeWebkitUI * webView, const char * url)
 	//return true;
 	std::string  strUrl = url;
 	std::smatch results;
-	std::string pattern{ ".+/(.+)$" }; 
+	std::string pattern{ ".+/(.+)$" };
 	std::regex re(pattern);
 	bool ret = std::regex_search(strUrl, results, re);
 	if (ret)
 	{
 		std::string  strFileName = results[1]; ;
 		std::wstring strdownPath;
-	
-		if (m_pDownloadWnd->GetDownloadPath().size()<1)
+
+		if (m_pDownloadWnd->GetDownloadPath().size() < 1)
 		{
 			strdownPath = NFile::GetModulePathW();
 			strdownPath = strdownPath + _T("down\\");
@@ -692,9 +726,9 @@ void CMainWnd::OnWkeNetGetFavicon(CWkeWebkitUI * webView, const char*  url, wkeM
 	if (ret)
 	{
 		std::string  strFileName = results[1]; ;
-		std::string strdownPath = NFile::GetRootDirectoryA()+"favicon\\";
-		NFile::CreateDir(strdownPath.c_str());		
-		strFileName = strdownPath + uri.GetHost()+ strFileName;
+		std::string strdownPath = NFile::GetRootDirectoryA() + "favicon\\";
+		NFile::CreateDir(strdownPath.c_str());
+		strFileName = strdownPath + uri.GetHost() + strFileName;
 		FILE *file;
 		file = fopen(strFileName.c_str(), "wb");
 		if (file)
@@ -705,21 +739,21 @@ void CMainWnd::OnWkeNetGetFavicon(CWkeWebkitUI * webView, const char*  url, wkeM
 		std::string strPngName = strFileName;
 		NStr::ReplaceStr(strPngName, ".ico", "");
 		NStr::ReplaceStr(strPngName, ".", "");
-		strPngName = strPngName +".png";
+		strPngName = strPngName + ".png";
 		NFile::SaveImage(NStr::StrToWStr(strFileName), NStr::StrToWStr(strPngName));
 		vector<TabInfo*>::iterator it = find_if(m_vTabs.begin(), m_vTabs.end(), web_finder(webView));
 		if (it != m_vTabs.end())
 		{
 			TabInfo* pInfo = *it;
 			if (pInfo != NULL)
-			{			
+			{
 				pInfo->pTab->SetTabImage(NStr::StrToWStr(strPngName).c_str());
-			
+
 			}
 		}
 
 
-	
+
 	}
 
 

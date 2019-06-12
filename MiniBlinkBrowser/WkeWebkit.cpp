@@ -41,13 +41,26 @@ CWkeWebkitUI::CWkeWebkitUI(void)
 	_tcscpy(m_chHomeUrl, L"file:///"), _tcscat(m_chHomeUrl, curDir), _tcscat(m_chHomeUrl, L"//resources//test.html");
 
 	m_cursor = -1;
-	
+
 
 }
 
 CWkeWebkitUI::~CWkeWebkitUI(void)
 {
+	m_released = true;
 
+	if (m_pWebView != NULL)
+	{
+		map<wkeWebView, CWkeWebkitUI*>::iterator iter = m_mapWke2UI.find(m_pWebView);
+		if (iter != m_mapWke2UI.end())
+		{
+			m_mapWke2UI.erase(iter);
+		}
+		wkeSetHandle(m_pWebView, NULL);
+		wkeDestroyWebWindow(m_pWebView);//销毁wkeWebView对应的所有数据结构，包括真实窗口等
+		m_pWebView = NULL;
+	}
+	m_pManager->RemoveMessageFilter(this);
 }
 
 LPCTSTR CWkeWebkitUI::GetClass() const
@@ -71,7 +84,7 @@ void CWkeWebkitUI::DoInit()
 	CControlUI::DoInit();
 
 
-	HWND hWnd =m_pManager->GetPaintWindow();
+	HWND hWnd = m_pManager->GetPaintWindow();
 	wkeSetHandle(m_pWebView, hWnd);
 
 	// 设置名称
@@ -104,7 +117,8 @@ void CWkeWebkitUI::DoInit()
 
 	// 设置UA
 	wkeSetUserAgent(m_pWebView, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.2228.0 Safari/537.36");
-	GetManager()->AddMessageFilter(this);
+
+	m_pManager->AddMessageFilter(this);
 }
 
 void CWkeWebkitUI::SetPos(RECT rc, bool bNeedUpdate/* = true*/)
@@ -132,14 +146,14 @@ void CWkeWebkitUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 LRESULT CWkeWebkitUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool & bHandled)
 {
 
-	if (GetManager() == nullptr)
-		return S_FALSE;
+	if (m_released )
+		return FALSE;
 
 
-	CControlUI *current = GetManager()->FindControl(GetManager()->GetMousePos());
-	if ( current != this)
+	CControlUI *current = m_pManager->FindControl(m_pManager->GetMousePos());
+	if (current != this)
 	{
-		return S_FALSE;
+		return FALSE;
 	}
 	//修改鼠标指向时候的样式
 	if (uMsg == WM_SETCURSOR)
@@ -152,13 +166,13 @@ LRESULT CWkeWebkitUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bo
 	{
 		const RECT controlPos = this->GetPos();
 		wkeRect rect = wkeGetCaretRect(m_pWebView);
-		HIMC hImc = ::ImmGetContext(GetManager()->GetPaintWindow());
+		HIMC hImc = ::ImmGetContext(m_pManager->GetPaintWindow());
 		COMPOSITIONFORM Composition = { 0 };
 		Composition.dwStyle = CFS_POINT | CFS_FORCE_POSITION;
 		Composition.ptCurrentPos.x = rect.x + controlPos.left;
 		Composition.ptCurrentPos.y = rect.y + controlPos.top;
 		ImmSetCompositionWindow(hImc, &Composition);
-		ImmReleaseContext(GetManager()->GetPaintWindow(), hImc);
+		ImmReleaseContext(m_pManager->GetPaintWindow(), hImc);
 		bHandled = TRUE;
 		return S_OK;
 	}
@@ -167,7 +181,7 @@ LRESULT CWkeWebkitUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bo
 
 bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 {
-	CControlUI::DoPaint(hDC, rcPaint, pStopControl);
+	//CControlUI::DoPaint(hDC, rcPaint, pStopControl);
 
 	//if (m_RendData.pixels == NULL) {
 	//	BITMAPINFO bi;
@@ -189,7 +203,7 @@ bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopContro
 	//::BitBlt(hDC, m_RendData.rt.left, m_RendData.rt.top, m_RendData.rt.right - m_RendData.rt.left, m_RendData.rt.bottom - m_RendData.rt.top, m_RendData.hDC, 0, 0, SRCCOPY);
 	if (hDC != NULL) {
 		HDC mb_hdc = wkeGetViewDC(m_pWebView);
-		if (mb_hdc != NULL) 
+		if (mb_hdc != NULL)
 		{
 			::BitBlt(hDC, rcPaint.left, rcPaint.top, rcPaint.right - rcPaint.left, rcPaint.bottom - rcPaint.top, mb_hdc, 0, 0, SRCCOPY);
 			::ReleaseDC(NULL, mb_hdc);
@@ -242,7 +256,7 @@ void CWkeWebkitUI::updateCursor()
 {
 
 	int cursorInfo = wkeGetCursorInfoType(m_pWebView);
-	if (m_cursor != cursorInfo) 
+	if (m_cursor != cursorInfo)
 	{
 		m_cursor = cursorInfo;
 		HCURSOR curosr = ::LoadCursor(NULL, IDC_ARROW);
@@ -389,10 +403,10 @@ void CWkeWebkitUI::DoEvent(TEventUI& event)
 		break;
 	}
 	case UIEVENT_TIMER:
-	/*	if (event.wParam == EVENT_TICK_TIEMER_ID) 
-		{
-			Invalidate();
-		}*/
+		/*	if (event.wParam == EVENT_TICK_TIEMER_ID)
+			{
+				Invalidate();
+			}*/
 		break;
 	default: break;
 	}
@@ -406,10 +420,10 @@ wkeWebView CWkeWebkitUI::GetWebView()
 
 void CWkeWebkitUI::Navigate(LPCTSTR lpUrl)
 {
-	
+
 	common::Url uri(NStr::WStrToStr(lpUrl).c_str());
-	string strscheme= uri.GetScheme();
-	if (_tcslen(lpUrl) >= 8 && (strscheme =="http" || strscheme == "https" || StrCmp(lpUrl, L"about:blank")) == 0
+	string strscheme = uri.GetScheme();
+	if (_tcslen(lpUrl) >= 8 && (strscheme == "http" || strscheme == "https" || StrCmp(lpUrl, L"about:blank") == 0)
 		)
 	{
 #ifdef UNICODE
@@ -443,18 +457,7 @@ void CWkeWebkitUI::LoadHtml(LPCTSTR lpHtml)
 
 void CWkeWebkitUI::Close()
 {
-	m_released = true;
-	map<wkeWebView, CWkeWebkitUI*>::iterator iter = m_mapWke2UI.find(m_pWebView);
-	if (iter != m_mapWke2UI.end())
-	{
-		m_mapWke2UI.erase(iter);
-		if (m_pWebView != NULL) 
-		{
-		//	wkeDestroyWebView(m_pWebView);
-			m_pWebView = NULL;
-		}
-		GetManager()->RemoveMessageFilter(this);
-	}
+
 
 }
 
@@ -523,8 +526,8 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkePaintUpdate(wkeWebView webView, void* para
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeTitleChanged(wkeWebView webView, void* param, wkeString title)
 {
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
-	if (!pWkeUI  || pWkeUI->m_released)	return;
-	if (pWkeUI->m_pWkeCallback) 
+	if (!pWkeUI || pWkeUI->m_released)	return;
+	if (pWkeUI->m_pWkeCallback)
 	{
 #ifdef UNICODE
 		return pWkeUI->m_pWkeCallback->OnWkeTitleChanged(pWkeUI, wkeGetStringW(title));
@@ -532,7 +535,7 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeTitleChanged(wkeWebView webView, void* par
 		return pWkeUI->m_pWkeCallback->OnWkeTitleChanged(pWkeUI, wkeGetStringT(title));
 #endif // UNICODE	
 
-	
+
 	}
 }
 
@@ -636,7 +639,7 @@ bool  WKE_CALL_TYPE CWkeWebkitUI::onLoadUrlBegin(wkeWebView webView, void* param
 		std::string urlString(decodeURL);
 		std::string localPath = urlString.substr(sizeof(kPreHead) - 1);
 
-		std::wstring path = CPaintManagerUI::GetInstancePath().GetData()+ NStr::utf8ToUtf16(localPath);
+		std::wstring path = CPaintManagerUI::GetInstancePath().GetData() + NStr::utf8ToUtf16(localPath);
 		std::vector<char> buffer;
 
 		readJsFile(path.c_str(), &buffer);
@@ -674,13 +677,13 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeLoadingFinish(wkeWebView webView, void* pa
 
 
 	wkeTempCallbackInfo* temInfo = wkeGetTempCallbackInfo(webView);
-	if (::wkeIsMainFrame(webView, temInfo->frame)) 
+	if (::wkeIsMainFrame(webView, temInfo->frame))
 	{
 		::wkeNetGetFavicon(webView, OnWkeNetGetFavicon, param);
 	}
 
 
-	if (pWkeUI->m_pWkeCallback) 
+	if (pWkeUI->m_pWkeCallback)
 	{
 		pWkeUI->m_pWkeCallback->OnWkeLoadingFinish(pWkeUI, wkeGetStringT(url), result, wkeGetStringT(failedReason));
 	}
@@ -690,12 +693,12 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeNetGetFavicon(wkeWebView webView, void * p
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
 	if (!pWkeUI || pWkeUI->m_released)	return;
 
-	if (pWkeUI->m_pWkeCallback && buf!=nullptr &&url!=nullptr)
+	if (pWkeUI->m_pWkeCallback && buf != nullptr &&url != nullptr)
 	{
 		pWkeUI->m_pWkeCallback->OnWkeNetGetFavicon(pWkeUI, url, buf);
 	}
 
-	return ;
+	return;
 }
 
 
@@ -727,27 +730,27 @@ jsValue WKE_CALL_TYPE  CWkeWebkitUI::onMsg(jsExecState es, void* param)
 	msgOutput = msgOutput + msg;
 	msgOutput += "\n";
 	OutputDebugStringA(msgOutput.c_str());
-	   	 
+
 	//查找UI对象
 	CWkeWebkitUI *pWkeUI = NULL;
 	wkeWebView pWke = jsGetWebView(es);
-	if (pWke) 
+	if (pWke)
 	{
 		map<wkeWebView, CWkeWebkitUI*>::const_iterator iter = m_mapWke2UI.find(pWke);
-		if (iter != m_mapWke2UI.end()) 
+		if (iter != m_mapWke2UI.end())
 		{
 			pWkeUI = iter->second;
 		}
 	}
-	if (pWkeUI) 
+	if (pWkeUI)
 	{
 		int nArg = jsArgCount(es);
-		if (nArg >0) {
+		if (nArg > 0) {
 			jsValue arg1 = jsArg(es, 0);
 
-			if (jsIsString(arg1)) 
+			if (jsIsString(arg1))
 			{
-			
+
 #ifdef _UNICODE 
 				wchar_t buf1[16 * 1024] = { 0 };
 				wcsncpy(buf1, jsToTempStringW(es, arg1), 16 * 1024 - 1);
@@ -755,7 +758,7 @@ jsValue WKE_CALL_TYPE  CWkeWebkitUI::onMsg(jsExecState es, void* param)
 #else
 				char buf1[16 * 1024] = { 0 };
 				strncpy(buf1, jsToTempString(es, arg1), 16 * 1024 - 1);
-			
+
 #endif
 
 				LPCTSTR lpArg1 = buf1;
@@ -811,11 +814,11 @@ jsValue WKE_CALL_TYPE CWkeWebkitUI::onShellExec(jsExecState es, void* param)
 	else if ("wkeBrowser" == path) {
 		//wkeBrowserMain(nullptr, nullptr, nullptr, TRUE);
 	}
-	else{
+	else {
 		//system(path.c_str());
 		WinExec(strName.c_str(), SW_SHOW);
 	}
-	
+
 	path += "\n";
 	OutputDebugStringA(path.c_str());
 
@@ -841,9 +844,9 @@ jsValue JS_CALL CWkeWebkitUI::JsToNative(jsExecState es)
 			jsValue arg2 = jsArg(es, 1);
 			int int0 = jsToInt(es, arg1);
 			int int1 = jsToInt(es, arg2);
-	
 
-			return jsInt(int0+int1);
+
+			return jsInt(int0 + int1);
 			if (jsIsString(arg1) && jsIsString(arg2)) {
 				//需要保证两个参数都为字符串
 #ifdef _UNICODE 

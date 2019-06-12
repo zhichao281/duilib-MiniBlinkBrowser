@@ -25,7 +25,9 @@ typedef struct _tagTabInfo
 	
 		}
 		if (pTab != NULL) {
-			delete pTab;
+
+			pTab->RemoveAll();
+				delete pTab;
 			pTab = NULL;
 		}
 	}
