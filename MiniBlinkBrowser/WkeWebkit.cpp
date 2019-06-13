@@ -114,6 +114,9 @@ void CWkeWebkitUI::DoInit()
 
 	wkeOnAlertBox(m_pWebView, OnWkeAlertBox, this);
 
+	wkeOnWindowClosing(m_pWebView, onWkeWindowClosing, this);
+
+
 
 	// …Ë÷√UA
 	wkeSetUserAgent(m_pWebView, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.2228.0 Safari/537.36");
@@ -707,6 +710,13 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeNetGetFavicon(wkeWebView webView, void * p
 	}
 
 	return;
+}
+
+bool WKE_CALL_TYPE CWkeWebkitUI::onWkeWindowClosing(wkeWebView webView, void * param)
+{
+
+
+	return false;
 }
 
 

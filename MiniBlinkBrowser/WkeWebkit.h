@@ -295,6 +295,11 @@ private:
 	//获取favicon。
 	static void WKE_CALL_TYPE OnWkeNetGetFavicon(wkeWebView webView, void* param, const utf8* url, wkeMemBuf* buf);
 
+	//wkeWebView如果是真窗口模式，则在收到WM_CLODE消息时触发此回调。可以通过在回调中返回false拒绝关闭窗口
+	static bool WKE_CALL_TYPE onWkeWindowClosing(wkeWebView webView, void* param);
+
+
+
 
 
 private:
