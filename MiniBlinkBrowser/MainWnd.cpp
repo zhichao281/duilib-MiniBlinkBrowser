@@ -171,6 +171,7 @@ void CMainWnd::OnClick(TNotifyUI &msg)
 		int  ret = CMsgWnd::MessageBox(m_hWnd, _T("提示信息"), _T("你确定要退出吗?"));
 		if (ret == MSGID_OK)
 		{
+
 			PostQuitMessage(0);
 		}
 		return;

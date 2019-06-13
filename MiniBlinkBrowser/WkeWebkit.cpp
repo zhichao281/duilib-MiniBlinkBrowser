@@ -57,7 +57,7 @@ CWkeWebkitUI::~CWkeWebkitUI(void)
 			m_mapWke2UI.erase(iter);
 		}
 		wkeSetHandle(m_pWebView, NULL);
-		wkeDestroyWebWindow(m_pWebView);//销毁wkeWebView对应的所有数据结构，包括真实窗口等
+		wkeDestroyWebView(m_pWebView);//销毁wkeWebView对应的所有数据结构，包括真实窗口等
 		m_pWebView = NULL;
 	}
 	m_pManager->RemoveMessageFilter(this);
@@ -244,7 +244,7 @@ void CWkeWebkitUI::InitializeWebkit()
 void CWkeWebkitUI::UninitializeWebkit()
 {
 	// 清理
-	wkeFinalize();
+	wkeShutdown();
 }
 
 void CWkeWebkitUI::ExecuteJS(LPCTSTR lpJS)
@@ -432,12 +432,20 @@ void CWkeWebkitUI::Navigate(LPCTSTR lpUrl)
 		::wkeLoadURL(m_pWebView, lpUrl);
 #endif
 	}
-	else
+	else if(strscheme=="file")
 	{
 #ifdef UNICODE
 		::wkeLoadFileW(m_pWebView, lpUrl);
 #else
 		::wkeLoadFile(m_pWebView, lpUrl);
+#endif
+	}
+	else
+	{
+#ifdef UNICODE
+		::wkeLoadURLW(m_pWebView, lpUrl);
+#else
+		::wkeLoadURL(m_pWebView, lpUrl);
 #endif
 	}
 }

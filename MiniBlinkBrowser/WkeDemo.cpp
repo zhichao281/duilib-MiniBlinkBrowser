@@ -105,18 +105,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 	// 初始化资源
 	InitResource();
 
-//	// 加载控件
-//#ifndef _DEBUG
-//	CPaintManagerUI::LoadPlugin(_T("TroyControls.dll"));
-//#else
-//	CPaintManagerUI::LoadPlugin(_T("TroyControls_d.dll"));
-//#endif
-//
-
-
-
-
-
 	// 创建主窗口
 	CMainWnd* pMainWnd = new CMainWnd();
 	if( pMainWnd == NULL ) return 0;
@@ -129,13 +117,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 
 	// 启动消息循环
 	CPaintManagerUI::MessageLoop();
+
 	// 释放资源
 	CResourceManager::GetInstance()->Release();
-
-
-	CWkeWebkitUI::UninitializeWebkit();
-
 	OleUninitialize();
 	::CoUninitialize();
+
+	//CWkeWebkitUI::UninitializeWebkit();
+
 	return 0;
 }
