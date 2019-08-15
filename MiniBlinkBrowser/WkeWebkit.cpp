@@ -56,8 +56,8 @@ CWkeWebkitUI::~CWkeWebkitUI(void)
 		{
 			m_mapWke2UI.erase(iter);
 		}
-		wkeSetHandle(m_pWebView, NULL);
-		wkeDestroyWebView(m_pWebView);//销毁wkeWebView对应的所有数据结构，包括真实窗口等
+		//wkeSetHandle(m_pWebView, NULL);
+		//wkeDestroyWebView(m_pWebView);//销毁wkeWebView对应的所有数据结构，包括真实窗口等
 		m_pWebView = NULL;
 	}
 	m_pManager->RemoveMessageFilter(this);
@@ -115,8 +115,6 @@ void CWkeWebkitUI::DoInit()
 	wkeOnAlertBox(m_pWebView, OnWkeAlertBox, this);
 
 	wkeOnWindowClosing(m_pWebView, onWkeWindowClosing, this);
-
-
 
 	// 设置UA
 	wkeSetUserAgent(m_pWebView, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.2228.0 Safari/537.36");
@@ -184,8 +182,8 @@ LRESULT CWkeWebkitUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bo
 
 bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 {
-	//CControlUI::DoPaint(hDC, rcPaint, pStopControl);
 
+	//CControlUI::DoPaint(hDC, rcPaint, pStopControl);  
 	//if (m_RendData.pixels == NULL) {
 	//	BITMAPINFO bi;
 	//	memset(&bi, 0, sizeof(bi));
@@ -204,7 +202,10 @@ bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopContro
 	//}
 	//wkePaint(m_pWebView, m_RendData.pixels, 0);
 	//::BitBlt(hDC, m_RendData.rt.left, m_RendData.rt.top, m_RendData.rt.right - m_RendData.rt.left, m_RendData.rt.bottom - m_RendData.rt.top, m_RendData.hDC, 0, 0, SRCCOPY);
-	if (hDC != NULL) {
+	
+	
+	
+	if (hDC != NULL) {	
 		HDC mb_hdc = wkeGetViewDC(m_pWebView);
 		if (mb_hdc != NULL)
 		{
@@ -672,8 +673,6 @@ bool  WKE_CALL_TYPE CWkeWebkitUI::onLoadUrlBegin(wkeWebView webView, void* param
 	return false;
 }
 
-
-
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeLoadingFinish(wkeWebView webView, void* param, const wkeString url, wkeLoadingResult result, const wkeString failedReason)
 {
 
@@ -699,6 +698,7 @@ void WKE_CALL_TYPE CWkeWebkitUI::OnWkeLoadingFinish(wkeWebView webView, void* pa
 		pWkeUI->m_pWkeCallback->OnWkeLoadingFinish(pWkeUI, wkeGetStringT(url), result, wkeGetStringT(failedReason));
 	}
 }
+
 void WKE_CALL_TYPE CWkeWebkitUI::OnWkeNetGetFavicon(wkeWebView webView, void * param, const utf8 * url, wkeMemBuf * buf)
 {
 	CWkeWebkitUI *pWkeUI = (CWkeWebkitUI*)param;
@@ -718,8 +718,6 @@ bool WKE_CALL_TYPE CWkeWebkitUI::onWkeWindowClosing(wkeWebView webView, void * p
 
 	return false;
 }
-
-
 
 bool WKE_CALL_TYPE CWkeWebkitUI::OnWkeDownload(wkeWebView webView, void * param, const char * url)
 {
