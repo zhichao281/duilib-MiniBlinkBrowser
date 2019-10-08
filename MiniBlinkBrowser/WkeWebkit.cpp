@@ -124,8 +124,8 @@ void CWkeWebkitUI::DoInit()
 
 void CWkeWebkitUI::SetPos(RECT rc, bool bNeedUpdate/* = true*/)
 {
-	//m_RendData.rt = rc;
-	//m_RendData.pixels = NULL;
+	m_RendData.rt = rc;
+	m_RendData.pixels = NULL;
 	// 调整位置和尺寸
 	CControlUI::SetPos(rc, bNeedUpdate);
 	wkeResize(m_pWebView, rc.right - rc.left, rc.bottom - rc.top);
@@ -182,37 +182,37 @@ LRESULT CWkeWebkitUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bo
 
 bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopControl)
 {
+	CControlUI::DoPaint(hDC, rcPaint, pStopControl);
 
-	//CControlUI::DoPaint(hDC, rcPaint, pStopControl);  
-	//if (m_RendData.pixels == NULL) {
-	//	BITMAPINFO bi;
-	//	memset(&bi, 0, sizeof(bi));
-	//	bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-	//	bi.bmiHeader.biWidth = int(m_RendData.rt.right - m_RendData.rt.left);
-	//	bi.bmiHeader.biHeight = -int(m_RendData.rt.bottom - m_RendData.rt.top);
-	//	bi.bmiHeader.biPlanes = 1;
-	//	bi.bmiHeader.biBitCount = 32;
-	//	bi.bmiHeader.biCompression = BI_RGB;
-	//	HBITMAP hbmp = ::CreateDIBSection(0, &bi, DIB_RGB_COLORS, &m_RendData.pixels, NULL, 0);
-	//	SelectObject(m_RendData.hDC, hbmp);
-	//	if (m_RendData.hBitmap) {
-	//		DeleteObject(m_RendData.hBitmap);
-	//	}
-	//	m_RendData.hBitmap = hbmp;
-	//}
-	//wkePaint(m_pWebView, m_RendData.pixels, 0);
-	//::BitBlt(hDC, m_RendData.rt.left, m_RendData.rt.top, m_RendData.rt.right - m_RendData.rt.left, m_RendData.rt.bottom - m_RendData.rt.top, m_RendData.hDC, 0, 0, SRCCOPY);
-	
-	
-	
-	if (hDC != NULL) {	
-		HDC mb_hdc = wkeGetViewDC(m_pWebView);
-		if (mb_hdc != NULL)
-		{
-			::BitBlt(hDC, rcPaint.left, rcPaint.top, rcPaint.right - rcPaint.left, rcPaint.bottom - rcPaint.top, mb_hdc, 0, 0, SRCCOPY);
-			::ReleaseDC(NULL, mb_hdc);
+	if (m_RendData.pixels == NULL) {
+		BITMAPINFO bi;
+		memset(&bi, 0, sizeof(bi));
+		bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+		bi.bmiHeader.biWidth = int(m_RendData.rt.right - m_RendData.rt.left);
+		bi.bmiHeader.biHeight = -int(m_RendData.rt.bottom - m_RendData.rt.top);
+		bi.bmiHeader.biPlanes = 1;
+		bi.bmiHeader.biBitCount = 32;
+		bi.bmiHeader.biCompression = BI_RGB;
+		HBITMAP hbmp = ::CreateDIBSection(0, &bi, DIB_RGB_COLORS, &m_RendData.pixels, NULL, 0);
+		SelectObject(m_RendData.hDC, hbmp);
+		if (m_RendData.hBitmap) {
+			DeleteObject(m_RendData.hBitmap);
 		}
+		m_RendData.hBitmap = hbmp;
 	}
+	wkePaint(m_pWebView, m_RendData.pixels, 0);
+	::BitBlt(hDC, m_RendData.rt.left, m_RendData.rt.top, m_RendData.rt.right - m_RendData.rt.left, m_RendData.rt.bottom - m_RendData.rt.top, m_RendData.hDC, 0, 0, SRCCOPY);
+	updateCursor();
+	return true;
+	
+	//if (hDC != NULL) {	
+	//	HDC mb_hdc = wkeGetViewDC(m_pWebView);
+	//	if (mb_hdc != NULL)
+	//	{
+	//		::BitBlt(hDC, rcPaint.left, rcPaint.top, rcPaint.right - rcPaint.left, rcPaint.bottom - rcPaint.top, mb_hdc, 0, 0, SRCCOPY);
+	//		::ReleaseDC(NULL, mb_hdc);
+	//	}
+	//}
 	updateCursor();
 	return true;
 

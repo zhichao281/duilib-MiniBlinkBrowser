@@ -300,10 +300,8 @@ private:
 
 
 
-
-
 private:
-	//REND_DATA m_RendData;
+	REND_DATA m_RendData;
 
 	wkeWebView	 m_pWebView = NULL;;
 
