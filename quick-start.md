@@ -16,19 +16,11 @@
 ```
 
 ## 创建窗口类
-
-在项目中创建窗口类```CDuiFrameWnd```，继承自```WindowImplBase```。
-
-由于该控件属于自定义控件，需要添加自定义的```xml```标签解析，在```CDuiFrameWnd```类的```CreateControl```中添加如下代码：
-```c++
-CControlUI* CDuiFrameWnd::CreateControl(LPCTSTR pstrClass) {
-	if (_tcscmp(pstrClass, _T("Miniblink")) == 0)
-	{
-		DuiLib::CMiniblink *web = new DuiLib::CMiniblink();
-		return web;
-	}
-	return NULL;
-}
-```
+首先在duilib的InitResource接口中
+// 注册控件
+	REGIST_DUICONTROL(CWkeWebkitUI);
+	
+同时
+	CWkeWebkitUI::InitializeWebkit();
 
 此时，你的窗口中已经能正常浏览网页了。
