@@ -1,6 +1,6 @@
 #ifndef __FILE_MANAGE_H__
 #define __FILE_MANAGE_H__
-
+#define _CRT_SECURE_NO_WARNINGS
 #include <string>
 #include <list>
 

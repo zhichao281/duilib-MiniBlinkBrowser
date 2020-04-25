@@ -1,7 +1,7 @@
 ﻿
 #include "libcurl.h"
 #ifdef _WIN64   
-#pragma comment(lib, "../BasisComponents/curl/lib/libcurl_a.lib")
+#pragma comment(lib, "../Lib/libcurl_a.lib")
 #else
 #pragma comment(lib, "../Lib/libcurl.lib")
 #endif
