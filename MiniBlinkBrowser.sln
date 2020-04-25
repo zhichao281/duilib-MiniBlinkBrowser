@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28010.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MiniBlinkBrowser", "MiniBlinkBrowser\MiniBlinkBrowser.vcxproj", "{4BD76CC6-B651-4BE3-9F9A-AB6CF37A4EDA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8C126628-2AE5-470F-B241-08DA400A492C} = {8C126628-2AE5-470F-B241-08DA400A492C}
+		{D517844E-7054-44DA-9A2E-7D8E0208F749} = {D517844E-7054-44DA-9A2E-7D8E0208F749}
+		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E} = {E106ACD7-4E53-4AEE-942B-D0DD426DB34E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SqliteLib", "SqliteLib\SqliteLib.vcxproj", "{AAF48CCD-AEAA-45CF-BB92-7979E207B950}"
 EndProject
@@ -12,6 +17,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DuiLib", "DuiLib\DuiLib.vcxproj", "{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "uWebSockets", "uWebSockets\uWebSockets.vcxproj", "{8C126628-2AE5-470F-B241-08DA400A492C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D517844E-7054-44DA-9A2E-7D8E0208F749} = {D517844E-7054-44DA-9A2E-7D8E0208F749}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

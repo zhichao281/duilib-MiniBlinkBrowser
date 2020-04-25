@@ -14,7 +14,6 @@
     <ProjectGuid>{AAF48CCD-AEAA-45CF-BB92-7979E207B950}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SqliteLib</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
