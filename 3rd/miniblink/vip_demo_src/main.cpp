@@ -25,9 +25,9 @@ LRESULT WINAPI testWindowProc(
     case WM_NCDESTROY:
         if (::GetProp(hWnd, L"subView")) {
             RemoveProp(hWnd, L"subView");
-        } else {
-            mbDestroyWebView(view);
         }
+
+        mbDestroyWebView(view);
         return 0;
 
     case WM_ERASEBKGND:
@@ -322,7 +322,7 @@ void MB_CALL_TYPE onRunJs(mbWebView webView, void* param, mbJsExecState es, mbJs
 void MB_CALL_TYPE handleDocumentReady(mbWebView webView, void* param, mbWebFrameHandle frameId)
 {
     OutputDebugStringA("HandleDocumentReady\n");
-
+    mbShowWindow(webView, TRUE);
     mbRunJs(webView, mbWebFrameGetMainFrame(webView), "return window.onNativeRunjs('I am runjs');", TRUE, onRunJs, nullptr, nullptr);
 }
 
@@ -341,8 +341,8 @@ mbWebView MB_CALL_TYPE handleCreateView(mbWebView webView, void* param, mbNaviga
     ::SetProp(hWnd, L"subView", (HANDLE)TRUE);
     ::mbSetHandle(view, hWnd);
     ::mbOnPaintUpdated(view, handlePaintUpdatedCallback, hWnd);
-    ::mbOnLoadingFinish(view, handleLoadingFinish, view);
-    ::mbOnCreateView(view, handleCreateView, view);
+    ::mbOnLoadingFinish(view, handleLoadingFinish, (void*)view);
+    ::mbOnCreateView(view, handleCreateView, (void*)view);
     ::mbSetNavigationToNewWindowEnable(view, true);
     ::mbSetCspCheckEnable(view, false);
 
@@ -372,33 +372,33 @@ void createSimpleMb()
     mbSetHandle(view, hWnd);
     mbOnPaintUpdated(view, handlePaintUpdatedCallback, hWnd);
     //::mbOnLoadUrlBegin(view, handleLoadUrlBegin, view);
-    mbOnDocumentReady(view, handleDocumentReady, view);
-    mbOnLoadingFinish(view, handleLoadingFinish, view);
-    mbOnCreateView(view, handleCreateView, view);
+    mbOnDocumentReady(view, handleDocumentReady, (void*)view);
+    mbOnLoadingFinish(view, handleLoadingFinish, (void*)view);
+    mbOnCreateView(view, handleCreateView, (void*)view);
     mbSetNavigationToNewWindowEnable(view, true);
     mbSetCspCheckEnable(view, false);
     mbMoveToCenter(view);
     
-    mbLoadHtmlWithBaseUrl(view,
-        "<html><head><style></style><script type=\"text/javascript\">"
-        "window.onNativeRunjs = function(response) {"
-        "    console.log('onNativeRunjs:' + response);"
-        "    return 'onNativeRunjs ret'"
-        "};"
-        "function onNativeResponse(customMsg, response) {"
-        "    console.log('mbQuery:' + response);"
-        "};"
-        "console.log('test');"
-        "window.mbQuery(0x123456, \"I am in js context\", onNativeResponse);"
-        "</script></head>"
-        "<body>"
-        "test js bind"
-        ""
-        "</body>"
-        "</html>",
-        "test_js.htm");
+//     mbLoadHtmlWithBaseUrl(view,
+//         "<html><head><style></style><script type=\"text/javascript\">"
+//         "window.onNativeRunjs = function(response) {"
+//         "    console.log('onNativeRunjs:' + response);"
+//         "    return 'onNativeRunjs ret'"
+//         "};"
+//         "function onNativeResponse(customMsg, response) {"
+//         "    console.log('mbQuery:' + response);"
+//         "};"
+//         "console.log('test');"
+//         "window.mbQuery(0x123456, \"I am in js context\", onNativeResponse);"
+//         "</script></head>"
+//         "<body>"
+//         "test js bind"
+//         ""
+//         "</body>"
+//         "</html>",
+//         "test_js.htm");
     
-    //::mbLoadURL(view, "http://news.baidu.com");
+    ::mbLoadURL(view, "file:///G:/test/web_test/qianbahang/test/1.htm");
 
     mbOnJsQuery(view, onJsQuery, (void*)1);
 
@@ -446,14 +446,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_ LPWSTR    lpCmdLine,
     _In_ int       nCmdShow)
 {
-    initDllPath();
+    //initDllPath();
+
+    mbSetMbDllPath(L"E:\\mycode\\mbvip\\out\\x86\\Debug\\mb.dll");
+    mbSetMbMainDllPath(L"G:\\mycode\\mb\\out\\debug\\node.dll");
 
     mbSettings settings;
     memset(&settings, 0, sizeof(settings));
-    settings.mask = MB_ENABLE_NODEJS;
+    //settings.mask = MB_ENABLE_NODEJS;
     mbInit(&settings);
 
-    createMbClient();
+    //createMbClient();
     createSimpleMb();
 
     MSG msg = { 0 };
@@ -464,7 +467,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             ::TranslateMessage(&msg);
             ::DispatchMessageW(&msg);
         }
-        ::mbWake(nullptr);
+        ::mbWake(NULL_WEBVIEW);
         ::Sleep(5);
     }
 

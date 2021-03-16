@@ -1,4 +1,312 @@
-﻿2019.5.27
+﻿2021.1.28
+    * 优化上个版本导致的性能问题
+    * 使用独立线程定时器消息优化渲染性能
+    * 更换ffmpeg版本，使用单独编译的ffmpeg
+    * 开启block_concurrent_recompilation修复https://chowsangsang.tmall.com的崩溃
+    * 大幅优化V8 7.5版本的性能
+    * 修复jsBindGetter无效的老问题
+    * 修复https://seller.xiapi.shopee.cn无法访问的问题。增加了window.indexedDB dummy api
+    * 修复同步xhr请求调用wkeNetGetPostBody无效的问题
+
+2021.1.14
+    * 修复vuetify卡慢问题
+    * 优化渲染性能
+    * 新增一个升级到v8 7.5的dll(node_v8_7_5.dll)
+    * 修复x64版本在win7 sp0下崩溃的问题
+
+2020.12.3
+    * 修复某些网站charset=gbk,utf-8这种形式的响应头识别不了的问题
+    * 修复mini-electron使用nodejs的http模块可能无效的问题
+
+2020.11.25
+    * 修复某些使用blob方式的下载的失败问题
+    * 修复识别不了canvas.fillStyle("#ffff0000"); 这种四个字节的颜色格式的问题
+    * 优化渲染性能
+    * 去掉打印页尾里的url字样，并且默认勾选打印页表页尾
+    * 修复无法打印加粗字体的问题
+    * 修复get favicon导致崩溃的问题
+
+2020.9.23
+    *【VIP版】增加设置打印的边距参数
+    * 修复document.getElementById('img').src="c:\\1 2.jpg"这种方式传入带空格的路径无法加载的问题
+    * 修复ajax读取本地文件时，status为0的小问题
+
+2020.9.6
+    * 大幅优化网络性能
+    *【VIP版】修复video卡顿bug、audio崩溃的问题
+    * 增加v8 flags设置能力。例如wkeSetDebugConfig(nullptr, "v8flags", "--block_concurrent_recompilation");
+    * 回退302请求里关于附带url framgement的修改
+    * 修复wkeKillFocus失效的问题
+
+2020.8.24
+    *【VIP版】优化了鼠标、绘制的性能
+    *【VIP版】修复webgl、threejs播放不了的问题
+    *【VIP版】增加视频播放的原生支持
+    * 修复wkeClearCookies需要刷新才生效的小问题
+
+2020.8.10
+    * 修复x64版本在amd cpu上由于zip使用avx2指令导致的崩溃问题
+
+2020.7.8
+    * 修复拖拽卡死的问题
+    * 增加Number.prototype.toLocaleString的国际化支持（目前仅CNY、USD）
+    * 修复cookie中文路径导致读取不了的问题
+    * 【vip版】去掉没有消息时候忙等的问题
+    * 增加几个老版本的api
+    * 【vip版】暂时去掉video标签的支持。下个版本将实现原生ffmpeg形式的video支持
+
+2020.6.18
+    * 【vip版】修复加命令行时可能的崩溃
+
+2020.6.14
+    * 修复X64版本的浏览视频网站崩溃问题，以及在部分win10打不开的问题
+    * 修复mini-electron的一些小问题
+    * 修复input的accept过滤器的一些小问题
+    * 修复webgl崩溃的问题（smthan）
+
+2020.6.2
+    * 修复2次跳转后丢失url的fragment导致QQ登录失败的问题
+    * 修复webgl某些情况下会崩溃的问题
+    * 【vip版】增加禁用后退键
+    * 【vip版】增加开启js调用click
+
+2020.5.29
+    * 修复https://zoom.okta.com/的断言错误
+    * 修复jsGetKeys的崩溃
+    * 修复动画css崩溃
+
+2020.5.15
+    * 切回老版本curl。新版本curl的性能太差
+    * 优化了在有大量WBR标签时卡顿的问题
+    * [定制版]优化消息循环机制，解决了偶尔卡死的问题
+    * 修复reload时有很小几率卡死的问题
+    * [定制版]修复最大化最小化可能黑屏的问题
+    * 修复上个版本wkexe在xp无法运行的问题
+    * 修复多个layer透明度不为一时，底层透明度显示不正常的cc层问题（拓少）
+    * 修复访问bing后cookie过长的问题，可能是没正确处理"="导致
+    * 修复跑http://xyx.yulebuyu.com/140/崩溃的问题
+    * 修复jsData使用过程中触发gc可能崩溃的问题
+    * 修复https://apexcharts.com/javascript-chart-demos/area-charts/irregular-timeseries/崩溃
+    * 增加几个图片的input accept
+    * 修复mc层动画崩溃问题
+    * 修复重定向的url丢失#后的fragment问题
+
+2020.4.25
+    * 修复上个版本data url出现的各种问题
+
+2020.4.8
+    * 升级curl至7.69
+    * 去掉wkeSetFileSystem
+    * [定制版]大幅优化requestAnimationFrame频繁请求时的性能
+    * 新增jsDoubleString
+    * 新增mbSetSystemTouchEnabled，可以设置是否启用触屏机器的真实触屏消息
+    * 修复wangeditor里无法粘贴图片的问题
+
+2020.4.3
+    * 修复flash里点击设置，无法关闭设置页面的问题
+    * 修复<input id="date" type="date">无效的问题
+    * 修复svg嵌套mask img会内存泄漏的问题
+
+2020.3.25
+    * 修复svg不支持herf的问题
+    * wkeJsBindFunction的fn为空时，不进行绑定
+    * [定制版]修复打印后退出崩溃
+    * [定制版]修复不支持共享打印机的问题
+
+2020.3.20
+    * 增加nodejs功能，以及mini-electron
+    * 修复xp下无法加载webgl的问题
+    * 优化同步XHR请求的性能
+
+2020.3.17
+    * [定制版]增加打包功能，以及mbNetEnableResPacket
+    * 修复崩溃https://w.weipaitang.com/live/room/1604281458N4X0dp?r=home_saleLive-liveCategory_7&c=home_saleLive-liveCategory_7&userinfoUri=1604281458N4X0dp&pos=1
+
+2020.3.12
+    * 修复pdf页面不停reload导致的内存泄漏问题
+
+2020.3.3
+    * 改编译参数，体积优先
+    * 修复css动画事件可能收不到的问题（https://github.com/weolar/miniblink49/issues/371）
+    * 增加wkeSetZoomFactor可以设置全局zoom的能力。方式是webview参数传null
+    * 修复wkeNetGetRequestMethod在response下获取不到的问题
+
+2020.2.14
+    * [定制版]修复video宽高取值不对的问题
+    * 增加wkeEnableHighDPISupport，可适配高分屏
+    * 修复页面网络错误时，可能的崩溃
+    * [定制版]常态开启webgl，默认软件渲染
+    * 增加wkeSetDebugConfig(webview, "imageEnable", "0");可以开启无图模式
+    * 增加wkeSetDebugConfig(webview, "jsEnable", "0");可以禁用js
+    * [定制版]修复devtools卡死的问题
+    * 修复台湾佬的微软拼音输入法，不出现预览字的问题
+
+2020.2.4
+    * 优化普通版的css3动画性能
+    * 支持台湾big5编码(big5.huaxia.com)
+    * 修复position: absolute;align-items: center;在flex里一起用，居中无效的问题
+    * [定制版]修复x64版本下载无效的问题
+
+2020.1.25
+    * 修复<li><p>没有换行的问题
+    * 修复object-fit: contain; 没起作用的问题
+    * 修复resize时可能的崩溃
+
+2020.1.4
+    * 增加webgl的测试例子
+
+2019.12.31
+    * 优化了字体显示
+    * 修复CSSVariableResolver::resolveAndApplyVariableReferences里valueList为空导致的崩溃
+    * [定制版]修复cc层导致的一处闪烁问题
+    * [定制版]新增一个开启部分硬件加速的测试例子，仅供测试
+
+2019.12.21
+    * 修复getAsFile的一处空指针崩溃
+    * 增加new File([], "D:\\1.txt", {type: "mb/bin"});这种写法，可以读本地文件
+    * 修复上传时BlobResourceLoader::notifyFinish的可能崩溃
+
+2019.12.10
+    * 修复百度视频的崩溃问题
+    * 增强wkeDestroyWebView的检查，防止误调用导致的崩溃
+    * 切换到boringssl
+    * 修复WebPageImpl::registerDestroyNotif未同步导致可能的崩溃
+    * 修复wkeFinalize里的可能崩溃
+    * 修复自定义元素某些消息没派发的小问题
+    * 修复tip的小问题
+    * 修复中文cookie路径问题
+
+2019.11.22
+    * [定制版]增强打印功能，可以选择纸张
+    * 修复mj19916992-4.icoc.vc底部乱码问题
+    * 增加webview参加校验，防止野指针
+    * 修复lhash.c里getrn可能的崩溃
+
+2019.11.11
+    * 修复禁用flash时导致的崩溃
+    * 增加图片另存为的右键菜单
+    * 增加图片拖拽到QQ里
+    * [定制版]完善打印功能，增加打印份数和纸张规格
+    * [定制版]增加mbNetSendWsText、mbNetSendWsBlob
+    * 修复下拉框容易出现卡死的问题
+
+2019.11.1
+    * 修复framework7的css3动画显示问题
+    * 修复断网了无法关闭websocket的问题
+
+2019.10.28
+    * 修改默认UA，降到M60，避免iqiyi图片加载不了的问题
+    * [定制版]增加mbOnImageBufferToDataURL
+    * 修复重定向url里调用wkeNetSetData会断言错误的问题
+
+2019.10.24
+    * 修复上个版本多次访问url导致内存占用过高的问题
+    * 修复css动画里的断言错误
+    * [定制版]修复video有封面时无法播放的问题
+    * 修复部分cssText问题
+    * 修复wkeNetCancelRequst的错误
+
+2019.10.15
+    * 修复diygod.me播放器无法播放的问题
+    * 修复websocket拆包合包问题
+    * 修复speedtest.cn上传进度问题
+    * [定制版]增加mbNetSetWebsocketCallback、mbNetHookWebsocketChannel、mbEnableHighDPISupport等api
+    * 修复无头模式的问题
+    * 优化网络性能
+    * [定制版]大幅优化css动画性能
+    * 增强css文本转码能力，修复163.com的显示问题
+    * 修复Intl.DateTimeFormat.supportedLocalesOf导致的https://ant.design/components/modal-cn/白屏问题。
+
+2019.10.3
+    * 修复vc6 std map里的内存泄漏
+    * 修复DidFail里可能的崩溃
+    * 修复resize过小时可能的崩溃
+    * 修复触屏事件开启时消息顺序不对的问题
+    * [定制版]修复flash相关问题
+    * 修复KeyboardEvent没有key、code字段导致iview的select无法响应后退键的问题
+    * [定制版]增加一些navigator.xx的设置
+    * 修复tinymce富文本编辑器复制粘贴无效的问题
+    * 修复拼多多后台拖拽图片导致的崩溃
+
+
+2019.9.4
+    * [定制版]大幅修改渲染框架，性能更强大
+    * [定制版]修复某些视频大小为1x1的问题
+    * 修复离屏模式下的resize问题
+    * 修复wkeNetSetData后关闭页面可能的崩溃
+    * 修复淘宝首页FlattenHTTPBodyElementStream断言错误
+    * 修复淘宝某些页面弹出cookie需要设置的问题
+    * [定制版]增加navigator.mimeTypes\plugins的设置回调
+    * 修复本地时间手动修改后页面卡死的问题
+    * 修复cookie路径为中文时的一些问题
+
+2019.8.12
+    * [定制版]大幅改动底层架构，部分api可以多线程调用
+    * 修复设置代理后 MemoryCache 异常的问题
+    * 修复PUT可能的问题
+    * 修复设置cookies路径可能不成功的问题
+    * [定制版]开放部分API可以供外部多线程调用
+    * [定制版]修复分离设置cookie偶尔不成功的问题
+    * 修复本地文件可能不显示svg图标的问题
+    * 修复msunsoft.com的上传问题
+    * 修复输入框输入一个字符按ctrl + ->可能的问题
+    * 修复从其他网站跳转到支付宝二维码下可能的显示问题
+
+2019.7.30
+    * 修复chinahuanong上传问题
+    * 修复拖拽乱码的问题
+
+2019.7.25
+    * 修复拖拽崩溃，默认关闭
+    * 修复blob与动态生成<a>的下载问题
+    * 修复FileReader的问题
+
+2019.7.23
+    * 修复PUT可能的问题
+    * 修复window npapi可能不隐藏的问题
+    * 修复https://cx.chinahuanong.com.cn的问题
+
+2019.7.17
+    * 修复localstorage、sessionstorage问题
+    * 修复web worker和messageport存在崩溃的问题
+    * 修复GetFavicon可能的问题
+    * 修复登录拼多多后台可能flexbox的问题
+
+2019.7.9
+    * 优化网络性能，多线程网络加载，性能大幅提升
+    * 修复53kf上传图片失败的问题
+    * [定制版本]优化了上个版本打印慢的问题
+
+2019.7.7
+    * 修复webupload js库上传大文件时候卡慢、不准的问题
+    * 修复百度网盘传不上的问题
+    * [定制版]新增mbSetDebugConfig(m_mbView, "disableNavigatorPlugins", "true");可以直接让navigator.Plugins返回null
+    * 增加一个新API
+    * 修复在没有npapi插件下崩溃的问题
+
+2019.7.3
+    * 修复文件选择框卡线程消息的问题
+    * [定制版]增加mbClearCookie、mbNetGetRawHttpHead两接口
+    * 修复_NPN_SetException的崩溃
+
+2019.6.28
+    * 修复某些网站无法复制中文、图片的问题
+    * 修复过长POST导致某些网站发送失败的问题
+    * [定制版]增加mbUtilScreenshot接口，可以获取超长截屏
+    * 修复上传文件太大导致失败的问题
+    * [定制版]修复NPAPI有真窗口会挡住底层iframe的问题
+    * 修复拉勾网https://easy.lagou.com/utrack/trackMid.html?f=https%3A%2F%2Feasy.lagou.com%2Fcan%2Findex.htm&t=1561686355&_ti=136反复加载的问题
+    * [定制版]修复某些环境变化导致提示未注册的问题
+
+2019.6.13
+    * 修复重定向url里调用wkeNetSetData会崩溃的问题
+    * 修复网络不好时relaod可能崩溃的问题
+    * 修复含有xx=yyy==形式的cookie会重复设置的问题。测试页面：3d66.com
+    * [定制版]增加保存pdf功能
+    * [定制版]去掉video的水印
+    * [定制版]video修复宽高不正常的问题
+
+2019.5.27
     * [定制版]修复打印排版问题。在position: fixed情况下，如果有div超长，会导致fixed元素右边位置不对
     * 修复复制粘贴图片不成功问题
     * 修复没有mouse leave的问题

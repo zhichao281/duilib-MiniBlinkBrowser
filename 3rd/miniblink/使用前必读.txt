@@ -1,3 +1,5 @@
+严正申明：本项目禁止用于非法用途
+
 Miniblink是一个全新的、追求极致小巧的开源浏览器内核项目。
 其基于chromium最新版内核，去除了所有多余的部件，只保留最基本的排版引擎。
 Miniblink保持了10M左右的极简大小，方便嵌入各种需要浏览服务的场景，拥有所有同类产品中最小的体积，同时支持windows xp、npapi。
@@ -6,7 +8,7 @@ Miniblink只需一个dll，通过导出的纯C的接口，数行代码即可集成到各种软件。
 更多介绍见：http://miniblink.net/
 
 ------------------------------------------------------------------------
-* mb.dll、vip-miniblink.exe是定制版，可以使用多线程渲染等功能。如需购买，请联系作者（http://miniblink.net/pricing/pricing.htm）。
+* mb.dll、vip-miniblink.exe是VIP版，可以使用多线程渲染\PDF\音视频等功能。如需购买，请联系作者（http://miniblink.net/views/features.html）。
 
 * demo_src是demo的源码。直接打开demo_src\wkexe.sln编译即可运行。
 
@@ -14,9 +16,15 @@ Miniblink只需一个dll，通过导出的纯C的接口，数行代码即可集成到各种软件。
 
 * node_v8_4_8.dll是不带nodejs版本的miniblink，并且使用4.8版本v8。由于v8版本比较老，很多js语法不兼容，不推荐使用。
 
+* node_v8_7_5.dll是不带nodejs的，使用7.5版本v8的miniblink。处于实验性阶段。同理，wkexe_v8_7_5.exe是调用V8 7.5的exe。
+
+* miniblink_x64.dll是node.dll的x64版本。
+
 * MBrowser.exe是网友提供的一个测试程序，如果MBrowser.exe运行有任何问题，请用wkexe.exe再测试。如果wkexe.exe也有问题，请反馈给https://github.com/weolar/miniblink49
 
-* API文档见：https://blog.csdn.net/weolar/article/details/80458523
+* API文档见：http://miniblink.net/views/doc/index.html
+
+* plugins目录存放了flash等插件。其中flash在播放音视频时候需要。
 
 -------------------------------------------------------------------------
 
@@ -25,4 +33,5 @@ Miniblink只需一个dll，通过导出的纯C的接口，数行代码即可集成到各种软件。
 -------------------------------------------------------------------------
 
 本项目使用Apache License 2.0协议，使用者需要在项目发布文件中显式申明使用了miniblink。
+另外，请务必遵守国家法律法规使用，不得用于非法目的。
 

@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <atomic>
 #include <thread>
+#include <functional>
 #define _CRT_SECURE_NO_WARNINGS
 class CLoggerManager
 {

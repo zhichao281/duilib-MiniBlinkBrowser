@@ -391,7 +391,6 @@ void runApp(Application* app)
 {
     memset(app, 0, sizeof(Application));
     app->url = L"http://hook.test/resources/view/index.html"; // 演示使用hook的方式加载资源
-
     if (!createWebWindow(app)) {
         PostQuitMessage(0);
         return;

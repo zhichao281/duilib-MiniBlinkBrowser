@@ -78,7 +78,7 @@ int RootWindow::m_globalCount = 0;
 RootWindow::RootWindow()
 {
     m_hWnd = nullptr;
-    m_mbView = nullptr;
+    m_mbView = NULL_WEBVIEW;
     //m_initUrl = nullptr;
     m_font = nullptr;
     m_backHwnd = nullptr;

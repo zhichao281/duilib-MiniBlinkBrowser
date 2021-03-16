@@ -4,7 +4,7 @@
 #define GSNUtilH
 
 #include <windows.h>
-#include <string.h>
+#include <string>
 #include <vector>
 #define  _FILETIME_PER_SECOND_		1 * 10 * 1000 * 1000 
 

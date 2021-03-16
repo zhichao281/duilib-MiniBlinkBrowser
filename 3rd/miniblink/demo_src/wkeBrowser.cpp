@@ -1128,8 +1128,8 @@ int APIENTRY wkeBrowserMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR 
 
     resizeSubViews();
 
-    DefEditProc = reinterpret_cast<WNDPROC>(GetWindowLongPtr(hURLBarWnd, GWL_WNDPROC));
-    SetWindowLongPtr(hURLBarWnd, GWL_WNDPROC, reinterpret_cast<LONG_PTR>(urlEditProc));
+    DefEditProc = reinterpret_cast<WNDPROC>(GetWindowLongPtr(hURLBarWnd, /*GWL_WNDPROC*/(-4)));
+    SetWindowLongPtr(hURLBarWnd, /*GWL_WNDPROC*/(-4), reinterpret_cast<LONG_PTR>(urlEditProc));
     SetFocus(hURLBarWnd);
 
     g_render = new CRenderGDI();

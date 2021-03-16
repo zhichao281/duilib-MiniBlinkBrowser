@@ -85,7 +85,7 @@ void CWkeWebkitUI::DoInit()
 
 
 	HWND hWnd = m_pManager->GetPaintWindow();
-	wkeSetHandle(m_pWebView, hWnd);
+	//wkeSetHandle(m_pWebView, hWnd);
 
 	// 设置名称
 	wkeSetName(m_pWebView, NStr::T2ANSI(GetName()).c_str());
@@ -204,17 +204,17 @@ bool CWkeWebkitUI::DoPaint(HDC hDC, const RECT& rcPaint, CControlUI* pStopContro
 	::BitBlt(hDC, m_RendData.rt.left, m_RendData.rt.top, m_RendData.rt.right - m_RendData.rt.left, m_RendData.rt.bottom - m_RendData.rt.top, m_RendData.hDC, 0, 0, SRCCOPY);
 	updateCursor();
 	return true;
-	
-	//if (hDC != NULL) {	
-	//	HDC mb_hdc = wkeGetViewDC(m_pWebView);
-	//	if (mb_hdc != NULL)
-	//	{
-	//		::BitBlt(hDC, rcPaint.left, rcPaint.top, rcPaint.right - rcPaint.left, rcPaint.bottom - rcPaint.top, mb_hdc, 0, 0, SRCCOPY);
-	//		::ReleaseDC(NULL, mb_hdc);
-	//	}
-	//}
+	/*
+	if (hDC != NULL) {
+		HDC mb_hdc = wkeGetViewDC(m_pWebView);
+		if (mb_hdc != NULL)
+		{
+			::BitBlt(hDC, rcPaint.left, rcPaint.top, rcPaint.right - rcPaint.left, rcPaint.bottom - rcPaint.top, mb_hdc, 0, 0, SRCCOPY);
+			::ReleaseDC(NULL, mb_hdc);
+		}
+	}
 	updateCursor();
-	return true;
+	return true;*/
 
 
 }
@@ -226,8 +226,8 @@ void CWkeWebkitUI::InitializeWebkit()
 	if (!isInitialized) {
 		// 加载mb的资源
 		CDuiString strResourcePath = CPaintManagerUI::GetInstancePath();
-		//CDuiString mbPath = strResourcePath + L"node.dll";
-		CDuiString mbPath = strResourcePath + L"node_v8_4_8.dll";
+		CDuiString mbPath = strResourcePath + L"node.dll";
+		//CDuiString mbPath = strResourcePath + L"node_v8_4_8.dll";
 		if (!::PathFileExists(mbPath))
 		{
 			::MessageBoxW(NULL, L"请把node.dll放exe目录下", L"错误", MB_OK);
