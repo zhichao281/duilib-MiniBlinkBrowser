@@ -328,10 +328,7 @@
 2019.5.15
     * 修复delphi报浮点异常的问题
 
-2019.5.13
-    * 修复https://printserver.bpic.com.cn:8080/WebReport/ReportServer?reportlet=toubaodanBBJ.cpt&op=view&p2=5110003602019007069&username=xiaoguan&password=123456的flash打印不了的问题
-    * [定制版]增加打印边距调整功能
-    * 增加wkeSetContextMenuItemShow接口，可以控制是否显示具体某项菜单显示
+
 
 2019.5.7
     * 修复event.keyCode没有alt键的问题
